@@ -2,33 +2,33 @@
 
 **Tasks**
 
-Module: Mobile App
+_Module: Mobile App_
 
-Task 1: Investigate and learn how to use the Outsystems [2]
+    Task 1: Investigate and learn how to use the Outsystems [2]
 
-Task 2: Create use cases [2]
+    Task 2: Create use cases [2]
 
-Task 3: Create prototype
-
-
-Module: WSO2 ()
-
-Module: RCU
-
-Task 1: Understand the available database and user profiles
-
-Task 2: Alter/Define new user profiles
-
-Module: Rest API
-
-Task 1: Understand the available API 
-
-Task 2: Prioritize functionalities
+    Task 3: Create prototype
 
 
-Sub-module: Database
+_Module: WSO2 ()_
 
-Task 1: Create the database prototype
+_Module: RCU_
 
-Task 2: Implement the database schema
+    Task 1: Understand the available database and user profiles
+
+    Task 2: Alter/Define new user profiles
+
+_Module: Rest API_
+
+    Task 1: Understand the available API 
+
+    Task 2: Prioritize functionalities
+
+
+_Module: Database_
+
+    Task 1: Create the database prototype
+
+    Task 2: Implement the database schema
 
