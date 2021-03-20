@@ -13,6 +13,12 @@ _Module: Mobile App_
 
 _Module: WSO2 ()_
 
+_Module: User types and permissions_
+    
+    Task 1: Analyze current types of users and permissions
+    
+    Task 2: Determine new users and permission rules
+
 _Module: RCU_
 
     Task 1: Understand the available database and user profiles
