@@ -114,5 +114,6 @@ We researched for similar systems and applications, some of which were:
 ### 1.10. Project calendar
 
 This is our project calendar:
+
 <img src="https://user-images.githubusercontent.com/57456770/113570284-f2f6cf80-960b-11eb-9eed-575f63489fce.png" width="500">
 
