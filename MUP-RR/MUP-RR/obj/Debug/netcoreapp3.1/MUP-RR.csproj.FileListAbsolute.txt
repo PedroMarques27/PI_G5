@@ -35,3 +35,5 @@ C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\ob
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.pdb
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.genruntimeconfig.cache
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.csproj.CopyComplete
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Home\Buildings.cshtml.g.cs

@@ -14425,6 +14425,11 @@
       "FilePath": "c:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\Views\\Home\\Privacy.cshtml",
       "TargetPath": "Views\\Home\\Privacy.cshtml",
       "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\Views\\Home\\Buildings.cshtml",
+      "TargetPath": "Views\\Home\\Buildings.cshtml",
+      "FileKind": "mvc"
     }
   ],
   "SerializationFormat": "0.2"

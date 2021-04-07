@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "6LooEaWkKuEiKKoB3kxx0fczPFAoPXFv+0TAEY3W5TSvUHJplr3Mqp5jhX1f/Ohjbzb8FrX4IEWqeBaLLMJ0qw==",
+  "dgSpecHash": "veUB+otEv17vMMoPTqJFEa/E3WxQ4sQu1Qt6IyydXWLNhj3rKhbGO5f5VndFmn4Pa5rnowcmdvPx/x/8LspswQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\pedro\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
