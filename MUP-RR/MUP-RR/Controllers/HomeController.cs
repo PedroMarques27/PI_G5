@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MUP_RR.Models;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace MUP_RR.Controllers

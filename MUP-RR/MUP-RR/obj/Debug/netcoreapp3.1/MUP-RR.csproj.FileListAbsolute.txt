@@ -37,3 +37,45 @@ C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\ob
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.csproj.CopyComplete
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Home\Buildings.cshtml.g.cs
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.csprojAssemblyReference.cache
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.AssemblyInfoInputs.cache
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.AssemblyInfo.cs
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.csproj.CoreCompileInputs.cache
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.RazorAssemblyInfo.cache
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.RazorAssemblyInfo.cs
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.pdb
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\MUP-RR.exe
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\MUP-RR.deps.json
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\MUP-RR.runtimeconfig.json
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\MUP-RR.runtimeconfig.dev.json
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\MUP-RR.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\MUP-RR.pdb
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\MUP-RR.Views.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\MUP-RR.Views.pdb
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\System.Text.Encodings.Web.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.TagHelpers.input.cache
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.TagHelpers.output.cache
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.RazorCoreGenerate.cache
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Home\Buildings.cshtml.g.cs
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.RazorTargetAssemblyInfo.cache
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.RazorTargetAssemblyInfo.cs
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.Views.pdb
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.csproj.CopyComplete
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\staticwebassets\MUP-RR.StaticWebAssets.Manifest.cache
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\staticwebassets\MUP-RR.StaticWebAssets.xml
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.genruntimeconfig.cache

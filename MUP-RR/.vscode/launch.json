@@ -13,7 +13,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/MUP-RR/bin/Debug/net5.0/MUP-RR.dll",
+            "program": "${workspaceFolder}/MUP-RR/bin/Debug/netcoreapp3.1/MUP-RR.dll",
             "args": [],
             "cwd": "${workspaceFolder}/MUP-RR",
             "stopAtEntry": false,
