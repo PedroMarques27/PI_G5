@@ -20,9 +20,7 @@ namespace MUP_RR
 
         static async Task Main(string[] args)
         {
-            Console.Write("STAAAAAAAAAART\n\n");
             await ProcessRepositories();
-            Console.Write("\n\nDONEEEEEEEE\n\n");
             //CreateHostBuilder(args).Build().Run(); //MVC starter
             
         }
