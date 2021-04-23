@@ -22,7 +22,7 @@
     - [2.4.2. Mobile App R2UA](#242-mobile-app-r2ua)
   - [2.5. Actors](#25-actors)
   - [2.6. Use Cases](#26-use-cases)
-    - [2.6.1. Use Cases model](#261-use-cases-model)
+    - [2.6.1. Use Cases diagram](#261-use-cases-diagram)
   - [2.7. System Architecture](#27-system-architecture)
     - [2.7.1. Architecture Diagram](#271-architecture-diagram)
     - [2.7.2. Deployment Diagram](#272-deployment-diagram)
@@ -207,3 +207,44 @@ The mobile app should respect the following non-functional requirements:
 - **Compatibility**: The application should work on any Operating system, namely Android OS and iOS.
 - **Reusability**: The components that are developed and tested should be able to be reused.
 - **Efficiency**: Given the vast amount of potential users of the academic community, the platform should be able to process a high traffic of requests and responses quickly.
+
+
+### 2.5. Non-functional requirements
+
+Regarding the mobile app, the actors at play are the members of the academic community, which can be divided as follows:
+
+Student - Any student enrolled at University of Aveiro, has the most limited permissions, for almost all rooms they are restricted to making a request for reservation, having to wait for approval from the corresponding department's secretary.
+
+Teacher/Staff - A part of the academic staff of UA, be they a teacher, researcher or staff, tem have wider permissions for immediate reservation of rooms in the room group they are assigned to.
+
+Owner of Room Group - Member of staff responsible for delegation of reservations, besides having access to reserve any room in their group, they can also delete other's reservations.
+
+When it comes to MUP-RR the only active actor is the:
+
+Administrator - Responsible for maintaining MUP-RR operational, they have direct access to it and can stop or restart it if necessary.
+
+
+#### 2.6. Use Cases
+
+#### 2.6.1. Use Case Diagram
+
+![use-case-diagram](./images/use-case-diagram.png)
+
+### 2.7. System Architecture
+
+#### 2.7.1. Architecture Diagram
+
+![architecture-diagram](./images/architecture-diagram.png)
+
+#### 2.7.2. Deployment Diagram
+
+![deployment-diagram](./images/deployment-diagram.jpg)
+
+### 2.8. Domain Model
+
+![domain-model](./images/domain-model.png)
+
+
+### 2.9. Mockup - Low fidelity prototype
+
+A low fidelity prototype of our mobile app R2UA is available at http://shorturl.at/uxTV6 .
