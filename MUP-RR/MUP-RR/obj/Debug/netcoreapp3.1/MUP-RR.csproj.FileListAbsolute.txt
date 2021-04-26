@@ -36,7 +36,6 @@ C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\ob
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.genruntimeconfig.cache
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.csproj.CopyComplete
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Home\Buildings.cshtml.g.cs
 C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.csprojAssemblyReference.cache
 C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.AssemblyInfoInputs.cache
 C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.AssemblyInfo.cs
@@ -79,3 +78,6 @@ C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.cspr
 C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\staticwebassets\MUP-RR.StaticWebAssets.Manifest.cache
 C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\staticwebassets\MUP-RR.StaticWebAssets.xml
 C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.genruntimeconfig.cache
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\System.Text.Encodings.Web.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\System.Text.Json.dll

@@ -12,6 +12,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using System.Xml;
+using System.Net;
+using System.Text;
+using System.IO;
 namespace MUP_RR
 {
     class Program
@@ -24,7 +28,10 @@ namespace MUP_RR
             await ProcessRepositories();
             Console.Write("\n\nDONEEEEEEEE\n\n");
             //CreateHostBuilder(args).Build().Run(); //MVC starter
-            
+        
+            Program obj = new Program();  
+            obj.InvokeService(
+            "pedroagoncalvesmarques@ua.pt");
         }
 
         private static async Task ProcessRepositories()
@@ -40,6 +47,56 @@ namespace MUP_RR
             var msg = await stringTask;
             Console.Write(msg);
         }
+        public void InvokeService(string userEmail)  
+        {  
+            //Calling CreateSOAPWebRequest method  
+            HttpWebRequest request = CreateSOAPWebRequest();  
+            XmlDocument SOAPReqBody = new XmlDocument();  
+            //SOAP Body Request  
+            SOAPReqBody.LoadXml(@"<?xml version=""1.0"" encoding=""utf-8""?>  
+            <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">  
+             <soap:Body>  
+                <getIUPI xmlns=""http://app.web.ua.pt/UU/"">  
+                  <UU>" + userEmail + @"</UU>  
+                </getIUPI>  
+              </soap:Body>  
+            </soap:Envelope>");  
+  
+  
+            using (Stream stream = request.GetRequestStream())  
+            {  
+                SOAPReqBody.Save(stream);  
+            }  
+            using (WebResponse Serviceres = request.GetResponse())  
+            {  
+                using (StreamReader rd = new StreamReader(Serviceres.GetResponseStream()))  
+                {  
+                    //reading stream  
+                    var ServiceResult = rd.ReadToEnd();  
+                    //writting stream result on console  
+                    Console.WriteLine(ServiceResult);  
+                    Console.ReadLine();  
+                }  
+            }  
+        }  
+        public HttpWebRequest CreateSOAPWebRequest(){
+            HttpWebRequest Req = (HttpWebRequest)WebRequest.Create(@"https://ws-ext.ua.pt/UUExt/UUExt.asmx");  
+            string authInfo = "muprr-rcu-srvc@ua.pt:8p#Dw8*FS9e=$T@";
+            authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
+            Req.Headers["Authorization"] = "Basic " + authInfo;
+            //SOAPAction  
+            Req.Headers.Add(@"SOAPAction:http://app.web.ua.pt/UU/getIUPI");  
+            //Content_type  
+            Req.ContentType = "text/xml;charset=\"utf-8\"";  
+            Req.Accept = "text/xml";  
+            //HTTP method  
+            Req.Method = "POST";  
+            //return HttpWebRequest  
+            return Req;  
+        }  
+ 
+  
+     
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
