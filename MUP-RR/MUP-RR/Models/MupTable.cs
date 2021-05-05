@@ -9,6 +9,10 @@ namespace MUP_RR.Models
         public string profile { get; set; }
         public string classGroup { get; set; }
        
+
+       public string ToString(){
+           return string.Format(" {0}  {1}  {2}  {3} ", uo, vinculo,profile, classGroup);
+       }
     }
     
 }

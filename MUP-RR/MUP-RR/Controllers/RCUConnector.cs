@@ -82,14 +82,20 @@ namespace MUP_RR.Controllers
             {
                 SOAPReqBody.Save(stream);
             }
-            using (WebResponse Serviceres = request.GetResponse())
+            try{
+                using (WebResponse Serviceres = request.GetResponse())
             {
                 using (StreamReader rd = new StreamReader(Serviceres.GetResponseStream()))
                 {
                     var ServiceResult = rd.ReadToEnd();
-                    return RCUConnector.XmlToJson(ServiceResult);
+                    JObject json = JObject.Parse(RCUConnector.XmlToJson(ServiceResult));
+                    return json["getInfoUtilizadorResponse"]["getInfoUtilizadorResult"].ToString();
                 }
             }
+            }catch(Exception e){
+                return string.Format("EXCEPTION: {0}", e);
+            }
+            
         }
 
         public static HttpWebRequest CreateSOAPWebRequest(string _ACTION)

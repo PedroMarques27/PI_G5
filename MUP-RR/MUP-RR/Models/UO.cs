@@ -10,7 +10,7 @@ namespace MUP_RR.Models
 
         override
         public string ToString(){
-            return string.Format("Unidade Orgânica {0}({1}): {2}", sigla, id, description);
+            return string.Format("Unidade Organica {0}: {2}", sigla, id, description);
         }
         
     }
