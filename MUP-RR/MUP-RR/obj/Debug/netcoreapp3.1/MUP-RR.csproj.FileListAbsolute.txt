@@ -81,3 +81,9 @@ C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.genr
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\System.Text.Encodings.Web.dll
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

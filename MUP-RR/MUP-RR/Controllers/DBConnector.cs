@@ -1,4 +1,14 @@
-/*using MySql.Data.MySqlClient;
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+using MUP_RR.Models;
 
 
 namespace MUP_RR.Controllers
@@ -6,40 +16,39 @@ namespace MUP_RR.Controllers
     public class DBConnector
     {  
 
-    private MySqlConnection connection;
-    private string server;
-    private string database;
-    private string uid;
-    private string password;
+    private SqlConnection connection;
 
     //Constructor
     public DBConnector()
     {
-        Initialize();
+        connection = OpenConnection();
     }
 
     //Initialize values
-    private void Initialize()
+    private SqlConnection OpenConnection()
     {
-        server = "sql-dev.ua.pt";
-        database = "connectcsharptomysql";
-        uid = "username";
-        password = "password";
-        string connectionString;
-        connectionString = "SERVER=" + server + ";" + "DATABASE=" + 
-		database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
+      
 
-        connection = new MySqlConnection(connectionString);
+        
+        return new SqlConnection("Server=sql-dev.ua.pt;Database=muprr-dev;Trusted_Connection=True;");;
     }
 
-    //open connection to database
-    private bool OpenConnection()
+    private bool verifySGBDConnection()
     {
+        if (connection == null)
+            connection = OpenConnection();
+
+        if (connection.State != ConnectionState.Open)
+            connection.Open();
+
+        return connection.State == ConnectionState.Open;
     }
 
     //Close connection
     private bool CloseConnection()
     {
+        connection.Close();
+        return connection.State == ConnectionState.Closed;
     }
 
     //Insert statement
@@ -58,13 +67,31 @@ namespace MUP_RR.Controllers
     }
 
     //Select statement
-    public List <string> [] Select()
+    public List<Vinculo> SelectVinculo()
     {
+        List<Vinculo> data = new List<Vinculo>();
+        if (!verifySGBDConnection())
+            return data;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM Vinculo", connection);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            Vinculo v = new Vinculo();
+            v.id = int.Parse(reader["id"].ToString());
+            v.sigla = reader["sigla"].ToString();
+            v.description = reader["description"].ToString();
+            data.Add(v);
+        }
+        return data;
+
+
     }
 
     //Count statement
     public int Count()
     {
+        return 0;
     }
 
     //Backup
@@ -80,4 +107,3 @@ namespace MUP_RR.Controllers
 
     }
 }
- */

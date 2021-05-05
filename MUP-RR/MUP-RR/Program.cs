@@ -31,8 +31,11 @@ namespace MUP_RR
 
             await obj.getBrbRcuUsers();
 
-            
-            
+            DBConnector db = new DBConnector();
+            List<Vinculo> vinculosInDB = db.SelectVinculo();
+            foreach(Vinculo v in vinculosInDB){
+                Console.WriteLine(v);
+            }
         }
 
 
