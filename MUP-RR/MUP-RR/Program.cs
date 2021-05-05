@@ -1,102 +1,83 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using MUP_RR.Models;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
-using System.Xml;
-using System.Net;
-using System.Text;
-using System.IO;
+
+using Newtonsoft.Json.Linq;
+
+using MUP_RR.Controllers;
+
 namespace MUP_RR
 {
     class Program
     {
-        private static readonly HttpClient client = new HttpClient();
-
+        private List<BRB_RCU_ASSOC> _assoc;
         static async Task Main(string[] args)
         {
-            Console.Write("STAAAAAAAAAART\n\n");
-            await ProcessRepositories();
-            Console.Write("\n\nDONEEEEEEEE\n\n");
+            await BRBConnector.OpenConnection();
+            //Console.Write("\n\nDONEEEEEEEE\n\n");
             //CreateHostBuilder(args).Build().Run(); //MVC starter
         
-            Program obj = new Program();  
-            obj.InvokeService(
-            "pedroagoncalvesmarques@ua.pt");
+            //RCUConnector.getRcuIupi(
+            //"pedroagoncalvesmarques@ua.pt");
+            
+            Program obj = new Program();
+
+            obj._assoc = new List<BRB_RCU_ASSOC>();
+            await BRBConnector.OpenConnection();
+
+            var brbUserList = await obj.getBrbRcuUsers();
+
+            foreach(var item in obj._assoc){
+                obj.getUserData(item.rcu_id);
+            }
+            
         }
 
-        private static async Task ProcessRepositories()
-        {
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
-            client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ4M2YzZWI0YzA3N2RjMDFmMjQ5MzIyNDk5NDM3NGJmIiwidHlwIjoiSldUIn0.eyJuYmYiOjE2MTc4MDU1NjAsImV4cCI6MTYyMDM5NzU2MCwiaXNzIjoiaHR0cHM6Ly9idWxsZXQtaXMuZGV2LnVhLnB0IiwiYXVkIjpbImh0dHBzOi8vYnVsbGV0LWlzLmRldi51YS5wdC9yZXNvdXJjZXMiLCJiZXN0bGVnYWN5X2FwaV9yZXNvdXJjZSJdLCJjbGllbnRfaWQiOiJyb29tX2Rpc3BsYXllciIsImNsaWVudF9jcmVhdGVfY2xhaW0iOiJ0cnVlIiwiY2xpZW50X3VwZGF0ZV9jbGFpbSI6InRydWUiLCJjbGllbnRfZGVsZXRlX2NsYWltIjoidHJ1ZSIsImNsaWVudF9yZWFkX2NsYWltIjoidHJ1ZSIsInNjb3BlIjpbImJlc3RsZWdhY3lfYXBpX3Njb3BlIl19.xHV5FwA-WVvGzM4Up1KI6LJ4t0BLIOwXqBd86ccoIDtS1EjTGZ8vtbuJIeqsfvbMTLfPum-fQqvdPdLPWxkLXzHYD9Oc_Vq6PFOgDJrIS-8mBJ_axiUzA0depGW0K5VG8IM_lG0dr6j70kpkUBBMZsBLsa9ilo_09ITSVD36o_ZcE1PzOcaFaZso5ZsUVhVO_CGnAeVp9pJIht_ptrfv6v9GV-bzOl8mtXF_egxFmHEapBqoQkWWUlXdeTGCnRMlvTKtvr1TO_chV4x5-iTyRd-ZvrBkLGorL2wymaynrWLu4YxTkbXebgrv7sZnMqLGyFH6ryJy_GkK1bKxF_mqvQ");
 
-            var stringTask = client.GetStringAsync("https://bullet-api.dev.ua.pt/api/Buildings");
+        public async Task<List<BRB_User>> getBrbRcuUsers(){
+            
+            
+            //GET BRB CURRENT USERS
+            var brbUsers = await BRBConnector.getUserList();
 
-            var msg = await stringTask;
-            Console.Write(msg);
+            JObject jObject = JObject.Parse(brbUsers);
+            List<BRB_User> usersAvailableBRB = new List<BRB_User>();
+            foreach (var jsonUser in jObject["data"])
+            {
+                BRB_User newUser = new BRB_User();
+                usersAvailableBRB.Add(newUser.fromJson(jsonUser.ToString()));
+            }
+
+
+            //GET RCU IUPI ID's
+            RCUConnector rcu = new RCUConnector();
+            foreach (BRB_User item in usersAvailableBRB)
+            {
+                var iupi = RCUConnector.getRcuIupi(item.email);
+                if(!iupi.Contains("EXCEPTION:")){
+                    BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
+                    newAssoc.email = item.email;
+                    newAssoc.brb_id = item.id;
+                    newAssoc.rcu_id = iupi;
+                }
+                
+            }
+
+            return usersAvailableBRB;
+            
         }
-        public void InvokeService(string userEmail)  
-        {  
-            //Calling CreateSOAPWebRequest method  
-            HttpWebRequest request = CreateSOAPWebRequest();  
-            XmlDocument SOAPReqBody = new XmlDocument();  
-            //SOAP Body Request  
-            SOAPReqBody.LoadXml(@"<?xml version=""1.0"" encoding=""utf-8""?>  
-            <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">  
-             <soap:Body>  
-                <getIUPI xmlns=""http://app.web.ua.pt/UU/"">  
-                  <UU>" + userEmail + @"</UU>  
-                </getIUPI>  
-              </soap:Body>  
-            </soap:Envelope>");  
-  
-  
-            using (Stream stream = request.GetRequestStream())  
-            {  
-                SOAPReqBody.Save(stream);  
-            }  
-            using (WebResponse Serviceres = request.GetResponse())  
-            {  
-                using (StreamReader rd = new StreamReader(Serviceres.GetResponseStream()))  
-                {  
-                    //reading stream  
-                    var ServiceResult = rd.ReadToEnd();  
-                    //writting stream result on console  
-                    Console.WriteLine(ServiceResult);  
-                    Console.ReadLine();  
-                }  
-            }  
-        }  
-        public HttpWebRequest CreateSOAPWebRequest(){
-            HttpWebRequest Req = (HttpWebRequest)WebRequest.Create(@"https://ws-ext.ua.pt/UUExt/UUExt.asmx");  
-            string authInfo = "muprr-rcu-srvc@ua.pt:8p#Dw8*FS9e=$T@";
-            authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
-            Req.Headers["Authorization"] = "Basic " + authInfo;
-            //SOAPAction  
-            Req.Headers.Add(@"SOAPAction:http://app.web.ua.pt/UU/getIUPI");  
-            //Content_type  
-            Req.ContentType = "text/xml;charset=\"utf-8\"";  
-            Req.Accept = "text/xml";  
-            //HTTP method  
-            Req.Method = "POST";  
-            //return HttpWebRequest  
-            return Req;  
-        }  
- 
-  
-     
+
+        public async void getUserData(string IUPI){
+            //GET RCU IUPI ID's
+            RCUConnector rcu = new RCUConnector();
+            var data = RCUConnector.getUserData(IUPI);
+            Console.WriteLine(data.ToString());
+            
+        }
+
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
