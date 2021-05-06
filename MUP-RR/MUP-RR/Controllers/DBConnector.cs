@@ -475,22 +475,5 @@ namespace MUP_RR.Controllers
 
     }
 
-    //Count statement
-    public int Count()
-    {
-        return 0;
-    }
-
-    //Backup
-    public void Backup()
-    {
-    }
-
-    //Restore
-    public void Restore()
-    {
-    }   
-       
-
     }
 }
