@@ -242,7 +242,7 @@ Administrator - Responsible for maintaining MUP-RR operational, they have direct
 
 ### 2.8. Domain Model
 
-![domain-model](./images/domain-model.png)
+![domain-model](./images/DomainModel.png)
 
 
 ### 2.9. Mockup - Low fidelity prototype
