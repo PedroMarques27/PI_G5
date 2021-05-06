@@ -45,6 +45,7 @@ namespace MUP_RR
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                    
             });
         }
 

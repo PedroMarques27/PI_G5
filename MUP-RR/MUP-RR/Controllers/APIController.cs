@@ -15,7 +15,13 @@ namespace MUP_RR.Controllers
             return "This is Index action method of StudentController";
         }  
   
+        [HttpGet]
+        [Route("api/v1/notify/{iupi}")]
+        public string GetAuthor(string iupi)
+        {
         
+            return "This Is "+ iupi;
+        }
     }
 
 }
