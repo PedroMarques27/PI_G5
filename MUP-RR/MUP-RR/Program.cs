@@ -1,43 +1,145 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using MUP_RR.Models;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
-using System.Net.Http.Headers;
+
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using MUP_RR.Controllers;
+
 namespace MUP_RR
 {
     class Program
     {
-        private static readonly HttpClient client = new HttpClient();
-
+        private List<BRB_RCU_ASSOC> _assoc;
+        private HashSet<MupTable> table;
         static async Task Main(string[] args)
         {
-            await ProcessRepositories();
+            await BRBConnector.OpenConnection();
+            //Console.Write("\n\nDONEEEEEEEE\n\n");
             //CreateHostBuilder(args).Build().Run(); //MVC starter
+        
+            //RCUConnector.getRcuIupi(
+            //"pedroagoncalvesmarques@ua.pt");
+            
+            Program obj = new Program();
+            obj.table = new HashSet<MupTable>();
+            obj._assoc = new List<BRB_RCU_ASSOC>();
+            await BRBConnector.OpenConnection();
+
+            await obj.getBrbRcuUsers();
+
+            DBConnector db = new DBConnector();
+            List<Vinculo> vinculosInDB = db.SelectVinculo();
+            foreach(Vinculo v in vinculosInDB){
+                Console.WriteLine(v);
+            }
+        }
+
+
+        public async Task<List<BRB_User>> getBrbRcuUsers(){
+            
+            
+            //GET BRB CURRENT USERS
+            var brbUsers = await BRBConnector.getUserList();
+
+            JObject jObject = JObject.Parse(brbUsers);
+            List<BRB_User> usersAvailableBRB = new List<BRB_User>();
+            foreach (var jsonUser in jObject["data"])
+            {
+                BRB_User newUser = new BRB_User();
+                usersAvailableBRB.Add(newUser.fromJson(jsonUser.ToString()));
+            }
+
+
+            //GET RCU IUPI ID's
+            RCUConnector rcu = new RCUConnector();
+            foreach (BRB_User item in usersAvailableBRB)
+            {
+                var iupi = RCUConnector.getRcuIupi(item.email);
+                if(!iupi.Contains("EXCEPTION:")){
+                    BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
+                    newAssoc.email = item.email;
+                    newAssoc.brb_id = item.id;
+                    newAssoc.rcu_id = iupi;
+                    /*
+                    Console.WriteLine(newAssoc.ToString());
+                    Console.WriteLine("\t User "+item.username);
+                    Console.WriteLine("\t\t "+item.profile.ToString());
+                    Console.WriteLine("\t\t Classroom Groups");
+                    foreach (ClassroomGroup classroomGroup in item.classroomGroups)
+                        Console.WriteLine("\t\t\t "+classroomGroup.ToString());
+                    */
+                    List<Tuple<UO,Vinculo>> tuple = await getUserData(iupi);
+
+                    foreach( Tuple<UO, Vinculo> data in tuple){
+                        UO thisUserUO = data.Item1;
+                        Vinculo thisUserVinc = data.Item2;
+                        MupTable mup = new MupTable();
+                        mup.profile = item.profile.id;
+                        mup.uo = thisUserUO.sigla;
+                        mup.vinculo = thisUserVinc.sigla;
+                        foreach(ClassroomGroup csg in item.classroomGroups){
+                            mup.classGroup = csg.id;
+                            table.Add(mup);
+                        }
+                        
+                    }
+                
+                }
+
+                
+            }
+            foreach(var item in table){
+                Console.WriteLine(item.ToString());
+            }
+            return usersAvailableBRB;
+        }
+
+        public async Task<List<Tuple<UO,Vinculo>>> getUserData(string IUPI){
+            List<Tuple<UO,Vinculo>> tupleList = new List<Tuple<UO,Vinculo>>();
+     
+            try{
+                RCUConnector rcu = new RCUConnector();
+                var data = RCUConnector.getUserData(IUPI);
+                JObject jsonObjectGeneral = JObject.Parse(data);
+                JArray info = new JArray();
+                try{
+                    info = (JArray)(jsonObjectGeneral["Vinculo"]);
+                }catch(Exception e){
+                    JObject singleData = (JObject)jsonObjectGeneral["Vinculo"]; 
+                    info.Add(singleData);
+                }
+                
+                
+                
+                //Console.WriteLine("\t\t Vinculos");
+                foreach(JObject obj in info){
+                    UO userUO = new UO();   
+                    userUO.description = obj["unidade"]["Descricao"].ToString();
+                    userUO.sigla = obj["unidade"]["Sigla"].ToString();
+
+                    Vinculo vc = new Vinculo();
+                    vc.sigla = obj["tipovinculo"]["Sigla"].ToString();
+                    vc.description = obj["tipovinculo"]["Descricao"].ToString();
+
+                    
+                    tupleList.Add(new Tuple<UO, Vinculo>(userUO,vc));
+                    //Console.WriteLine("\t\t\t "+vc.ToString());
+                    //Console.WriteLine("\t\t\t\t "+userUO.ToString());
+                }
+
+                
+                return tupleList;
+            }catch(Exception e){
+                //Console.WriteLine(e.ToString());
+                return new List<Tuple<UO,Vinculo>>();
+            }
             
         }
 
-        private static async Task ProcessRepositories()
-        {
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
-            client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ4M2YzZWI0YzA3N2RjMDFmMjQ5MzIyNDk5NDM3NGJmIiwidHlwIjoiSldUIn0.eyJuYmYiOjE2MTc4MDU1NjAsImV4cCI6MTYyMDM5NzU2MCwiaXNzIjoiaHR0cHM6Ly9idWxsZXQtaXMuZGV2LnVhLnB0IiwiYXVkIjpbImh0dHBzOi8vYnVsbGV0LWlzLmRldi51YS5wdC9yZXNvdXJjZXMiLCJiZXN0bGVnYWN5X2FwaV9yZXNvdXJjZSJdLCJjbGllbnRfaWQiOiJyb29tX2Rpc3BsYXllciIsImNsaWVudF9jcmVhdGVfY2xhaW0iOiJ0cnVlIiwiY2xpZW50X3VwZGF0ZV9jbGFpbSI6InRydWUiLCJjbGllbnRfZGVsZXRlX2NsYWltIjoidHJ1ZSIsImNsaWVudF9yZWFkX2NsYWltIjoidHJ1ZSIsInNjb3BlIjpbImJlc3RsZWdhY3lfYXBpX3Njb3BlIl19.xHV5FwA-WVvGzM4Up1KI6LJ4t0BLIOwXqBd86ccoIDtS1EjTGZ8vtbuJIeqsfvbMTLfPum-fQqvdPdLPWxkLXzHYD9Oc_Vq6PFOgDJrIS-8mBJ_axiUzA0depGW0K5VG8IM_lG0dr6j70kpkUBBMZsBLsa9ilo_09ITSVD36o_ZcE1PzOcaFaZso5ZsUVhVO_CGnAeVp9pJIht_ptrfv6v9GV-bzOl8mtXF_egxFmHEapBqoQkWWUlXdeTGCnRMlvTKtvr1TO_chV4x5-iTyRd-ZvrBkLGorL2wymaynrWLu4YxTkbXebgrv7sZnMqLGyFH6ryJy_GkK1bKxF_mqvQ");
-
-            var stringTask = client.GetStringAsync("https://bullet-api.dev.ua.pt/api/Buildings");
-
-            var msg = await stringTask;
-            Console.Write(msg);
-        }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
