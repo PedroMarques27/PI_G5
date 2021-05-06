@@ -8,6 +8,21 @@ using MUP_RR.Models;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using MUP_RR.Controllers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using MUP_RR.Models;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using Newtonsoft.Json;
+
+
 
 namespace MUP_RR
 {
@@ -17,6 +32,8 @@ namespace MUP_RR
         private HashSet<MupTable> table;
         static async Task Main(string[] args)
         {
+            CreateHostBuilder(args).Build().Run();
+
             await BRBConnector.OpenConnection();
             //Console.Write("\n\nDONEEEEEEEE\n\n");
             //CreateHostBuilder(args).Build().Run(); //MVC starter
@@ -31,14 +48,8 @@ namespace MUP_RR
 
             await obj.getBrbRcuUsers();
 
-            DBConnector db = new DBConnector();
-            List<Vinculo> vinculosInDB = db.SelectVinculo();
-            foreach(Vinculo v in vinculosInDB){
-                Console.WriteLine(v);
-            }
+            
         }
-
-
         public async Task<List<BRB_User>> getBrbRcuUsers(){
             
             
