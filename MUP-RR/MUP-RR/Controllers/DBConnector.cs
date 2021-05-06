@@ -72,7 +72,6 @@ namespace MUP_RR.Controllers
             throw new Exception("Failed to update contact in database. \n ERROR MESSAGE: \n" + ex.Message);
         }    
     }
-
     public void InsertUserAssociation(BRB_RCU_ASSOC _assoc)
     {
         if (!verifySGBDConnection())
@@ -83,6 +82,89 @@ namespace MUP_RR.Controllers
         cmd.Parameters.AddWithValue("@BRB_ID", _assoc.brb_id);
         cmd.Parameters.AddWithValue("@RCU_ID", _assoc.rcu_id);
         cmd.Parameters.AddWithValue("@UU", _assoc.email);
+        cmd.Connection = connection;
+   
+        try
+        {
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Failed to update contact in database. \n ERROR MESSAGE: \n" + ex.Message);
+        }    
+    }
+    public void InsertProfile(Profile profile)
+    {
+        if (!verifySGBDConnection())
+                return;
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandText = "INSERT Profile (id, name) VALUES (@id, @name)";
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@id", profile.id);
+        cmd.Parameters.AddWithValue("@name", profile.name);
+      
+        cmd.Connection = connection;
+   
+        try
+        {
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Failed to update contact in database. \n ERROR MESSAGE: \n" + ex.Message);
+        }    
+    }
+    public void InsertVinculo(Vinculo v)
+    {
+        if (!verifySGBDConnection())
+                return;
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandText = "INSERT Vinculo (sigla, descricao) VALUES (@sig, @desc)";
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@sig", v.sigla);
+        cmd.Parameters.AddWithValue("@desc", v.description);
+        
+        cmd.Connection = connection;
+   
+        try
+        {
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Failed to update contact in database. \n ERROR MESSAGE: \n" + ex.Message);
+        }    
+    }
+    public void InsertUO(UO uo)
+    {
+        if (!verifySGBDConnection())
+                return;
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandText = "INSERT UnidadeOrganica (sigla, descricao) VALUES (@sig, @desc)";
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@sig", uo.sigla);
+        cmd.Parameters.AddWithValue("@desc", uo.description);
+        cmd.Connection = connection;
+   
+        try
+        {
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Failed to update contact in database. \n ERROR MESSAGE: \n" + ex.Message);
+        }    
+    }
+    public void InsertClassroomGroup(ClassroomGroup csg)
+    {
+        if (!verifySGBDConnection())
+                return;
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandText = "INSERT ClassroomGroup (id, name) VALUES (@id, @name)";
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@id", csg.id);
+        cmd.Parameters.AddWithValue("@name", csg.name);
+   
         cmd.Connection = connection;
    
         try
@@ -146,9 +228,11 @@ namespace MUP_RR.Controllers
         }
           
     }
+    
+    
+    
     //Delete statement
-  
-    public void DeleteUserAssociations(string rcuId)
+      public void DeleteUserAssociations(string rcuId)
     {
         if (!verifySGBDConnection())
             return ;
