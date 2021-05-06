@@ -12,7 +12,7 @@ namespace MUP_RR.Models
 
         public override string ToString()
         {
-            return string.Format("(RCU) {0} - (BRB) {1} : {2}", brb_id,rcu_id, email);
+            return string.Format("(RCU) {0} - (BRB) {1}", brb_id,rcu_id);
         }
 
     }
