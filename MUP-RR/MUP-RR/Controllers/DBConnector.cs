@@ -79,7 +79,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
                 return;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "INSERT BRB_RCU_ASSOC (BRB_ID, RCU_ID, UU) VALUES (@BRB_ID, @RCU_ID, @UU)";
+        cmd.CommandText = "INSERT MUPRR.BRB_RCU_ASSOC (BRB_ID, RCU_ID, UU) VALUES (@BRB_ID, @RCU_ID, @UU)";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@BRB_ID", _assoc.brb_id);
         cmd.Parameters.AddWithValue("@RCU_ID", _assoc.rcu_id);
@@ -380,7 +380,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return data;
 
-        SqlCommand cmd = new SqlCommand("SELECT * FROM BRB_RCU_ASSOC", connection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.BRB_RCU_ASSOC", connection);
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
