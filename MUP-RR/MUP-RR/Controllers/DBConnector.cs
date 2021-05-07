@@ -13,6 +13,8 @@ using MUP_RR.Models;
 
 namespace MUP_RR.Controllers
 {
+    public enum PROFILES {OWNER, STAFF, DEFAULT};
+
     public class DBConnector
     {  
 
@@ -436,7 +438,7 @@ namespace MUP_RR.Controllers
             return data;
 
         SqlCommand cmd = new SqlCommand("SELECT * FROM Profile", connection);
-        SqlDataReader reader = cmd.ExecuteReader();
+        SqlDataReader reader = cmd.ExecuteReader(); 
         while (reader.Read())
         {
             Profile v = new Profile();
