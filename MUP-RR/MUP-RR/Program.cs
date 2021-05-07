@@ -28,9 +28,8 @@ namespace MUP_RR
 {
     class Program
     {
-        private List<BRB_RCU_ASSOC> _assoc;
-        private HashSet<MupTable> table;
 
+        public enum PROFILES {OWNER, STAFF, DEFAULT};
         private DBConnector database;
 
         
@@ -41,8 +40,6 @@ namespace MUP_RR
             await BRBConnector.OpenConnection();
             Program obj = new Program();
             obj.database = new DBConnector();
-            obj.table = new HashSet<MupTable>();
-            obj._assoc = new List<BRB_RCU_ASSOC>();
             await BRBConnector.OpenConnection();
             
             obj.updateBRB_RCU_ASSOC();
