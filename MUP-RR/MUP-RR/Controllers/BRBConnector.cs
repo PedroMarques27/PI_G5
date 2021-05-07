@@ -37,6 +37,12 @@ namespace MUP_RR.Controllers
             return msg;
         }
 
+        public static async Task<string> postUpdateUser(){
+            var stringTask = client.GetStringAsync(BASE_URL+"Users");
+            var msg = await stringTask;
+            return msg;
+        }
+
        
 
     }
