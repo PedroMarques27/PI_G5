@@ -378,7 +378,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return data;
 
-        SqlCommand cmd = new SqlCommand("SELECT * FROM BRB_RCU_ASSOC", connection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.BRB_RCU_ASSOC", connection);
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {

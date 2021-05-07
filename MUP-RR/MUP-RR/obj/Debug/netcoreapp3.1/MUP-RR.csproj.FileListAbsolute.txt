@@ -63,7 +63,6 @@ C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\System.Text
 C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.TagHelpers.input.cache
 C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.TagHelpers.output.cache
 C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.RazorCoreGenerate.cache
-C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Home\Buildings.cshtml.g.cs
 C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
@@ -87,3 +86,9 @@ C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bi
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\pedro\OneDrive\Ambiente de Trabalho\Github\PI_G5\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\Asus\Desktop\PI\PI_G5\MUP-RR\MUP-RR\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
