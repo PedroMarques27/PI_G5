@@ -353,6 +353,25 @@ namespace MUP_RR.Controllers
 
 
     //Select statement
+    public BRB_RCU_ASSOC SelectUserFromIUPI(string iupi)
+    {
+        BRB_RCU_ASSOC data = new BRB_RCU_ASSOC();
+        if (!verifySGBDConnection())
+            return data;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM BRB_RCU_ASSOC WHERE RCU_ID=@RCU_ID", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@RCU_ID", iupi);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            data.brb_id = (reader["BRB_ID"].ToString());
+            data.rcu_id = reader["RCU_ID"].ToString();
+            data.email = reader["UU"].ToString();
+        }
+        reader.Close();
+        return data;
+    }
     public List<BRB_RCU_ASSOC> SelectUserAssociations()
     {
         List<BRB_RCU_ASSOC> data = new List<BRB_RCU_ASSOC>();
@@ -369,6 +388,7 @@ namespace MUP_RR.Controllers
             v.email = reader["UU"].ToString();
             data.Add(v);
         }
+        reader.Close();
         return data;
     }
     public List<Vinculo> SelectVinculo()
@@ -387,9 +407,27 @@ namespace MUP_RR.Controllers
             v.description = reader["descricao"].ToString();
             data.Add(v);
         }
+        reader.Close();
         return data;
 
 
+    }
+    public Profile SelectProfileById(string id){
+        Profile data = new Profile();
+        if (!verifySGBDConnection())
+            return data;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM Profile WHERE id=@ID", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@ID", id);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            data.id = reader["id"].ToString();
+            data.name = reader["name"].ToString();
+
+        }
+        return data;
     }
     public List<Profile> SelectProfile()
     {
@@ -407,6 +445,7 @@ namespace MUP_RR.Controllers
         
             data.Add(v);
         }
+        reader.Close();
         return data;
 
 
@@ -462,10 +501,8 @@ namespace MUP_RR.Controllers
         {
             MupTable v = new MupTable();
             v.id = int.Parse(reader["id"].ToString());
-            //v.uo = int.Parse(reader["uo"].ToString());
-            v.uo = reader["uo"].ToString();
-            //v.vinculo = int.Parse(reader["vinculo"].ToString());
-            v.vinculo = reader["vinculo"].ToString();
+            v.uo = int.Parse(reader["uo"].ToString());
+            v.vinculo = int.Parse(reader["vinculo"].ToString());
             v.profile = reader["profile"].ToString();
             v.profile = reader["classGroup"].ToString();
             data.Add(v);
@@ -475,5 +512,28 @@ namespace MUP_RR.Controllers
 
     }
 
+    public MupTable SelectSpecificMup(int uo, int vinculo)
+    {
+        MupTable data = new MupTable();
+        if (!verifySGBDConnection())
+            return data;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUP WHERE uo=@UO AND vinculo = @VINCULO", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@UO", uo);
+        cmd.Parameters.AddWithValue("@VINCULO", vinculo);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            data.id = int.Parse(reader["id"].ToString());
+            data.uo = int.Parse(reader["uo"].ToString());
+            //data.uo = reader["uo"].ToString();
+            data.vinculo = int.Parse(reader["vinculo"].ToString());
+            //data.vinculo = reader["vinculo"].ToString();
+            data.profile = reader["profile"].ToString();
+            data.profile = reader["classGroup"].ToString();
+        }
+        return data;
+    }
     }
 }

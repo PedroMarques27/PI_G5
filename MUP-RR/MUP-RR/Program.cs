@@ -30,32 +30,50 @@ namespace MUP_RR
     {
         private List<BRB_RCU_ASSOC> _assoc;
         private HashSet<MupTable> table;
+
+        private DBConnector database;
+
+        
         static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            
 
             await BRBConnector.OpenConnection();
-            //Console.Write("\n\nDONEEEEEEEE\n\n");
-            //CreateHostBuilder(args).Build().Run(); //MVC starter
-        
-            //RCUConnector.getRcuIupi(
-            //"pedroagoncalvesmarques@ua.pt");
-            
             Program obj = new Program();
+            obj.database = new DBConnector();
             obj.table = new HashSet<MupTable>();
             obj._assoc = new List<BRB_RCU_ASSOC>();
             await BRBConnector.OpenConnection();
-
-            await obj.getBrbRcuUsers();
-
             
+            obj.updateBRB_RCU_ASSOC();
+
+            CreateHostBuilder(args).Build().Run();
         }
-        public async Task<List<BRB_User>> getBrbRcuUsers(){
-            
-            
-            //GET BRB CURRENT USERS
-            var brbUsers = await BRBConnector.getUserList();
+        public async void UpdateProfile(string iupi){
+            BRB_RCU_ASSOC currentUser = database.SelectUserFromIUPI(iupi);
+            List<Tuple<UO,Vinculo>> data = await getUserData(iupi);
+            MupTable finalDecision = new MupTable();  
+            foreach (Tuple<UO, Vinculo> item in data)
+            {
+                UO currentUO = item.Item1;
+                Vinculo currentVinculo = item.Item2;
+                MupTable queryResult= database.SelectSpecificMup(currentUO.id, currentVinculo.id);
+                if (finalDecision.isNull())
+                    finalDecision = queryResult;
+                else{
 
+                }
+            }
+        }
+        public async void updateBRB_RCU_ASSOC(){
+            //GET BRB CURRENT USERS
+
+            List<string> rcuids = new List<string>();
+            foreach (var item in database.SelectUserAssociations())
+            {
+                rcuids.Add(item.rcu_id);
+            }
+            var brbUsers = await BRBConnector.getUserList();
             JObject jObject = JObject.Parse(brbUsers);
             List<BRB_User> usersAvailableBRB = new List<BRB_User>();
             foreach (var jsonUser in jObject["data"])
@@ -63,57 +81,28 @@ namespace MUP_RR
                 BRB_User newUser = new BRB_User();
                 usersAvailableBRB.Add(newUser.fromJson(jsonUser.ToString()));
             }
-
-
             //GET RCU IUPI ID's
-            RCUConnector rcu = new RCUConnector();
             foreach (BRB_User item in usersAvailableBRB)
             {
                 var iupi = RCUConnector.getRcuIupi(item.email);
+                
                 if(!iupi.Contains("EXCEPTION:")){
                     BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
                     newAssoc.email = item.email;
                     newAssoc.brb_id = item.id;
                     newAssoc.rcu_id = iupi;
-                    /*
-                    Console.WriteLine(newAssoc.ToString());
-                    Console.WriteLine("\t User "+item.username);
-                    Console.WriteLine("\t\t "+item.profile.ToString());
-                    Console.WriteLine("\t\t Classroom Groups");
-                    foreach (ClassroomGroup classroomGroup in item.classroomGroups)
-                        Console.WriteLine("\t\t\t "+classroomGroup.ToString());
-                    */
-                    List<Tuple<UO,Vinculo>> tuple = await getUserData(iupi);
 
-                    foreach( Tuple<UO, Vinculo> data in tuple){
-                        UO thisUserUO = data.Item1;
-                        Vinculo thisUserVinc = data.Item2;
-                        MupTable mup = new MupTable();
-                        mup.profile = item.profile.id;
-                        mup.uo = thisUserUO.sigla;
-                        mup.vinculo = thisUserVinc.sigla;
-                        foreach(ClassroomGroup csg in item.classroomGroups){
-                            mup.classGroup = csg.id;
-                            table.Add(mup);
-                        }
-                        
+                    if (!rcuids.Contains(iupi)){
+                        database.InsertUserAssociation(newAssoc);
                     }
-                
                 }
-
-                
             }
-            foreach(var item in table){
-                Console.WriteLine(item.ToString());
-            }
-            return usersAvailableBRB;
         }
 
         public async Task<List<Tuple<UO,Vinculo>>> getUserData(string IUPI){
             List<Tuple<UO,Vinculo>> tupleList = new List<Tuple<UO,Vinculo>>();
      
             try{
-                RCUConnector rcu = new RCUConnector();
                 var data = RCUConnector.getUserData(IUPI);
                 JObject jsonObjectGeneral = JObject.Parse(data);
                 JArray info = new JArray();
@@ -124,9 +113,6 @@ namespace MUP_RR
                     info.Add(singleData);
                 }
                 
-                
-                
-                //Console.WriteLine("\t\t Vinculos");
                 foreach(JObject obj in info){
                     UO userUO = new UO();   
                     userUO.description = obj["unidade"]["Descricao"].ToString();
@@ -138,8 +124,6 @@ namespace MUP_RR
 
                     
                     tupleList.Add(new Tuple<UO, Vinculo>(userUO,vc));
-                    //Console.WriteLine("\t\t\t "+vc.ToString());
-                    //Console.WriteLine("\t\t\t\t "+userUO.ToString());
                 }
 
                 
@@ -148,9 +132,7 @@ namespace MUP_RR
                 //Console.WriteLine(e.ToString());
                 return new List<Tuple<UO,Vinculo>>();
             }
-            
         }
-
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
