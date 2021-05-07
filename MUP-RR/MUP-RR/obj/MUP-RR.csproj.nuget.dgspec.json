@@ -1,29 +1,36 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {}
+    "C:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {
+    "C:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+        "projectUniqueName": "C:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
         "projectName": "MUP-RR",
-        "projectPath": "C:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
-        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\obj\\",
+        "projectPath": "C:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+        "packagesPath": "C:\\Users\\pedro\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\pedro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -35,6 +42,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Newtonsoft.Json": {
               "target": "Package",
@@ -67,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.407\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

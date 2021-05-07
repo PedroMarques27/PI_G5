@@ -57,7 +57,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
                 return;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "INSERT MUP (vinculo, profile, classGroup, uo) VALUES (@VINC, @PROF, @CSG, @UO)";
+        cmd.CommandText = "INSERT MUPRR.MUP (vinculo, profile, classGroup, uo) VALUES (@VINC, @PROF, @CSG, @UO)";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@VINC", mpt.vinculo);
         cmd.Parameters.AddWithValue("@PROF", mpt.profile);
@@ -100,7 +100,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
                 return;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "INSERT Profile (id, name) VALUES (@id, @name)";
+        cmd.CommandText = "INSERT MUPRR.Profile (id, name) VALUES (@id, @name)";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@id", profile.id);
         cmd.Parameters.AddWithValue("@name", profile.name);
@@ -121,7 +121,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
                 return;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "INSERT Vinculo (sigla, descricao) VALUES (@sig, @desc)";
+        cmd.CommandText = "INSERT MUPRR.Vinculo (sigla, descricao) VALUES (@sig, @desc)";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@sig", v.sigla);
         cmd.Parameters.AddWithValue("@desc", v.description);
@@ -142,7 +142,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
                 return;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "INSERT UnidadeOrganica (sigla, descricao) VALUES (@sig, @desc)";
+        cmd.CommandText = "INSERT MUPRR.UnidadeOrganica (sigla, descricao) VALUES (@sig, @desc)";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@sig", uo.sigla);
         cmd.Parameters.AddWithValue("@desc", uo.description);
@@ -162,7 +162,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
                 return;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "INSERT ClassroomGroup (id, name) VALUES (@id, @name)";
+        cmd.CommandText = "INSERT MUPRR.ClassroomGroup (id, name) VALUES (@id, @name)";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@id", csg.id);
         cmd.Parameters.AddWithValue("@name", csg.name);
@@ -187,7 +187,7 @@ namespace MUP_RR.Controllers
                 return;
         SqlCommand cmd = new SqlCommand();
           
-        cmd.CommandText = "UPDATE MUP SET vinculo = @VINC, profile = @PROF, classGroup = @CSG, uo = @UO  WHERE id = @ID";
+        cmd.CommandText = "UPDATE MUPRR.MUP SET vinculo = @VINC, profile = @PROF, classGroup = @CSG, uo = @UO  WHERE id = @ID";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@VINC", mpt.vinculo);
         cmd.Parameters.AddWithValue("@PROF", mpt.profile);
@@ -212,7 +212,7 @@ namespace MUP_RR.Controllers
                 return;
         SqlCommand cmd = new SqlCommand();
           
-        cmd.CommandText = "UPDATE BRB_RCU_ASSOC SET BRB_ID = @BRB_ID, UU = @UU WHERE RCU_ID = @RCU_ID";
+        cmd.CommandText = "UPDATE MUPRR.BRB_RCU_ASSOC SET BRB_ID = @BRB_ID, UU = @UU WHERE RCU_ID = @RCU_ID";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@BRB_ID", _ASSOC.brb_id);
         cmd.Parameters.AddWithValue("@UU", _ASSOC.email);
@@ -239,7 +239,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return ;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "DELETE BRB_RCU_ASSOC WHERE RCU_ID = @RCU_ID";
+        cmd.CommandText = "DELETE MUPRR.BRB_RCU_ASSOC WHERE RCU_ID = @RCU_ID";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@RCU_ID", rcuId);
         cmd.Connection = connection;
@@ -260,7 +260,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return ;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "DELETE Vinculo WHERE id=@id ";
+        cmd.CommandText = "DELETE MUPRR.Vinculo WHERE id=@id ";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@id", id);
         cmd.Connection = connection;
@@ -279,7 +279,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return ;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "DELETE Profile WHERE id=@id ";
+        cmd.CommandText = "DELETE MUPRR.Profile WHERE id=@id ";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@id", id);
         cmd.Connection = connection;
@@ -298,7 +298,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return ;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "DELETE UnidadeOrganica WHERE id=@id ";
+        cmd.CommandText = "DELETE MUPRR.UnidadeOrganica WHERE id=@id ";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@id", id);
         cmd.Connection = connection;
@@ -318,7 +318,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return ;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "DELETE ClassroomGroup WHERE id=@id ";
+        cmd.CommandText = "DELETE MUPRR.ClassroomGroup WHERE id=@id ";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@id", id);
         cmd.Connection = connection;
@@ -337,7 +337,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return ;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "DELETE MUP WHERE id=@id ";
+        cmd.CommandText = "DELETE MUPRR.MUP WHERE id=@id ";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@id", id);
         cmd.Connection = connection;
@@ -361,7 +361,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return data;
 
-        SqlCommand cmd = new SqlCommand("SELECT * FROM BRB_RCU_ASSOC WHERE RCU_ID=@RCU_ID", connection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.BRB_RCU_ASSOC WHERE RCU_ID=@RCU_ID", connection);
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@RCU_ID", iupi);
         SqlDataReader reader = cmd.ExecuteReader();
@@ -399,7 +399,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return data;
 
-        SqlCommand cmd = new SqlCommand("SELECT * FROM Vinculo", connection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Vinculo", connection);
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
@@ -419,7 +419,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return data;
 
-        SqlCommand cmd = new SqlCommand("SELECT * FROM Profile WHERE id=@ID", connection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Profile WHERE id=@ID", connection);
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@ID", id);
         SqlDataReader reader = cmd.ExecuteReader();
@@ -437,7 +437,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return data;
 
-        SqlCommand cmd = new SqlCommand("SELECT * FROM Profile", connection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Profile", connection);
         SqlDataReader reader = cmd.ExecuteReader(); 
         while (reader.Read())
         {
@@ -458,7 +458,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return data;
 
-        SqlCommand cmd = new SqlCommand("SELECT * FROM UnidadeOrganica", connection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.UnidadeOrganica", connection);
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
@@ -478,7 +478,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return data;
 
-        SqlCommand cmd = new SqlCommand("SELECT * FROM ClassroomGroup", connection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.ClassroomGroup", connection);
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
@@ -497,7 +497,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return data;
 
-        SqlCommand cmd = new SqlCommand("SELECT * FROM MUP", connection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.MUP", connection);
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
@@ -520,7 +520,7 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return data;
 
-        SqlCommand cmd = new SqlCommand("SELECT * FROM MUP WHERE uo=@UO AND vinculo = @VINCULO", connection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.MUP WHERE uo=@UO AND vinculo = @VINCULO", connection);
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@UO", uo);
         cmd.Parameters.AddWithValue("@VINCULO", vinculo);
