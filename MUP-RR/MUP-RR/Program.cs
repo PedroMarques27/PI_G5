@@ -21,6 +21,13 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Runtime.Serialization.Json;
+using System.IO;
+using System.Runtime.Serialization.Json;
 
 
 
@@ -43,24 +50,35 @@ namespace MUP_RR
             await BRBConnector.OpenConnection();
             
             obj.updateBRB_RCU_ASSOC();
+            
 
+            obj.UpdateProfile("0bbefa9e-590b-4b1d-ab57-273bc3e3c1db");
             CreateHostBuilder(args).Build().Run();
         }
         public async void UpdateProfile(string iupi){
             BRB_RCU_ASSOC currentUser = database.SelectUserFromIUPI(iupi);
             List<Tuple<UO,Vinculo>> data = await getUserData(iupi);
             MupTable finalDecision = new MupTable();  
+            HashSet<Profile> profiles = new HashSet<Profile>();
+            HashSet<ClassroomGroup> classroomGroups = new HashSet<ClassroomGroup>();
             foreach (Tuple<UO, Vinculo> item in data)
             {
                 UO currentUO = item.Item1;
                 Vinculo currentVinculo = item.Item2;
                 MupTable queryResult= database.SelectSpecificMup(currentUO.id, currentVinculo.id);
-                if (finalDecision.isNull())
-                    finalDecision = queryResult;
-                else{
-
-                }
+                profiles.Add(database.SelectProfileById(queryResult.profile));
+                classroomGroups.Add(database.SelectClassroomById(queryResult.classGroup));
             }
+            Profile higher = Profile.getHigherStatus(profiles);
+
+            string json = await BRBConnector.getUserById(currentUser.brb_id);
+            JObject jObject = JObject.Parse(json);
+            var jsonUser = jObject["data"];
+            BRB_User newUser = new BRB_User();
+            newUser = newUser.fromJson(jsonUser.ToString());
+
+            newUser.profile = higher;
+            updateBRBUser(newUser, classroomGroups);
         }
         public async void updateBRB_RCU_ASSOC(){
             //GET BRB CURRENT USERS
@@ -93,9 +111,76 @@ namespace MUP_RR
                         database.InsertUserAssociation(newAssoc);
                     }
                 }
-            }
+            } 
         }
 
+        public async void updateBRBUser(BRB_User updatedUser, HashSet<ClassroomGroup> newGroups){
+           
+            HashSet<ClassroomGroup> groupsToDelete = new HashSet<ClassroomGroup>();
+            HashSet<ClassroomGroup> groupsToAdd = new HashSet<ClassroomGroup>();
+
+            foreach (ClassroomGroup item in newGroups)
+            {
+                if (!updatedUser.classroomGroups.Contains(item)){
+                    groupsToAdd.Add(item);
+                }
+            }
+
+            foreach (ClassroomGroup item in updatedUser.classroomGroups)
+            {
+                if (!newGroups.Contains(item)){
+                    groupsToDelete.Add(item);
+                }
+            }
+
+
+            JArray classes = new JArray(
+                from p in groupsToDelete
+                orderby p.id
+                select 
+                new JObject(
+                    new JProperty("model",
+                        new JObject(
+                            new JProperty("userId",  updatedUser.id),
+                            new JProperty("classroomGroupId",p.id)
+                        )
+                    ),
+                    new JProperty("status", "Deleted")),
+                from p in groupsToAdd
+                orderby p.id
+                select 
+                new JObject(
+                    new JProperty("model",
+                        new JObject(
+                            new JProperty("userId", updatedUser.id),
+                            new JProperty("classroomGroupId", p.id)
+                        )
+                    ),
+                    new JProperty("status", "Added"))     
+            );
+
+            JObject o =
+            new JObject(
+                
+                new JProperty("id", updatedUser.id),
+                new JProperty("userName", updatedUser.username),
+                new JProperty("isAdmin", updatedUser.isAdmin),
+                new JProperty("email", updatedUser.email),
+                new JProperty("isActive", updatedUser.isActive),
+                new JProperty("profileId", updatedUser.profile.id),
+                new JProperty("classroomGroups",
+                    classes
+                )
+            );
+
+           
+           
+
+            //string json = JsonConvert.SerializeObject(points);
+            Console.WriteLine(o.ToString());
+            BRBConnector.postUpdateUser(o.ToString());
+
+        }
         public async Task<List<Tuple<UO,Vinculo>>> getUserData(string IUPI){
             List<Tuple<UO,Vinculo>> tupleList = new List<Tuple<UO,Vinculo>>();
      
