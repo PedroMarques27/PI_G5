@@ -37,7 +37,7 @@ namespace MUP_RR
     {
 
         public enum PROFILES {OWNER, STAFF, DEFAULT};
-        private DBConnector database;
+        public DBConnector database = new DBConnector();
 
         
         static async Task Main(string[] args)
@@ -46,25 +46,25 @@ namespace MUP_RR
 
             await BRBConnector.OpenConnection();
             Program obj = new Program();
-            obj.database = new DBConnector();
             await BRBConnector.OpenConnection();
             
             obj.updateBRB_RCU_ASSOC();
             
 
-            obj.UpdateProfile("0bbefa9e-590b-4b1d-ab57-273bc3e3c1db");
+            //obj.UpdateProfile("0bbefa9e-590b-4b1d-ab57-273bc3e3c1db");
             CreateHostBuilder(args).Build().Run();
         }
-        public async void UpdateProfile(string iupi){
-            
+        public async void UpdateProfile(string iupi, List<Tuple<UO,Vinculo>> pairs){
+
             BRB_RCU_ASSOC currentUser = database.SelectUserFromIUPI(iupi);
             
-            List<Tuple<UO,Vinculo>> data = await getUserData(iupi);
+            //remover
+            //List<Tuple<UO,Vinculo>> data = await getUserData(iupi);
             
             MupTable finalDecision = new MupTable();  
             HashSet<Profile> profiles = new HashSet<Profile>();
             HashSet<ClassroomGroup> classroomGroups = new HashSet<ClassroomGroup>();
-            foreach (Tuple<UO, Vinculo> item in data)
+            foreach (Tuple<UO, Vinculo> item in pairs)
             {
 
                 UO currentUO = item.Item1;
