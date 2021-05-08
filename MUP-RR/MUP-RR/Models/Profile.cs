@@ -19,13 +19,22 @@ namespace MUP_RR.Models
             return string.Format("Profile {0}: {1}", id, name);
         }
 
-        public void isHigher(Profile newprofile){
-            int current = hierarchy[this.name];
-            int latest = hierarchy[newprofile.name];
-            if (current<latest){
-                this.name=newprofile.name;
-            } 
+
+        public static Profile getHigherStatus(HashSet<Profile> profiles){
+            Profile toReturn = new Profile();
+            toReturn.name = "DEFAULT";
+
+            foreach (Profile item in profiles)
+            {
+                int current = toReturn.hierarchy[toReturn.name];
+                int latest = toReturn.hierarchy[item.name];
+                if (current<latest){
+                    toReturn = item;
+                } 
+            }
+            return toReturn;
         }
+
         
     }
     

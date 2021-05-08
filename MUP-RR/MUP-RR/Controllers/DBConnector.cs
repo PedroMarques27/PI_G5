@@ -422,6 +422,8 @@ namespace MUP_RR.Controllers
         SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Profile WHERE id=@ID", connection);
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@ID", id);
+
+        
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
@@ -429,6 +431,7 @@ namespace MUP_RR.Controllers
             data.name = reader["name"].ToString();
 
         }
+        reader.Close();
         return data;
     }
     public List<Profile> SelectProfile()
@@ -468,6 +471,7 @@ namespace MUP_RR.Controllers
             v.description = reader["descricao"].ToString();
             data.Add(v);
         }
+        reader.Close();
         return data;
 
 
@@ -487,6 +491,28 @@ namespace MUP_RR.Controllers
             v.name = reader["name"].ToString();
             data.Add(v);
         }
+        reader.Close();
+        return data;
+
+
+    }
+    public ClassroomGroup SelectClassroomById(string id)
+    {
+        ClassroomGroup data = new ClassroomGroup();
+        if (!verifySGBDConnection())
+            return data;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.ClassroomGroup WHERE id=@ID", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@ID", id);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            data.id = reader["id"].ToString();
+            data.name = reader["name"].ToString();
+
+        }
+        reader.Close();
         return data;
 
 
@@ -509,6 +535,7 @@ namespace MUP_RR.Controllers
             v.profile = reader["classGroup"].ToString();
             data.Add(v);
         }
+        reader.Close();
         return data;
 
 
@@ -535,6 +562,7 @@ namespace MUP_RR.Controllers
             data.profile = reader["profile"].ToString();
             data.profile = reader["classGroup"].ToString();
         }
+        reader.Close();
         return data;
     }
     }

@@ -50,24 +50,35 @@ namespace MUP_RR
             await BRBConnector.OpenConnection();
             
             obj.updateBRB_RCU_ASSOC();
-            obj.updateBRBUser();
+            
+
+            obj.UpdateProfile("0bbefa9e-590b-4b1d-ab57-273bc3e3c1db");
             CreateHostBuilder(args).Build().Run();
         }
         public async void UpdateProfile(string iupi){
             BRB_RCU_ASSOC currentUser = database.SelectUserFromIUPI(iupi);
             List<Tuple<UO,Vinculo>> data = await getUserData(iupi);
             MupTable finalDecision = new MupTable();  
+            HashSet<Profile> profiles = new HashSet<Profile>();
+            HashSet<ClassroomGroup> classroomGroups = new HashSet<ClassroomGroup>();
             foreach (Tuple<UO, Vinculo> item in data)
             {
                 UO currentUO = item.Item1;
                 Vinculo currentVinculo = item.Item2;
                 MupTable queryResult= database.SelectSpecificMup(currentUO.id, currentVinculo.id);
-                if (finalDecision.isNull())
-                    finalDecision = queryResult;
-                else{
-
-                }
+                profiles.Add(database.SelectProfileById(queryResult.profile));
+                classroomGroups.Add(database.SelectClassroomById(queryResult.classGroup));
             }
+            Profile higher = Profile.getHigherStatus(profiles);
+
+            string json = await BRBConnector.getUserById(currentUser.brb_id);
+            JObject jObject = JObject.Parse(json);
+            var jsonUser = jObject["data"];
+            BRB_User newUser = new BRB_User();
+            newUser = newUser.fromJson(jsonUser.ToString());
+
+            newUser.profile = higher;
+            updateBRBUser(newUser, classroomGroups);
         }
         public async void updateBRB_RCU_ASSOC(){
             //GET BRB CURRENT USERS
@@ -103,32 +114,62 @@ namespace MUP_RR
             } 
         }
 
-        public async void updateBRBUser(){
-            Dictionary<string, Object> classes = new Dictionary<string, Object>
+        public async void updateBRBUser(BRB_User updatedUser, HashSet<ClassroomGroup> newGroups){
+           
+            HashSet<ClassroomGroup> groupsToDelete = new HashSet<ClassroomGroup>();
+            HashSet<ClassroomGroup> groupsToAdd = new HashSet<ClassroomGroup>();
+
+            foreach (ClassroomGroup item in newGroups)
             {
-                { "model",  new Dictionary<string, Object>{
-                    { "userId", "4b00448b-3623-4b7c-a5d9-03eda9cd70e7" },
-                    { "classroomGroupId", "27623982-4920-471c-ad71-08d6ccaf1c31" }
+                if (!updatedUser.classroomGroups.Contains(item)){
+                    groupsToAdd.Add(item);
                 }
+            }
+
+            foreach (ClassroomGroup item in updatedUser.classroomGroups)
+            {
+                if (!newGroups.Contains(item)){
+                    groupsToDelete.Add(item);
                 }
-            };
+            }
+
+
+            JArray classes = new JArray(
+                from p in groupsToDelete
+                orderby p.id
+                select 
+                new JObject(
+                    new JProperty("model",
+                        new JObject(
+                            new JProperty("userId",  updatedUser.id),
+                            new JProperty("classroomGroupId",p.id)
+                        )
+                    ),
+                    new JProperty("status", "Deleted")),
+                from p in groupsToAdd
+                orderby p.id
+                select 
+                new JObject(
+                    new JProperty("model",
+                        new JObject(
+                            new JProperty("userId", updatedUser.id),
+                            new JProperty("classroomGroupId", p.id)
+                        )
+                    ),
+                    new JProperty("status", "Added"))     
+            );
 
             JObject o =
             new JObject(
                 
-                new JProperty("id", "4b00448b-3623-4b7c-a5d9-03eda9cd70e7"),
-                new JProperty("userName", "rfmf@ua.pt"),
-                new JProperty("isAdmin", false),
-                new JProperty("email", "rfmf@ua.pt"),
-                new JProperty("isActive", true),
-                new JProperty("profileId", "236ee96c-1415-46d3-f066-08d6b2dfb286"),
-                new JProperty("model",
-                    new JArray(
-                        new JObject(
-                            new JProperty("userId", "4b00448b-3623-4b7c-a5d9-03eda9cd70e7"),
-                            new JProperty("classroomGroupId", "27623982-4920-471c-ad71-08d6ccaf1c31")
-                        )
-                    )
+                new JProperty("id", updatedUser.id),
+                new JProperty("userName", updatedUser.username),
+                new JProperty("isAdmin", updatedUser.isAdmin),
+                new JProperty("email", updatedUser.email),
+                new JProperty("isActive", updatedUser.isActive),
+                new JProperty("profileId", updatedUser.profile.id),
+                new JProperty("classroomGroups",
+                    classes
                 )
             );
 

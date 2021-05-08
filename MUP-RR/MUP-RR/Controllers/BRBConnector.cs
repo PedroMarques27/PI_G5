@@ -45,6 +45,13 @@ namespace MUP_RR.Controllers
             return msg;
         }
 
+
+        public static async Task<string> getUserById(string id){
+            var stringTask = client.GetStringAsync(BASE_URL+"Users/"+id);
+            var msg = await stringTask;
+            return msg;
+        }
+
         public static async Task<bool> postUpdateUser(string product){
             
             var httpContent = new StringContent(product, Encoding.UTF8, "application/json");
