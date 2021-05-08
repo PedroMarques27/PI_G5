@@ -56,18 +56,27 @@ namespace MUP_RR
             CreateHostBuilder(args).Build().Run();
         }
         public async void UpdateProfile(string iupi){
+            
             BRB_RCU_ASSOC currentUser = database.SelectUserFromIUPI(iupi);
+            
             List<Tuple<UO,Vinculo>> data = await getUserData(iupi);
+            
             MupTable finalDecision = new MupTable();  
             HashSet<Profile> profiles = new HashSet<Profile>();
             HashSet<ClassroomGroup> classroomGroups = new HashSet<ClassroomGroup>();
             foreach (Tuple<UO, Vinculo> item in data)
             {
+
                 UO currentUO = item.Item1;
                 Vinculo currentVinculo = item.Item2;
+                Console.WriteLine(currentUO.id.ToString()+"-------------------------------");
+                Console.WriteLine(currentVinculo.id.ToString()+"-------------------------------");
                 MupTable queryResult= database.SelectSpecificMup(currentUO.id, currentVinculo.id);
+
+                Console.WriteLine(queryResult.ToString()+"-------------------------------");
                 profiles.Add(database.SelectProfileById(queryResult.profile));
                 classroomGroups.Add(database.SelectClassroomById(queryResult.classGroup));
+
             }
             Profile higher = Profile.getHigherStatus(profiles);
 
@@ -196,15 +205,8 @@ namespace MUP_RR
                 }
                 
                 foreach(JObject obj in info){
-                    UO userUO = new UO();   
-                    userUO.description = obj["unidade"]["Descricao"].ToString();
-                    userUO.sigla = obj["unidade"]["Sigla"].ToString();
-
-                    Vinculo vc = new Vinculo();
-                    vc.sigla = obj["tipovinculo"]["Sigla"].ToString();
-                    vc.description = obj["tipovinculo"]["Descricao"].ToString();
-
-                    
+                    UO userUO  = database.selectUnidadeOrganicaBySigla(obj["unidade"]["Sigla"].ToString());
+                    Vinculo vc =  database.selectVinculoBySigla(obj["tipovinculo"]["Sigla"].ToString());
                     tupleList.Add(new Tuple<UO, Vinculo>(userUO,vc));
                 }
 
