@@ -414,6 +414,25 @@ namespace MUP_RR.Controllers
 
 
     }
+    public Vinculo selectVinculoBySigla(string sigla)
+    {
+        Vinculo v = new Vinculo();
+        if (!verifySGBDConnection())
+            return v;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Vinculo WHERE sigla=@sigla", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@sigla", sigla);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            v.id = int.Parse(reader["id"].ToString());
+            v.sigla = reader["sigla"].ToString();
+            v.description = reader["descricao"].ToString();
+        }
+        reader.Close();
+        return v;
+    }
     public Profile SelectProfileById(string id){
         Profile data = new Profile();
         if (!verifySGBDConnection())
@@ -476,6 +495,25 @@ namespace MUP_RR.Controllers
 
 
     }
+    public UO selectUnidadeOrganicaBySigla(string sigla)
+    {
+        UO v = new UO();
+        if (!verifySGBDConnection())
+            return v;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.UnidadeOrganica WHERE sigla=@sigla", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@sigla", sigla);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            v.id = int.Parse(reader["id"].ToString());
+            v.sigla = reader["sigla"].ToString();
+            v.description = reader["descricao"].ToString();
+        }
+        reader.Close();
+        return v;
+    }
     public List<ClassroomGroup> SelectClassroomGroup()
     {
         List<ClassroomGroup> data = new List<ClassroomGroup>();
@@ -532,7 +570,7 @@ namespace MUP_RR.Controllers
             v.uo = int.Parse(reader["uo"].ToString());
             v.vinculo = int.Parse(reader["vinculo"].ToString());
             v.profile = reader["profile"].ToString();
-            v.profile = reader["classGroup"].ToString();
+            v.classGroup = reader["classGroup"].ToString();
             data.Add(v);
         }
         reader.Close();
@@ -560,7 +598,7 @@ namespace MUP_RR.Controllers
             data.vinculo = int.Parse(reader["vinculo"].ToString());
             //data.vinculo = reader["vinculo"].ToString();
             data.profile = reader["profile"].ToString();
-            data.profile = reader["classGroup"].ToString();
+            data.classGroup = reader["classGroup"].ToString();
         }
         reader.Close();
         return data;
