@@ -1,5 +1,5 @@
 {
-  "FilePath": "c:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+  "FilePath": "c:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "3.0",
@@ -14402,38 +14402,38 @@
   "RootNamespace": "MUP_RR",
   "Documents": [
     {
-      "FilePath": "c:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\Views\\_ViewStart.cshtml",
-      "TargetPath": "Views\\_ViewStart.cshtml",
+      "FilePath": "c:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\Views\\Home\\Privacy.cshtml",
+      "TargetPath": "Views\\Home\\Privacy.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
-      "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\Views\\Home\\Index.cshtml",
-      "TargetPath": "Views\\Home\\Index.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\Views\\Shared\\_Layout.cshtml",
+      "FilePath": "c:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\Views\\Shared\\_Layout.cshtml",
       "TargetPath": "Views\\Shared\\_Layout.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\Views\\_ViewImports.cshtml",
-      "TargetPath": "Views\\_ViewImports.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\Views\\Shared\\Error.cshtml",
+      "FilePath": "c:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\Views\\Shared\\Error.cshtml",
       "TargetPath": "Views\\Shared\\Error.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\pedro\\OneDrive\\Ambiente de Trabalho\\Github\\PI_G5\\PI_G5\\MUP-RR\\MUP-RR\\Views\\Home\\Privacy.cshtml",
-      "TargetPath": "Views\\Home\\Privacy.cshtml",
+      "FilePath": "c:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\Views\\_ViewStart.cshtml",
+      "TargetPath": "Views\\_ViewStart.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+      "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\Views\\Home\\Index.cshtml",
+      "TargetPath": "Views\\Home\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\Views\\_ViewImports.cshtml",
+      "TargetPath": "Views\\_ViewImports.cshtml",
       "FileKind": "mvc"
     }
   ],
