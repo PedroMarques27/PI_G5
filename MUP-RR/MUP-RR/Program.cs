@@ -66,17 +66,19 @@ namespace MUP_RR
             HashSet<ClassroomGroup> classroomGroups = new HashSet<ClassroomGroup>();
             foreach (Tuple<UO, Vinculo> item in pairs)
             {
-
                 UO currentUO = item.Item1;
                 Vinculo currentVinculo = item.Item2;
                 List<MupTable> queryResult= database.SelectSpecificMup(currentUO.id, currentVinculo.id);
+               
                 foreach (var qritem in queryResult)
                 {
                     profiles.Add(database.SelectProfileById(qritem.profile));
                     classroomGroups.Add(database.SelectClassroomById(qritem.classGroup));
                 }
-                
 
+                if (queryResult.Count()==0){
+                    profiles.Add(database.SelectProfileByName("DEFAULT"));
+                }
             }
            
             var higher = database.SelectProfileByName(Profile.getHigherStatus(profiles));
