@@ -69,21 +69,25 @@ namespace MUP_RR
 
                 UO currentUO = item.Item1;
                 Vinculo currentVinculo = item.Item2;
-                MupTable queryResult= database.SelectSpecificMup(currentUO.id, currentVinculo.id);
-
-                profiles.Add(database.SelectProfileById(queryResult.profile));
-                classroomGroups.Add(database.SelectClassroomById(queryResult.classGroup));
+                List<MupTable> queryResult= database.SelectSpecificMup(currentUO.id, currentVinculo.id);
+                foreach (var qritem in queryResult)
+                {
+                    profiles.Add(database.SelectProfileById(qritem.profile));
+                    classroomGroups.Add(database.SelectClassroomById(qritem.classGroup));
+                }
+                
 
             }
-
-            Profile higher = database.SelectProfileByName(Profile.getHigherStatus(profiles));
+           
+            var higher = database.SelectProfileByName(Profile.getHigherStatus(profiles));
+            
+            
 
             string json = await BRBConnector.getUserById(currentUser.brb_id);
             JObject jObject = JObject.Parse(json);
             var jsonUser = jObject["data"];
             BRB_User newUser = new BRB_User();
             newUser = newUser.fromJson(jsonUser.ToString());
-
             newUser.profile = higher;
             updateBRBUser(newUser, classroomGroups);
         }
@@ -129,9 +133,7 @@ namespace MUP_RR
 
             HashSet<string> currentIds = updatedUser.getClassesIds(updatedUser.classroomGroups);
             HashSet<string> latestIds = updatedUser.getClassesIds(newGroups);
-        
-
-            
+           
             foreach (string item in latestIds)
             {
                 if (!currentIds.Contains(item)){

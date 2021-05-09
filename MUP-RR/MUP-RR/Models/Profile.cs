@@ -28,7 +28,7 @@ namespace MUP_RR.Models
             {
                 int current = toReturn.hierarchy[toReturn.name];
                 int latest = toReturn.hierarchy[item.name];
-                if (current<latest){
+                if (current>latest){
                     toReturn = item;
                 } 
             }

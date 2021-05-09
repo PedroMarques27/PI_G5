@@ -458,9 +458,10 @@ namespace MUP_RR.Controllers
         if (!verifySGBDConnection())
             return data;
 
-        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Profile WHERE name=@NAME", connection);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Profile WHERE name = @NAME", connection);
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@NAME", name);
+        Console.WriteLine(cmd.CommandText.ToString());
 
         
         SqlDataReader reader = cmd.ExecuteReader();
@@ -468,7 +469,7 @@ namespace MUP_RR.Controllers
         {
             data.id = reader["id"].ToString();
             data.name = reader["name"].ToString();
-
+            
         }
         reader.Close();
         return data;
@@ -599,9 +600,9 @@ namespace MUP_RR.Controllers
 
     }
 
-    public MupTable SelectSpecificMup(int uo, int vinculo)
+    public List<MupTable> SelectSpecificMup(int uo, int vinculo)
     {
-        MupTable data = new MupTable();
+        List<MupTable> data = new List<MupTable>();
         if (!verifySGBDConnection())
             return data;
 
@@ -612,13 +613,15 @@ namespace MUP_RR.Controllers
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
-            data.id = int.Parse(reader["id"].ToString());
-            data.uo = int.Parse(reader["uo"].ToString());
+            MupTable v = new MupTable();
+            v.id = int.Parse(reader["id"].ToString());
+            v.uo = int.Parse(reader["uo"].ToString());
             //data.uo = reader["uo"].ToString();
-            data.vinculo = int.Parse(reader["vinculo"].ToString());
+            v.vinculo = int.Parse(reader["vinculo"].ToString());
             //data.vinculo = reader["vinculo"].ToString();
-            data.profile = reader["profile"].ToString();
-            data.classGroup = reader["classGroup"].ToString();
+            v.profile = reader["profile"].ToString();
+            v.classGroup = reader["classGroup"].ToString();
+            data.Add(v);
         }
         reader.Close();
         return data;

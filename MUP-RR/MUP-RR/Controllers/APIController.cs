@@ -21,7 +21,6 @@ namespace MUP_RR.Controllers
         [Route("api/v1/notify")]
         public IActionResult UpdatePermissions([FromBody] RCUNotification notification)
         {
-            Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             List<Tuple<UO,Vinculo>> formated_pairs = new List<Tuple<UO, Vinculo>>();
 
             foreach (List<string> pair in notification.pairs)
