@@ -453,6 +453,26 @@ namespace MUP_RR.Controllers
         reader.Close();
         return data;
     }
+    public Profile SelectProfileByName(string name){
+        Profile data = new Profile();
+        if (!verifySGBDConnection())
+            return data;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Profile WHERE name=@NAME", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@NAME", name);
+
+        
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            data.id = reader["id"].ToString();
+            data.name = reader["name"].ToString();
+
+        }
+        reader.Close();
+        return data;
+    }
     public List<Profile> SelectProfile()
     {
         List<Profile> data = new List<Profile>();

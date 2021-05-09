@@ -61,7 +61,7 @@ namespace MUP_RR.Controllers
             httpClient.DefaultRequestHeaders.Add("Authorization",AUTH_TOKEN);
 
             var httpResponse = await httpClient.PutAsync(BASE_URL+"Users/4b00448b-3623-4b7c-a5d9-03eda9cd70e7", httpContent);
-            
+            Console.WriteLine(httpResponse);
             
             return true;
         }

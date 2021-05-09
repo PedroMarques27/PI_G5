@@ -78,7 +78,8 @@ namespace MUP_RR
                 classroomGroups.Add(database.SelectClassroomById(queryResult.classGroup));
 
             }
-            Profile higher = Profile.getHigherStatus(profiles);
+
+            Profile higher = database.SelectProfileByName(Profile.getHigherStatus(profiles));
 
             string json = await BRBConnector.getUserById(currentUser.brb_id);
             JObject jObject = JObject.Parse(json);
@@ -154,7 +155,9 @@ namespace MUP_RR
                             new JProperty("classroomGroupId",p.id)
                         )
                     ),
-                    new JProperty("status", "Deleted")),
+                    new JProperty("status", "Deleted"))
+            );
+            JArray toAdd = new JArray(
                 from p in groupsToAdd
                 orderby p.id
                 select 
@@ -177,8 +180,8 @@ namespace MUP_RR
                 new JProperty("email", updatedUser.email),
                 new JProperty("isActive", updatedUser.isActive),
                 new JProperty("profileId", updatedUser.profile.id),
-                new JProperty("classroomGroups",
-                    classes
+                new JProperty("userClassroomGroups",
+                    new JArray(classes.Union(toAdd))
                 )
             );
 

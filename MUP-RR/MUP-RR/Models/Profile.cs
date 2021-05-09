@@ -20,7 +20,7 @@ namespace MUP_RR.Models
         }
 
 
-        public static Profile getHigherStatus(HashSet<Profile> profiles){
+        public static string getHigherStatus(HashSet<Profile> profiles){
             Profile toReturn = new Profile();
             toReturn.name = "DEFAULT";
 
@@ -32,7 +32,7 @@ namespace MUP_RR.Models
                     toReturn = item;
                 } 
             }
-            return toReturn;
+            return toReturn.name;
         }
 
         
