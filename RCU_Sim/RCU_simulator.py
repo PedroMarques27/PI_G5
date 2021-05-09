@@ -22,18 +22,17 @@ def menu():
     Please enter your choice: """)
 
     if choice == "N" or choice =="n":
-        notify()
+        get_iupi()
+        menu()
     elif choice=="E" or choice=="e":
         sys.exit
     else:
         print("You must select a valid option")
         menu()
 
-def notify():
+def get_iupi():
     print()
     UU = input("Insert user's UU (Utilizador Universal)")
-    Vinculo = input("Insert user's bond (Vinculo)")
-    UO = input("Insert user's UO (Unidade Organica)")
 
     authInfo = "muprr-rcu-srvc@ua.pt:8p#Dw8*FS9e=$T@"
     authInfo = (base64.b64encode(authInfo.encode('ascii'))).decode('ascii')
@@ -56,14 +55,34 @@ def notify():
     
     iupi = sid[0].text
 
+    notify(iupi, UU)
+
+def notify(iupi, UU):
+
+    more = 'y'
+    pairs = []
+
+    while more == 'y':
+        pairs.append(get_pairs())
+        more = input("Insert another bond-UO pair? (y/n)")
+
+
     payload = {
         "iupi": iupi,
-        "pairs": [
-            [Vinculo,UO]
-            ]
+        "pairs": pairs
         }
 
     r = requests.post('https://localhost:5001/api/v1/notify', json=payload, verify=False)
-    #print(r.status_code)
+
+    if(r.status_code==200):
+        print("User "+UU+" successfully updated")
+    else:
+        print("Something went wrong...")
+
+
+def get_pairs():
+    Vinculo = input("Insert user's bond (Vinculo)")
+    UO = input("Insert user's UO (Unidade Organica)")
+    return [Vinculo,UO]
 
 main()
