@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-
 namespace MUP_RR.Models
 {
     public class BRB_User
@@ -12,7 +11,7 @@ namespace MUP_RR.Models
         public bool isActive { get; set; }
 
         public Profile profile { get; set; }
-        public List<ClassroomGroup> classroomGroups { get; set; }
+        public HashSet<ClassroomGroup> classroomGroups { get; set; }
 
         public override string ToString()
         {
@@ -22,6 +21,15 @@ namespace MUP_RR.Models
         public BRB_User fromJson(String json){
             BRB_User _user = Newtonsoft.Json.JsonConvert.DeserializeObject<BRB_User>(json);
             return _user;
+        }
+
+        public HashSet<string> getClassesIds(HashSet<ClassroomGroup> classes){
+            HashSet<string> ids = new HashSet<string>();
+            foreach (var item in classes)
+            {
+                ids.Add(item.id);
+            }
+            return ids;
         }
     }
 }

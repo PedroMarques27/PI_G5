@@ -69,11 +69,8 @@ namespace MUP_RR
 
                 UO currentUO = item.Item1;
                 Vinculo currentVinculo = item.Item2;
-                Console.WriteLine(currentUO.id.ToString()+"-------------------------------");
-                Console.WriteLine(currentVinculo.id.ToString()+"-------------------------------");
                 MupTable queryResult= database.SelectSpecificMup(currentUO.id, currentVinculo.id);
 
-                Console.WriteLine(queryResult.ToString()+"-------------------------------");
                 profiles.Add(database.SelectProfileById(queryResult.profile));
                 classroomGroups.Add(database.SelectClassroomById(queryResult.classGroup));
 
@@ -126,19 +123,25 @@ namespace MUP_RR
 
         public async void updateBRBUser(BRB_User updatedUser, HashSet<ClassroomGroup> newGroups){
            
-            HashSet<ClassroomGroup> groupsToDelete = new HashSet<ClassroomGroup>();
-            HashSet<ClassroomGroup> groupsToAdd = new HashSet<ClassroomGroup>();
+            HashSet<string> groupsToDelete = new HashSet<string>();
+            HashSet<string> groupsToAdd = new HashSet<string>();
+            
 
-            foreach (ClassroomGroup item in newGroups)
+            HashSet<string> currentIds = updatedUser.getClassesIds(updatedUser.classroomGroups);
+            HashSet<string> latestIds = updatedUser.getClassesIds(newGroups);
+        
+
+            
+            foreach (string item in latestIds)
             {
-                if (!updatedUser.classroomGroups.Contains(item)){
+                if (!currentIds.Contains(item)){
                     groupsToAdd.Add(item);
                 }
             }
 
-            foreach (ClassroomGroup item in updatedUser.classroomGroups)
+            foreach (string item in currentIds)
             {
-                if (!newGroups.Contains(item)){
+                if (!latestIds.Contains(item)){
                     groupsToDelete.Add(item);
                 }
             }
@@ -146,26 +149,26 @@ namespace MUP_RR
 
             JArray classes = new JArray(
                 from p in groupsToDelete
-                orderby p.id
+                orderby p
                 select 
                 new JObject(
                     new JProperty("model",
                         new JObject(
                             new JProperty("userId",  updatedUser.id),
-                            new JProperty("classroomGroupId",p.id)
+                            new JProperty("classroomGroupId",p)
                         )
                     ),
                     new JProperty("status", "Deleted"))
             );
             JArray toAdd = new JArray(
                 from p in groupsToAdd
-                orderby p.id
+                orderby p
                 select 
                 new JObject(
                     new JProperty("model",
                         new JObject(
                             new JProperty("userId", updatedUser.id),
-                            new JProperty("classroomGroupId", p.id)
+                            new JProperty("classroomGroupId", p)
                         )
                     ),
                     new JProperty("status", "Added"))     
