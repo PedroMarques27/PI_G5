@@ -19,73 +19,65 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
   @override
   Widget build(BuildContext context) {
     BuildCount bC = widget.buildCount;
-    classroomsBloc.getClassroomsByIdList(bC.classroomsIDs);
+    List<Classroom> current = bC.classrooms;
     return Scaffold(
         appBar: AppBar(
             title: Text(bC.building.name + " Classrooms "),
             actions: <Widget>[]),
-        body: StreamBuilder(
-            stream: classroomsBloc.getClassrooms,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData)
-                return Center(child: CircularProgressIndicator());
-              List<Classroom> current = snapshot.data;
-              return Column(
-                children: <Widget>[
-                  Container(
-                      margin: EdgeInsets.all(2),
-                      padding: EdgeInsets.all(6.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(
-                          color: Colors.grey[300],
-                          width: 2,
-                        ),
+        body: Column(
+          children: <Widget>[
+            Container(
+                margin: EdgeInsets.all(2),
+                padding: EdgeInsets.all(6.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  border: Border.all(
+                    color: Colors.grey[300],
+                    width: 2,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(bC.building.name + " Classrooms",
+                        style: TextStyle(fontSize: 22.0)),
+                  ],
+                )),
+            Expanded(
+                child: ListView.builder(
+              itemCount: current.length,
+              itemBuilder: (context, position) {
+                return GestureDetector(
+                  child: Container(
+                    margin: EdgeInsets.all(2),
+                    padding: EdgeInsets.all(6.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(
+                        color: Colors.grey[300],
+                        width: 8,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(bC.building.name + " Classrooms",
-                              style: TextStyle(fontSize: 22.0)),
-                        ],
-                      )),
-                  Expanded(
-                      child: ListView.builder(
-                    itemCount: current.length,
-                    itemBuilder: (context, position) {
-                      return GestureDetector(
-                        child: Container(
-                          margin: EdgeInsets.all(2),
-                          padding: EdgeInsets.all(6.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            border: Border.all(
-                              color: Colors.grey[300],
-                              width: 8,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(
-                                      current[position].name.toString(),
-                                      style: TextStyle(fontSize: 12.0),
-                                    ),
-                                  ])),
-                        ),
-                        onTap: () {
-                          //goToDetailsPage(context, current[position]);
-                        },
-                      );
-                    },
-                  ))
-                ],
-              );
-            }));
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                current[position].name.toString(),
+                                style: TextStyle(fontSize: 12.0),
+                              ),
+                            ])),
+                  ),
+                  onTap: () {
+                    //goToDetailsPage(context, current[position]);
+                  },
+                );
+              },
+            ))
+          ],
+        ));
   }
 
   /*   goToDetailsPage(BuildContext context, BuildCount data) {

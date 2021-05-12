@@ -17,9 +17,9 @@ class Search extends StatefulWidget {
 }
 
 class _Search extends State<Search> {
+  List<BuildCount> currentList = new List<BuildCount>();
   @override
   Widget build(BuildContext context) {
-    brbBloc.initialize('aarodrigues@ua.pt');
     return Column(children: <Widget>[
       Expanded(
         child: Container(child: _buildList(context)),
@@ -29,11 +29,11 @@ class _Search extends State<Search> {
 
   Widget _buildList(BuildContext context) {
     return StreamBuilder(
-        // Wrap our widget with a StreamBuilder
         stream: brbBloc.getBuildCount,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Container();
-          List<BuildCount> current = snapshot.data;
+          if (!snapshot.hasData)
+            return Center(child: CircularProgressIndicator());
+          currentList = (snapshot.data) as List;
 
           return Column(
             children: <Widget>[
@@ -47,16 +47,61 @@ class _Search extends State<Search> {
                       width: 2,
                     ),
                   ),
-                  child: Row(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Buildings Available",
                           style: TextStyle(fontSize: 22.0)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: FaIcon(FontAwesomeIcons.sortAlphaDown),
+                            tooltip: 'Sort By Alpha',
+                            onPressed: () {
+                              setState(() {
+                                currentList.sort((a, b) =>
+                                    a.building.name.compareTo(b.building.name));
+                              });
+                            },
+                          ),
+                          IconButton(
+                            icon: FaIcon(FontAwesomeIcons.sortAlphaUp),
+                            tooltip: 'Sort By Alpha',
+                            onPressed: () {
+                              setState(() {
+                                currentList.sort((b, a) =>
+                                    a.building.name.compareTo(b.building.name));
+                              });
+                            },
+                          ),
+                          IconButton(
+                            icon: FaIcon(FontAwesomeIcons.sortNumericUp),
+                            tooltip: 'Sort By Count',
+                            onPressed: () {
+                              setState(() {
+                                currentList
+                                    .sort((a, b) => a.count.compareTo(b.count));
+                              });
+                            },
+                          ),
+                          IconButton(
+                            icon: FaIcon(FontAwesomeIcons.sortNumericDown),
+                            tooltip: 'Sort By Count',
+                            onPressed: () {
+                              setState(() {
+                                currentList
+                                    .sort((b, a) => a.count.compareTo(b.count));
+                              });
+                            },
+                          ),
+                        ],
+                      )
                     ],
                   )),
               Expanded(
                 child: ListView.builder(
-                  itemCount: current.length,
+                  itemCount: currentList.length,
                   itemBuilder: (context, position) {
                     return GestureDetector(
                       child: Container(
@@ -77,19 +122,22 @@ class _Search extends State<Search> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    current[position].building.name.toString(),
+                                    currentList[position]
+                                        .building
+                                        .name
+                                        .toString(),
                                     style: TextStyle(fontSize: 16.0),
                                   ),
                                   Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        current[position].count.toString(),
+                                        currentList[position].count.toString(),
                                         style: TextStyle(fontSize: 16.0),
                                       ))
                                 ])),
                       ),
                       onTap: () {
-                        goToDetailsPage(context, current[position]);
+                        goToDetailsPage(context, currentList[position]);
                       },
                     );
                   },

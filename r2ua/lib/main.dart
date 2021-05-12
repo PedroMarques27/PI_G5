@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:r2ua/BlocPattern/BrbBloc.dart';
 
 import 'View/Bookings.dart';
 import 'View/Home.dart';
 import 'View/Search.dart';
 
-String email = "aarodrigues@ua.pt";
+String email = "rfmf@ua.pt";
 void main() {
   runApp(MyApp());
 }
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    brbBloc.initialize('cpaz@ua.pt');
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

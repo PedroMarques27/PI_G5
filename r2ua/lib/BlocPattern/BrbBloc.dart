@@ -26,13 +26,11 @@ class BrbBloc {
   Stream get getBuildCount => buildCountStreamController.stream;
 
   void update(List<BuildCount> b) {
-    buildCountStreamController.sink
-        .add(b); // add whatever data we want into the Sink
+    buildCountStreamController.sink.add(b);
   }
 
   void dispose() {
-    buildCountStreamController
-        .close(); // close our StreamController to emory leak
+    buildCountStreamController.close();
   }
 
   User currentUser;
@@ -46,47 +44,49 @@ class BrbBloc {
   }
 
   void getClassroomGroupsBuildings(List<String> groupsIds) async {
-    HashMap<int, int> buildings = new HashMap<int, int>();
-    HashMap<int, List<int>> buildingsClassrooms = new HashMap<int, List<int>>();
-
+    List<ClassroomGroup> classGroups = new List<ClassroomGroup>();
     for (var id in groupsIds) {
-      ClassroomGroup csg =
-          await classroomGroupsBloc.getCurrentClassroomGroup(id);
-      for (int classId in csg.classrooms) {
-        Classroom cls = await classroomsBloc.getClassroomById(classId);
-        int count = 0;
-        List<int> classIDs = new List<int>();
-        if (buildings.containsKey(cls.building)) {
-          count = buildings[cls.building];
-          classIDs = buildingsClassrooms[cls.building];
+      classGroups.add(await classroomGroupsBloc.getCurrentClassroomGroup(id));
+    }
+    HashSet<int> classroomsIds = new HashSet<int>();
+    for (var classG in classGroups) {
+      classroomsIds.addAll(classG.classrooms);
+    }
+
+    HashSet<Classroom> classes = new HashSet<Classroom>();
+    HashMap<int, Building> codesBuildings = new HashMap();
+    List<BuildCount> data = new List<BuildCount>();
+    for (var classId in classroomsIds) {
+      Classroom cs = (await classroomsBloc.getClassroomById(classId));
+
+      Building currentBuilding;
+      if (codesBuildings.containsKey(cs.building)) {
+        currentBuilding = codesBuildings[cs.building];
+        for (var d in data) {
+          if (d.building.id == cs.building) {
+            d.classrooms.add(cs);
+            d.count = d.classrooms.length;
+          }
         }
-        buildings[cls.building] = count + 1;
-        classIDs.add(cls.id);
-        buildingsClassrooms[cls.building] = classIDs;
-        debugPrint(count.toString() + "--------");
+      } else {
+        currentBuilding = await buildingBloc.getBuildingById(cs.building);
+        codesBuildings[cs.building] = currentBuilding;
+        List<Classroom> _temp = new List<Classroom>();
+        _temp.add(cs);
+        data.add(new BuildCount(
+            building: currentBuilding, classrooms: _temp, count: 1));
       }
-    }
 
-    HashMap<Building, int> _buildings = new HashMap<Building, int>();
-    List<BuildCount> counting = new List<BuildCount>();
-    for (int item in buildings.keys) {
-      Building b = await buildingBloc.getBuildingById(item);
-      debugPrint(buildings[b].toString() + "--------");
-      counting.add(BuildCount(
-          building: b,
-          count: buildings[b.id],
-          classroomsIDs: buildingsClassrooms[b.id]));
+      update(data);
     }
-
-    update(counting);
   }
 }
 
 class BuildCount {
   Building building;
   int count;
-  List<int> classroomsIDs;
-  BuildCount({this.building, this.count, this.classroomsIDs});
+  List<Classroom> classrooms;
+  BuildCount({this.building, this.count, this.classrooms});
 }
 
 final usersBloc = UsersBloc();
