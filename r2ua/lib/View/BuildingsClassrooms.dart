@@ -43,7 +43,11 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
                         ),
                       ),
                       child: Row(
-                        children: [Text(bC.building.name + " Classrooms")],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(bC.building.name + " Classrooms",
+                              style: TextStyle(fontSize: 22.0)),
+                        ],
                       )),
                   Expanded(
                       child: ListView.builder(

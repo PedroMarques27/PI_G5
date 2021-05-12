@@ -48,7 +48,11 @@ class _Search extends State<Search> {
                     ),
                   ),
                   child: Row(
-                    children: [Text("Buildings Available")],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Buildings Available",
+                          style: TextStyle(fontSize: 22.0)),
+                    ],
                   )),
               Expanded(
                 child: ListView.builder(
