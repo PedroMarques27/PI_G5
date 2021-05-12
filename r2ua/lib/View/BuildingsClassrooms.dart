@@ -20,39 +20,68 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
   Widget build(BuildContext context) {
     BuildCount bC = widget.buildCount;
     classroomsBloc.getClassroomsByIdList(bC.classroomsIDs);
-    return Column(children: <Widget>[
-      Expanded(
-        child: Container(child: _buildList(context)),
-      )
-    ]);
-  }
-
-  Widget _buildList(BuildContext context) {
-    return StreamBuilder(
-        // Wrap our widget with a StreamBuilder
-        stream: classroomsBloc.getClassrooms,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return Container();
-          List<Classroom> current = snapshot.data;
-
-          return CustomScrollView(primary: false, slivers: <Widget>[
-            SliverPadding(
-                padding: const EdgeInsets.all(20),
-                sliver: SliverGrid.count(
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  crossAxisCount: 1,
-                  children: current.map((data) {
-                    return GestureDetector(
-                      child: _buildListItem(context, data),
-                      onTap: () {
-                        // goToDetailsPage(context, data);
-                      },
-                    );
-                  }).toList(),
-                ))
-          ]);
-        });
+    return Scaffold(
+        appBar: AppBar(
+            title: Text(bC.building.name + " Classrooms "),
+            actions: <Widget>[]),
+        body: StreamBuilder(
+            stream: classroomsBloc.getClassrooms,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Center(child: CircularProgressIndicator());
+              List<Classroom> current = snapshot.data;
+              return Column(
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.all(2),
+                      padding: EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(
+                          color: Colors.grey[300],
+                          width: 2,
+                        ),
+                      ),
+                      child: Row(
+                        children: [Text(bC.building.name + " Classrooms")],
+                      )),
+                  Expanded(
+                      child: ListView.builder(
+                    itemCount: current.length,
+                    itemBuilder: (context, position) {
+                      return GestureDetector(
+                        child: Container(
+                          margin: EdgeInsets.all(2),
+                          padding: EdgeInsets.all(6.0),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            border: Border.all(
+                              color: Colors.grey[300],
+                              width: 8,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      current[position].name.toString(),
+                                      style: TextStyle(fontSize: 12.0),
+                                    ),
+                                  ])),
+                        ),
+                        onTap: () {
+                          //goToDetailsPage(context, current[position]);
+                        },
+                      );
+                    },
+                  ))
+                ],
+              );
+            }));
   }
 
   /*   goToDetailsPage(BuildContext context, BuildCount data) {
@@ -63,7 +92,4 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
       );
     } */
 
-  Widget _buildListItem(BuildContext context, Classroom data) {
-    return Text(data.name);
-  }
 }

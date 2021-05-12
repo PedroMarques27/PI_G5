@@ -35,23 +35,64 @@ class _Search extends State<Search> {
           if (!snapshot.hasData) return Container();
           List<BuildCount> current = snapshot.data;
 
-          return CustomScrollView(primary: false, slivers: <Widget>[
-            SliverPadding(
-                padding: const EdgeInsets.all(20),
-                sliver: SliverGrid.count(
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  crossAxisCount: 2,
-                  children: current.map((data) {
+          return Column(
+            children: <Widget>[
+              Container(
+                  margin: EdgeInsets.all(2),
+                  padding: EdgeInsets.all(6.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    border: Border.all(
+                      color: Colors.grey[300],
+                      width: 2,
+                    ),
+                  ),
+                  child: Row(
+                    children: [Text("Buildings Available")],
+                  )),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: current.length,
+                  itemBuilder: (context, position) {
                     return GestureDetector(
-                      child: _buildListItem(context, data),
+                      child: Container(
+                        margin: EdgeInsets.all(2),
+                        padding: EdgeInsets.all(6.0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          border: Border.all(
+                            color: Colors.grey[300],
+                            width: 8,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    current[position].building.name.toString(),
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                  Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        current[position].count.toString(),
+                                        style: TextStyle(fontSize: 16.0),
+                                      ))
+                                ])),
+                      ),
                       onTap: () {
-                        goToDetailsPage(context, data);
+                        goToDetailsPage(context, current[position]);
                       },
                     );
-                  }).toList(),
-                ))
-          ]);
+                  },
+                ),
+              )
+            ],
+          );
         });
   }
 
@@ -60,29 +101,6 @@ class _Search extends State<Search> {
       context,
       MaterialPageRoute(
           builder: (context) => BuildingsClassrooms(buildCount: data)),
-    );
-  }
-
-  Widget _buildListItem(BuildContext context, BuildCount data) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-      child: Container(
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-          child: Center(
-              child: Container(
-            child: Column(children: <Widget>[
-              Row(children: <Widget>[
-                Text(data.building.name,
-                    style: TextStyle(fontWeight: FontWeight.bold))
-              ]),
-              Row(children: <Widget>[Text(data.count.toString())]),
-              Text(data.classroomsIDs.first.toString())
-            ]),
-          ))),
     );
   }
 }
