@@ -1,7 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:r2ua/View/BuildingsClassrooms.dart';
 
 import 'Bookings.dart';
 import 'Home.dart';
@@ -17,22 +17,17 @@ class Search extends StatefulWidget {
 }
 
 class _Search extends State<Search> {
-
-  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     brbBloc.initialize('aarodrigues@ua.pt');
-    return Column(
-      children: <Widget>[
-          Expanded(
-            child: Container(child: _buildList(context)),
-          )
-      ]);
+    return Column(children: <Widget>[
+      Expanded(
+        child: Container(child: _buildList(context)),
+      )
+    ]);
   }
-  
 
-  Widget _buildList(BuildContext context ) {
-
+  Widget _buildList(BuildContext context) {
     return StreamBuilder(
         // Wrap our widget with a StreamBuilder
         stream: brbBloc.getBuildCount,
@@ -51,7 +46,7 @@ class _Search extends State<Search> {
                     return GestureDetector(
                       child: _buildListItem(context, data),
                       onTap: () {
-                        //goToDetailsPage(context, data);
+                        goToDetailsPage(context, data);
                       },
                     );
                   }).toList(),
@@ -60,15 +55,13 @@ class _Search extends State<Search> {
         });
   }
 
-  /*
   goToDetailsPage(BuildContext context, BuildCount data) {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => ActivityDetails(curActivity: activity, vm: vm)),
+          builder: (context) => BuildingsClassrooms(buildCount: data)),
     );
   }
-  */
 
   Widget _buildListItem(BuildContext context, BuildCount data) {
     return Padding(
@@ -87,11 +80,9 @@ class _Search extends State<Search> {
                     style: TextStyle(fontWeight: FontWeight.bold))
               ]),
               Row(children: <Widget>[Text(data.count.toString())]),
-             
+              Text(data.classroomsIDs.first.toString())
             ]),
           ))),
     );
   }
-
-
 }

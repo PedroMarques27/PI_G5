@@ -5,7 +5,6 @@ import 'View/Bookings.dart';
 import 'View/Home.dart';
 import 'View/Search.dart';
 
-
 String email = "aarodrigues@ua.pt";
 void main() {
   runApp(MyApp());
@@ -22,11 +21,6 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.cyan[600],
         accentColor: Colors.cyan[600],
         fontFamily: 'Georgia',
-        textTheme: TextTheme(
-          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-        ),
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
@@ -45,38 +39,34 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-              appBar: AppBar(title: Text("R2UA"), actions: <Widget>[
-              ]),
-              body: IndexedStack(
-                children: _children,
-                index: _selectedIndex,
-
-              ),
-              bottomNavigationBar: BottomNavigationBar(
-
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: FaIcon(FontAwesomeIcons.home),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.search),
-                    label: 'Search',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: FaIcon(FontAwesomeIcons.book),
-                    label: 'Bookings',
-                  ),
-                ],
-                currentIndex: _selectedIndex,
-                selectedItemColor: Colors.amber[800],
-                onTap: _onItemTapped,
-              ),
+    return Scaffold(
+      appBar: AppBar(title: Text("R2UA"), actions: <Widget>[]),
+      body: IndexedStack(
+        children: _children,
+        index: _selectedIndex,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.book),
+            label: 'Bookings',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
+      ),
     );
   }
 
@@ -85,11 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
       _selectedIndex = index;
     });
   }
-  var _children = [
-        Home(),
-        Search(),
-        Bookings()
-  ];
 
-
+  var _children = [Home(), Search(), Bookings()];
 }
