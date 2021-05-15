@@ -137,7 +137,8 @@ class _Search extends State<Search> {
                                 ])),
                       ),
                       onTap: () {
-                        goToDetailsPage(context, currentList[position]);
+                        goToClassroomsPerBuildingPage(
+                            context, currentList[position]);
                       },
                     );
                   },
@@ -148,7 +149,7 @@ class _Search extends State<Search> {
         });
   }
 
-  goToDetailsPage(BuildContext context, BuildCount data) {
+  goToClassroomsPerBuildingPage(BuildContext context, BuildCount data) {
     Navigator.push(
       context,
       MaterialPageRoute(

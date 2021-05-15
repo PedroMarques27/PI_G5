@@ -76,9 +76,26 @@ class BrbBloc {
         data.add(new BuildCount(
             building: currentBuilding, classrooms: _temp, count: 1));
       }
-
       update(data);
     }
+    var x = getWeek();
+  }
+
+  String getWeek() {
+    String date = DateTime.now().toString();
+    String firstDay = date.substring(0, 8) + '01' + date.substring(10);
+    int weekDay = DateTime.parse(firstDay).weekday;
+    int todayDay = DateTime.now().day;
+    int wholeWeeksSinceDayOne = ((todayDay - 1) / 7).floor();
+    int beginningOfThisWeek = weekDay + 7 * wholeWeeksSinceDayOne;
+
+    print("BEGINNING OF WEEK     " + beginningOfThisWeek.toString());
+
+    return beginningOfThisWeek.toString() +
+        "/" +
+        DateTime.now().month.toString() +
+        "/" +
+        DateTime.now().year.toString();
   }
 }
 

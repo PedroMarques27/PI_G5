@@ -2,48 +2,45 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
+import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
-import 'package:r2ua/View/ClassroomDetails.dart';
 
-class BuildingsClassrooms extends StatefulWidget {
-  BuildCount buildCount;
-  BuildingsClassrooms({Key key, this.buildCount}) : super(key: key);
+class ClassroomDetails extends StatefulWidget {
+  Classroom classroom;
+  ClassroomDetails({Key key, this.classroom}) : super(key: key);
 
   @override
-  _BuildingsClassrooms createState() => _BuildingsClassrooms();
+  _ClassroomDetails createState() => _ClassroomDetails();
 }
 
-class _BuildingsClassrooms extends State<BuildingsClassrooms> {
+class _ClassroomDetails extends State<ClassroomDetails> {
   @override
   Widget build(BuildContext context) {
-    BuildCount bC = widget.buildCount;
-    List<Classroom> current = bC.classrooms;
+    Classroom _classroom = widget.classroom;
+
     return Scaffold(
         appBar: AppBar(
-            title: Text(bC.building.name + " Classrooms "),
-            actions: <Widget>[]),
+            title: Text("Classroom: " + _classroom.name), actions: <Widget>[]),
         body: Column(
           children: <Widget>[
             Container(
                 margin: EdgeInsets.all(2),
-                padding: EdgeInsets.all(6.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  border: Border.all(
-                    color: Colors.grey[300],
-                    width: 2,
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
                   children: [
-                    Text(bC.building.name + " Classrooms",
-                        style: TextStyle(fontSize: 22.0)),
+                    Text(_classroom.name, style: TextStyle(fontSize: 22.0)),
+                    Text("Capacity: " + _classroom.capacity.toString(),
+                        style: TextStyle(fontSize: 14.0)),
+                    Text("Exam Capacity: " + _classroom.examCapacity.toString(),
+                        style: TextStyle(fontSize: 14.0)),
+                    Text("Building: " + _classroom.building.toString() + "\n",
+                        style: TextStyle(fontSize: 14.0)),
+                    Text("Week: ", style: TextStyle(fontSize: 14.0)),
+                    Text("Unavailable Times", style: TextStyle(fontSize: 22.0)),
                   ],
                 )),
             Expanded(
                 child: ListView.builder(
-              itemCount: current.length,
+              itemCount: 1,
               itemBuilder: (context, position) {
                 return GestureDetector(
                   child: Container(
@@ -63,13 +60,13 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                current[position].name.toString(),
+                                "hello",
                                 style: TextStyle(fontSize: 12.0),
                               ),
                             ])),
                   ),
                   onTap: () {
-                    goToClassroomDetailsPage(context, current[position]);
+                    // goToClassroomDetailsPage(context, current[position]);
                   },
                 );
               },
@@ -78,11 +75,12 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
         ));
   }
 
-  goToClassroomDetailsPage(BuildContext context, Classroom data) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ClassroomDetails(classroom: data)),
-    );
-  }
+  /*   goToDetailsPage(BuildContext context, BuildCount data) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BuildingsClassrooms(buildCount: data)),
+      );
+    } */
+
 }

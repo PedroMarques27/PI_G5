@@ -6,7 +6,7 @@ import 'View/Bookings.dart';
 import 'View/Home.dart';
 import 'View/Search.dart';
 
-String email = "rfmf@ua.pt";
+String email = "aarodrigues@ua.pt";
 void main() {
   runApp(MyApp());
 }
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    brbBloc.initialize('cpaz@ua.pt');
+    brbBloc.initialize(email);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
