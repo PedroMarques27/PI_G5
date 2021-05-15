@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:r2ua/BlocPattern/WeekBloc.dart';
 import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/ClassroomGroups.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
@@ -106,6 +107,7 @@ class BuildCount {
   BuildCount({this.building, this.count, this.classrooms});
 }
 
+final weekBloc = new WeekBloc();
 final usersBloc = UsersBloc();
 final buildingBloc = BuildingBloc();
 final classroomGroupsBloc = ClassroomGroupsBloc();

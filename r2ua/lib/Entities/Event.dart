@@ -1,5 +1,7 @@
 import 'dart:core';
 
+import 'package:r2ua/Entities/Week.dart';
+
 class Event {
   String name, startTime, endTime, duration, sectionName, observations;
   int id, day, numberPeople, eventTypeId;
@@ -57,19 +59,5 @@ class EventType {
         name: json['name'],
         active: a,
         setToAplication: b);
-  }
-}
-
-class Week {
-  int id;
-  String startDate;
-
-  Week({
-    this.id,
-    this.startDate,
-  });
-
-  factory Week.fromJson(Map<String, dynamic> json) {
-    return Week(id: int.parse(json['name']), startDate: json['startDate']);
   }
 }
