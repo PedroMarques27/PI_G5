@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
+import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/Entities/Week.dart';
 
 class ClassroomDetails extends StatefulWidget {
@@ -16,10 +18,12 @@ class ClassroomDetails extends StatefulWidget {
 }
 
 class _ClassroomDetails extends State<ClassroomDetails> {
+  List<Event> events = new List<Event>();
   Week currentWeek;
   List<Week> weekList = new List<Week>();
   Stream weekStream;
   int current = 0;
+  List<DateTime> days = new List<DateTime>();
   @override
   void initState() {
     super.initState();
@@ -29,16 +33,14 @@ class _ClassroomDetails extends State<ClassroomDetails> {
   Widget build(BuildContext context) {
     Classroom _classroom = widget.classroom;
     Building _building = widget.building;
+    var formatter = new DateFormat('yyyy-MM-dd');
 
     weekStream = weekBloc.getWeekList;
-    weekStream.listen((event) {
-      setState(() {
-        weekList = event;
-        currentWeek = weekList[current];
-      });
-    });
+
     weekList = weekBloc.latest;
     currentWeek = weekList[current];
+    eventsBloc.getAllClassroomEventsByTime(_classroom.id, currentWeek);
+    days = currentWeek.getDaysInTheWeek();
     return Scaffold(
         appBar: AppBar(title: Text(_building.name), actions: <Widget>[]),
         body: Column(
@@ -88,7 +90,7 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                           GestureDetector(
                               child: Icon(FontAwesomeIcons.arrowAltCircleLeft),
                               onTap: () {
-                                getWeek("-");
+                                getWeek("-", _classroom);
                               }),
                           Text(
                               currentWeek.getFormattedBegin() +
@@ -98,63 +100,160 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                           GestureDetector(
                               child: Icon(FontAwesomeIcons.arrowAltCircleRight),
                               onTap: () {
-                                getWeek("+");
+                                getWeek("+", _classroom);
                               }),
                         ]),
                     Text("", style: TextStyle(fontSize: 22.0)),
                   ]),
                 )),
             Expanded(
-                child: ListView.builder(
-              itemCount: 1,
-              itemBuilder: (context, position) {
-                return GestureDetector(
-                  child: Container(
-                    margin: EdgeInsets.all(2),
-                    padding: EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(
-                        color: Colors.grey[300],
-                        width: 8,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "hello",
-                                style: TextStyle(fontSize: 12.0),
-                              ),
-                            ])),
-                  ),
-                  onTap: () {
-                    // goToClassroomDetailsPage(context, current[position]);
-                  },
-                );
-              },
-            ))
+                child: StreamBuilder(
+                    stream: eventsBloc.getListOfEvents,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData)
+                        return Center(child: CircularProgressIndicator());
+                      events = (snapshot.data) as List;
+
+                      return ListView(
+                        padding: EdgeInsets.all(8),
+                        children: <Widget>[
+                          GestureDetector(
+                              child: Padding(
+                                  padding: EdgeInsets.all(2),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        border: Border.all(
+                                          color: Colors.amber[300],
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      height: 50,
+                                      child: Center(
+                                        child: Text(formatter.format(days[0])),
+                                      )))),
+                          GestureDetector(
+                              child: Padding(
+                                  padding: EdgeInsets.all(2),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        border: Border.all(
+                                          color: Colors.amber[300],
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      height: 50,
+                                      child: Center(
+                                        child: Text(formatter.format(days[1])),
+                                      )))),
+                          GestureDetector(
+                              child: Padding(
+                                  padding: EdgeInsets.all(2),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        border: Border.all(
+                                          color: Colors.amber[300],
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      height: 50,
+                                      child: Center(
+                                        child: Text(formatter.format(days[2])),
+                                      )))),
+                          GestureDetector(
+                              child: Padding(
+                                  padding: EdgeInsets.all(2),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        border: Border.all(
+                                          color: Colors.amber[300],
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      height: 50,
+                                      child: Center(
+                                        child: Text(formatter.format(days[3])),
+                                      )))),
+                          GestureDetector(
+                              child: Padding(
+                                  padding: EdgeInsets.all(2),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        border: Border.all(
+                                          color: Colors.amber[300],
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      height: 50,
+                                      child: Center(
+                                        child: Text(formatter.format(days[4])),
+                                      )))),
+                          GestureDetector(
+                              child: Padding(
+                                  padding: EdgeInsets.all(2),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        border: Border.all(
+                                          color: Colors.amber[300],
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      height: 50,
+                                      child: Center(
+                                        child: Text(formatter.format(days[5])),
+                                      )))),
+                          GestureDetector(
+                              child: Padding(
+                                  padding: EdgeInsets.all(2),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        border: Border.all(
+                                          color: Colors.amber[300],
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      height: 50,
+                                      child: Center(
+                                        child: Text(formatter.format(days[6])),
+                                      )))),
+                        ],
+                      );
+                    }))
           ],
         ));
   }
 
-  getWeek(String s) {
+  getWeek(String s, Classroom _classroom) {
     if (s == "+") {
       if (current < weekList.length - 1) {
         setState(() {
           current++;
           currentWeek = weekList[current];
+          days = currentWeek.getDaysInTheWeek();
         });
+        eventsBloc.getAllClassroomEventsByTime(_classroom.id, currentWeek);
       }
     } else {
       if (current > 0)
         setState(() {
           current--;
           currentWeek = weekList[current];
+          days = currentWeek.getDaysInTheWeek();
         });
+      eventsBloc.getAllClassroomEventsByTime(_classroom.id, currentWeek);
     }
   }
 

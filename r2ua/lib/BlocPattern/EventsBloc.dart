@@ -2,16 +2,18 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:r2ua/Entities/Event.dart';
+import 'package:r2ua/Entities/Week.dart';
 import 'BrbBloc.dart';
 
 class EventsBloc {
-  StreamController<Event> eventsStreamController =
-      StreamController<Event>.broadcast();
-  Stream get getUser => eventsStreamController.stream;
+  StreamController<List<Event>> eventsStreamController =
+      StreamController<List<Event>>.broadcast();
+  Stream get getListOfEvents => eventsStreamController.stream;
 
-  void update(Event b) {
+  void update(List<Event> b) {
     eventsStreamController.sink
         .add(b); // add whatever data we want into the Sink
   }
@@ -35,11 +37,11 @@ class EventsBloc {
     Iterable l = json.decode(response.body)['data'];
     List<Event> events =
         List<Event>.from(l.map((model) => Event.fromJson(model)));
-
+    update(events);
     return events;
   }
 
-  Future<Event> getEventById(int id) async {
+  Future<Event> getEventByIdAndWeek(int id) async {
     var uri = Uri.https(BASE_URL, ("/api/Events/" + id.toString()));
     final response = await http.get(
       uri,
@@ -53,13 +55,36 @@ class EventsBloc {
   }
 
   Future<List<Event>> getAllClassroomEventsByTime(
-      int classId, String startTime, String endTime) async {
-    List<Event> events = await getData("/api/Events/all/" +
-        classId.toString() +
-        "/" +
-        startTime +
-        "/" +
-        endTime);
-    return events;
+      int classId, Week week) async {
+    var uri = Uri.https(
+        BASE_URL,
+        "all/" +
+            week.beginning.toIso8601String() +
+            "/" +
+            week.ending.toIso8601String() +
+            "/" +
+            classId.toString());
+    final response = await http.get(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+        HttpHeaders.contentTypeHeader: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+    );
+    if (response.body.isNotEmpty) {
+      var v = json.decode(response.body)['data'];
+      Iterable l = v;
+      List<Event> events =
+          List<Event>.from(l.map((model) => Event.fromJson(model)));
+
+      for (var item in events) {
+        debugPrint(item.name);
+      }
+      update(events);
+      return events;
+    }
+    List<Event> events = new List<Event>();
+    update(events);
   }
 }

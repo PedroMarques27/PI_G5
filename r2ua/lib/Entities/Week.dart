@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:sprintf/sprintf.dart';
 
 class Week {
@@ -24,6 +25,15 @@ class Week {
       ending.month.toString(),
       ending.year.toString()
     ]);
+  }
+
+  List<DateTime> getDaysInTheWeek() {
+    List<DateTime> dates = new List<DateTime>();
+    DateTime now = beginning;
+    for (int i = 0; i < 7; i++) {
+      dates.add(now.add(Duration(days: i)));
+    }
+    return dates;
   }
 
   factory Week.fromJson(Map<String, dynamic> json) {

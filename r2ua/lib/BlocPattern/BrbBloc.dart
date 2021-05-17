@@ -15,6 +15,7 @@ import 'package:r2ua/Entities/User.dart';
 import 'BuildingBloc.dart';
 import 'ClassroomGroupsBloc.dart';
 import 'ClassroomsBloc.dart';
+import 'EventsBloc.dart';
 import 'UsersBloc.dart';
 
 String token =
@@ -90,8 +91,6 @@ class BrbBloc {
     int wholeWeeksSinceDayOne = ((todayDay - 1) / 7).floor();
     int beginningOfThisWeek = weekDay + 7 * wholeWeeksSinceDayOne;
 
-    print("BEGINNING OF WEEK     " + beginningOfThisWeek.toString());
-
     return beginningOfThisWeek.toString() +
         "/" +
         DateTime.now().month.toString() +
@@ -108,6 +107,7 @@ class BuildCount {
 }
 
 final weekBloc = new WeekBloc();
+final eventsBloc = new EventsBloc();
 final usersBloc = UsersBloc();
 final buildingBloc = BuildingBloc();
 final classroomGroupsBloc = ClassroomGroupsBloc();
