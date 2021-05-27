@@ -32,7 +32,7 @@ def menu():
 
 def get_iupi():
     print()
-    UU = input("Insert user's UU (Utilizador Universal)")
+    UU = input("Insert user's UU (Utilizador Universal): ")
 
     authInfo = "muprr-rcu-srvc@ua.pt:8p#Dw8*FS9e=$T@"
     authInfo = (base64.b64encode(authInfo.encode('ascii'))).decode('ascii')
@@ -64,7 +64,7 @@ def notify(iupi, UU):
 
     while more == 'y':
         pairs.append(get_pairs())
-        more = input("Insert another bond-UO pair? (y/n)")
+        more = input("Insert another bond-UO pair? (y/n): ")
 
 
     payload = {
@@ -81,8 +81,8 @@ def notify(iupi, UU):
 
 
 def get_pairs():
-    Vinculo = input("Insert user's bond (Vinculo)")
-    UO = input("Insert user's UO (Unidade Organica)")
+    Vinculo = input("Insert user's bond (Vinculo): ")
+    UO = input("Insert user's UO (Unidade Organica): ")
     return [Vinculo,UO]
 
 main()
