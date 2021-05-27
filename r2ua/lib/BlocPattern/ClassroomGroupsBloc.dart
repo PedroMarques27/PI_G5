@@ -41,8 +41,9 @@ class ClassroomGroupsBloc {
     return classroom;
   }
 
-  Future<ClassroomGroup> getCurrentClassroomGroup(String id) async {
-    var uri = Uri.https(BASE_URL, "/api/ClassroomGroups/" + id);
+  Future<ClassroomGroup> getCurrentClassroomGroup(int id) async {
+    var uri =
+        Uri.https(BASE_URL, "/api/ClassroomGroupBooking/" + id.toString());
     final response = await http.get(
       uri,
       headers: {

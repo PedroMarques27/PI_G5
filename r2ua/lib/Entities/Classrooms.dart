@@ -14,7 +14,6 @@ class Classroom {
       canCreateAnEvent,
       canRequestAnEvent,
       isMyFavorite;
-  List<Owner> owners = new List<Owner>();
   List<Characteristic> characteristics = new List<Characteristic>();
   Classroom({
     this.id,
@@ -28,7 +27,6 @@ class Classroom {
     this.canCreateAnEvent,
     this.canRequestAnEvent,
     this.isMyFavorite,
-    this.owners,
     this.building,
     this.characteristics,
   });
@@ -39,10 +37,6 @@ class Classroom {
     bool c = json['canCreateAnEvent'].toString().toLowerCase() == 'true';
     bool d = json['canRequestAnEvent'].toString().toLowerCase() == 'true';
     bool e = json['isMyFavorite'].toString().toLowerCase() == 'true';
-
-    Iterable l = json['classroomGroupOwnersIdentification']['owners'];
-    List<Owner> _owners =
-        List<Owner>.from(l.map((model) => Owner.fromJson(model)));
 
     Iterable m = json['characteristics'];
     List<Characteristic> _characteristics = List<Characteristic>.from(
@@ -62,7 +56,6 @@ class Classroom {
         canCreateAnEvent: c,
         canRequestAnEvent: d,
         isMyFavorite: e,
-        owners: _owners,
         building: build,
         characteristics: _characteristics);
   }

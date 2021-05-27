@@ -6,7 +6,7 @@ import 'View/Bookings.dart';
 import 'View/Home.dart';
 import 'View/Search.dart';
 
-String email = "aarodrigues@ua.pt";
+String email = "ftrancho@ua.pt";
 void main() {
   runApp(MyApp());
 }

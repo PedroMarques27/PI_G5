@@ -19,7 +19,7 @@ import 'EventsBloc.dart';
 import 'UsersBloc.dart';
 
 String token =
-    "eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ4M2YzZWI0YzA3N2RjMDFmMjQ5MzIyNDk5NDM3NGJmIiwidHlwIjoiSldUIn0.eyJuYmYiOjE2MjA3MjI3MTQsImV4cCI6MTYyMzMxNDcxNCwiaXNzIjoiaHR0cHM6Ly9idWxsZXQtaXMuZGV2LnVhLnB0IiwiYXVkIjpbImh0dHBzOi8vYnVsbGV0LWlzLmRldi51YS5wdC9yZXNvdXJjZXMiLCJiZXN0bGVnYWN5X2FwaV9yZXNvdXJjZSJdLCJjbGllbnRfaWQiOiJyb29tX2Rpc3BsYXllciIsImNsaWVudF9jcmVhdGVfY2xhaW0iOiJ0cnVlIiwiY2xpZW50X3VwZGF0ZV9jbGFpbSI6InRydWUiLCJjbGllbnRfZGVsZXRlX2NsYWltIjoidHJ1ZSIsImNsaWVudF9yZWFkX2NsYWltIjoidHJ1ZSIsInNjb3BlIjpbImJlc3RsZWdhY3lfYXBpX3Njb3BlIl19.cFimUrako7Kj1ZnVs2WV-lO19fh4pbXAnYc4YbKVLK07J0TuTRHphQVwStbmhn_lzb97OnATtZ5MtSPvm61-VNNxaR5sIEZVZt6szqdrCTH2EG35R8NEh4X0SLyDxIWDtJ6lFbMKgklORHLpkbC1RFALJmTlBsB0D6gR6PRQcG8D0Dj3Vm2ioDRFhst9YYzbvP8In_pb-TldkISqBSWzDjj-y3tLpngiQaRHqKjl4-LAosCq9-AdNaKSb6c3pIO2yFW8s6bf2xqGdZvC-wNlQ4RdA8mi2vkGVyuhJTicycEdaOPkiDKFq-lWIEm8MCivwUnoiaCW1jL8PIcU-Iw4UQ";
+    "eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ4M2YzZWI0YzA3N2RjMDFmMjQ5MzIyNDk5NDM3NGJmIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2MjE4NzY0NDcsImV4cCI6MTYyNDQ2ODQ0NywiaXNzIjoiaHR0cHM6Ly9idWxsZXQtaXMuZGV2LnVhLnB0IiwiYXVkIjoiYmVzdGxlZ2FjeV9hcGlfcmVzb3VyY2UiLCJjbGllbnRfaWQiOiJyb29tX2Rpc3BsYXllciIsImNsaWVudF9jcmVhdGVfY2xhaW0iOiJ0cnVlIiwiY2xpZW50X3VwZGF0ZV9jbGFpbSI6InRydWUiLCJjbGllbnRfZGVsZXRlX2NsYWltIjoidHJ1ZSIsImNsaWVudF9yZWFkX2NsYWltIjoidHJ1ZSIsInNjb3BlIjpbImJlc3RsZWdhY3lfYXBpX3Njb3BlIl19.gV9fhL3sm88Ehgt1UbBDrsSR-guHINIdusVEdckvF15DfOd2P2ANKMuCCU4YhNcMylCnrc9WCl5qt4rYk-_-3iytJDJKLoIIsiybfWB6EfWliJyVAkwOKkmizhOX8gFR9nZ3bRq-2RKRYRPBEqu3J7A2fVii3TERn4m6U9K2I0X8krgUG2LujeCHXoiZcLTrXu7v6kXFarR4NPYsFyKiWkhclIvunUb0CuPO7Bn9Qu3xBMcX1vsQK1Dfx9Mgq9o7T98cjHMsp53lkUCkHVa4zvJdTYU20eIKk4rcXrrchUQ9cH9OYMGOo1ELBD0gPGUlrr7EmYWawk0HgWD07souJg";
 String BASE_URL = 'bullet-api.dev.ua.pt';
 
 class BrbBloc {
@@ -43,9 +43,11 @@ class BrbBloc {
       getClassroomGroupsBuildings(currentUser.classroomGroupsId);
     });
     usersBloc.getCurrentUser(email);
+    debugPrint(
+        'CurrentUser: $currentUser'); //-----------------------------------------------------
   }
 
-  void getClassroomGroupsBuildings(List<String> groupsIds) async {
+  void getClassroomGroupsBuildings(List<int> groupsIds) async {
     List<ClassroomGroup> classGroups = new List<ClassroomGroup>();
     for (var id in groupsIds) {
       classGroups.add(await classroomGroupsBloc.getCurrentClassroomGroup(id));

@@ -31,8 +31,10 @@ class _Search extends State<Search> {
     return StreamBuilder(
         stream: brbBloc.getBuildCount,
         builder: (context, snapshot) {
-          if (!snapshot.hasData)
+          if (!snapshot.hasData) {
+            debugPrint("NO DATA");
             return Center(child: CircularProgressIndicator());
+          }
           currentList = (snapshot.data) as List;
 
           return Column(
