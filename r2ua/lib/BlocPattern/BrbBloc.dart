@@ -82,9 +82,10 @@ class BrbBloc {
       }
       update(data);
     }
-    var x = getWeek();
+    //var x = getWeek();
   }
 
+  /*
   String getWeek() {
     String date = DateTime.now().toString();
     String firstDay = date.substring(0, 8) + '01' + date.substring(10);
@@ -98,7 +99,8 @@ class BrbBloc {
         DateTime.now().month.toString() +
         "/" +
         DateTime.now().year.toString();
-  }
+  } */
+
 }
 
 class BuildCount {
