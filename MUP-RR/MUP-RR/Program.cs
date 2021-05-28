@@ -129,21 +129,20 @@ namespace MUP_RR
 
         public async void updateBRBUser(BRB_User updatedUser, HashSet<ClassroomGroup> newGroups){
            
-            HashSet<string> groupsToDelete = new HashSet<string>();
-            HashSet<string> groupsToAdd = new HashSet<string>();
-            
+            HashSet<int> groupsToDelete = new HashSet<int>();
+            HashSet<int> groupsToAdd = new HashSet<int>();
 
-            HashSet<string> currentIds = updatedUser.getClassesIds(updatedUser.classroomGroups);
-            HashSet<string> latestIds = updatedUser.getClassesIds(newGroups);
+            HashSet<int> currentIds = updatedUser.getClassesIds(updatedUser.userClassroomGroupBookings);
+            HashSet<int> latestIds = updatedUser.getClassesIds(newGroups);
            
-            foreach (string item in latestIds)
+            foreach (int item in latestIds)
             {
                 if (!currentIds.Contains(item)){
                     groupsToAdd.Add(item);
                 }
             }
 
-            foreach (string item in currentIds)
+            foreach (int item in currentIds)
             {
                 if (!latestIds.Contains(item)){
                     groupsToDelete.Add(item);
@@ -158,11 +157,11 @@ namespace MUP_RR
                 new JObject(
                     new JProperty("model",
                         new JObject(
-                            new JProperty("userId",  updatedUser.id),
-                            new JProperty("classroomGroupId",p)
+                            new JProperty("userEmail",  updatedUser.email),
+                            new JProperty("classroomGroupBookingId",p)
                         )
                     ),
-                    new JProperty("status", "Deleted"))
+                    new JProperty("status", 3))
             );
             JArray toAdd = new JArray(
                 from p in groupsToAdd
@@ -171,33 +170,41 @@ namespace MUP_RR
                 new JObject(
                     new JProperty("model",
                         new JObject(
-                            new JProperty("userId", updatedUser.id),
-                            new JProperty("classroomGroupId", p)
+                            new JProperty("userEmail", updatedUser.email),
+                            new JProperty("classroomGroupBookingId", p)
                         )
                     ),
-                    new JProperty("status", "Added"))     
+                    new JProperty("status", 1))     
             );
 
-            JObject o =
+            JObject classRoomGroups =
             new JObject(
                 
-                new JProperty("id", updatedUser.id),
-                new JProperty("userName", updatedUser.username),
-                new JProperty("isAdmin", updatedUser.isAdmin),
-                new JProperty("email", updatedUser.email),
-                new JProperty("isActive", updatedUser.isActive),
-                new JProperty("profileId", updatedUser.profile.id),
-                new JProperty("userClassroomGroups",
-                    new JArray(classes.Union(toAdd))
+                new JProperty("usersClassroommGroups", new JArray(
+                    new JObject(
+                        new JProperty("userClassroomGroupsBooking",new JArray(classes.Union(toAdd)))
+                    )
                 )
-            );
+            ));
+
+            JObject profile =
+            new JObject(
+                
+                new JProperty("usersEmailProfiles", new JArray(
+                    new JObject(
+                        new JProperty("userEmail", updatedUser.email),
+                        new JProperty("profileId", updatedUser.profile.id)
+                    )
+                )
+            ));
 
            
            
 
             //string json = JsonConvert.SerializeObject(points);
-            Console.WriteLine(o.ToString());
-            BRBConnector.postUpdateUser(o.ToString());
+            Console.WriteLine(classRoomGroups.ToString());
+            Console.WriteLine(profile.ToString());
+            await BRBConnector.postUpdateUser(classRoomGroups.ToString(), profile.ToString());
 
         }
         public async Task<List<Tuple<UO,Vinculo>>> getUserData(string IUPI){

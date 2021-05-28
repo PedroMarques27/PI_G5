@@ -5,13 +5,13 @@ namespace MUP_RR.Models
 {
     public class Profile
     {   
-        public string id { get; set; }
+        public int id { get; set; }
         public string name { get; set; }
 
         private Dictionary<string, int> hierarchy = new Dictionary<string, int>(){
-            { "OWNER", 0 },
-            { "STAFF", 1 },
-            { "DEFAULT", 2 }
+            { "Dono", 0 },
+            { "Gestor", 1 },
+            { "Ver e Requisitar", 2 }
         };
 
         public override string ToString()
@@ -22,7 +22,7 @@ namespace MUP_RR.Models
 
         public static string getHigherStatus(HashSet<Profile> profiles){
             Profile toReturn = new Profile();
-            toReturn.name = "DEFAULT";
+            toReturn.name = "Ver e Requisitar";
 
             foreach (Profile item in profiles)
             {

@@ -8,10 +8,10 @@ namespace MUP_RR.Models
         public string username { get; set; }
         public bool isAdmin { get; set; }
         public string email { get; set; }
-        public bool isActive { get; set; }
+        public bool active { get; set; }
 
         public Profile profile { get; set; }
-        public HashSet<ClassroomGroup> classroomGroups { get; set; }
+        public HashSet<ClassroomGroup> userClassroomGroupBookings { get; set; }
 
         public override string ToString()
         {
@@ -23,8 +23,8 @@ namespace MUP_RR.Models
             return _user;
         }
 
-        public HashSet<string> getClassesIds(HashSet<ClassroomGroup> classes){
-            HashSet<string> ids = new HashSet<string>();
+        public HashSet<int> getClassesIds(HashSet<ClassroomGroup> classes){
+            HashSet<int> ids = new HashSet<int>();
             foreach (var item in classes)
             {
                 ids.Add(item.id);

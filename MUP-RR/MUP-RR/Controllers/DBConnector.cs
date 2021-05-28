@@ -446,7 +446,7 @@ namespace MUP_RR.Controllers
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
-            data.id = reader["id"].ToString();
+            data.id = Convert.ToInt32(reader["id"]);
             data.name = reader["name"].ToString();
 
         }
@@ -467,7 +467,7 @@ namespace MUP_RR.Controllers
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
-            data.id = reader["id"].ToString();
+            data.id = Convert.ToInt32(reader["id"].ToString());
             data.name = reader["name"].ToString();
             
         }
@@ -485,7 +485,7 @@ namespace MUP_RR.Controllers
         while (reader.Read())
         {
             Profile v = new Profile();
-            v.id = reader["id"].ToString();
+            v.id = Convert.ToInt32(reader["id"].ToString());
             v.name = reader["name"].ToString();
         
             data.Add(v);
@@ -546,7 +546,7 @@ namespace MUP_RR.Controllers
         while (reader.Read())
         {
             ClassroomGroup v = new ClassroomGroup();
-            v.id = reader["id"].ToString();
+            v.id = Convert.ToInt32(reader["id"]);
             v.name = reader["name"].ToString();
             data.Add(v);
         }
@@ -567,7 +567,7 @@ namespace MUP_RR.Controllers
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
-            data.id = reader["id"].ToString();
+            data.id = Convert.ToInt32(reader["id"]);
             data.name = reader["name"].ToString();
 
         }

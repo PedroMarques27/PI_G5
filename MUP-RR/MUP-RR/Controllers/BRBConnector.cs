@@ -52,15 +52,28 @@ namespace MUP_RR.Controllers
             return msg;
         }
 
-        public static async Task<bool> postUpdateUser(string product){
+        public static async Task<bool> postUpdateUser(string classRoomGroups, string profile){
+
+            //Update profile
+
+            var httpContent2 = new StringContent(profile, Encoding.UTF8, "application/json");
+            Console.WriteLine(profile);
+            var httpClient2 = new HttpClient();
+            httpClient2.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
+            httpClient2.DefaultRequestHeaders.Add("Authorization",AUTH_TOKEN);
+
+            var httpResponse2 = await httpClient2.PutAsync(BASE_URL+"UserProfile/usersprofilesByUsersEmail", httpContent2);
+            Console.WriteLine(httpResponse2);
+
+            //Update classRoomGroups
             
-            var httpContent = new StringContent(product, Encoding.UTF8, "application/json");
+            var httpContent = new StringContent(classRoomGroups, Encoding.UTF8, "application/json");
 
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
             httpClient.DefaultRequestHeaders.Add("Authorization",AUTH_TOKEN);
 
-            var httpResponse = await httpClient.PutAsync(BASE_URL+"Users/4b00448b-3623-4b7c-a5d9-03eda9cd70e7", httpContent);
+            var httpResponse = await httpClient.PutAsync(BASE_URL+"UserClassroomGroupBookings/usersclassroomgroupbookingsbyusersEmail", httpContent);
             Console.WriteLine(httpResponse);
             
             return true;
