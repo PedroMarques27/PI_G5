@@ -151,6 +151,7 @@ class _Search extends State<Search> {
         });
   }
 
+  //navega para outra page
   goToClassroomsPerBuildingPage(BuildContext context, BuildCount data) {
     Navigator.push(
       context,

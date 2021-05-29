@@ -2,16 +2,13 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:r2ua/BlocPattern/WeekBloc.dart';
 import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/ClassroomGroups.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/User.dart';
-
 import 'BuildingBloc.dart';
 import 'ClassroomGroupsBloc.dart';
 import 'ClassroomsBloc.dart';

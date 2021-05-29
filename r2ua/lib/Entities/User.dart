@@ -23,6 +23,7 @@ class User {
     bool b = json['isAdmin'].toString().toLowerCase() == 'true';
     List<int> classes = new List<int>();
     List<int> evs = new List<int>();
+
     int _profileId = null;
 
     if (json['userClassroomGroupBookings'] as List != [])
@@ -30,8 +31,7 @@ class User {
         classes.add(item['id']);
 
     if (json['eventUsers'] as List != [])
-      for (var item in json['eventUsers'] as List) 
-        evs.add(item['id']);
+      for (var item in json['eventUsers'] as List) evs.add(item['id']);
 
     if (json['profile'] != null) {
       _profileId = json['profile']['id'];

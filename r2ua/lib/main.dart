@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
@@ -5,6 +7,8 @@ import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'View/Bookings.dart';
 import 'View/Home.dart';
 import 'View/Search.dart';
+
+import 'package:flutter/material.dart';
 
 String email = "ftrancho@ua.pt";
 void main() {
