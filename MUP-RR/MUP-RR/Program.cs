@@ -28,7 +28,7 @@ using System.Text;
 using System.Runtime.Serialization.Json;
 using System.IO;
 using System.Runtime.Serialization.Json;
-
+using System.Threading;
 
 
 namespace MUP_RR
@@ -50,10 +50,12 @@ namespace MUP_RR
             
             obj.updateBRB_RCU_ASSOC();
             
-
+            Task.Factory.StartNew(obj.updateNewBRBUsers);
             //obj.UpdateProfile("0bbefa9e-590b-4b1d-ab57-273bc3e3c1db");
             CreateHostBuilder(args).Build().Run();
         }
+
+
         public async void UpdateProfile(string iupi, List<Tuple<UO,Vinculo>> pairs){
 
             BRB_RCU_ASSOC currentUser = database.SelectUserFromIUPI(iupi);
@@ -93,9 +95,41 @@ namespace MUP_RR
             newUser.profile = higher;
             updateBRBUser(newUser, classroomGroups);
         }
+
+
+        public async void updateNewBRBUsers(){
+            var data = await BRBConnector.getNewUsersInTimeframe("2");
+            JObject jObject = JObject.Parse(data);
+            List<BRB_User> usersAvailableBRB = new List<BRB_User>();
+            
+            foreach (var jsonUser in jObject["data"])
+            {
+                BRB_User newUser = new BRB_User();
+                usersAvailableBRB.Add(newUser.fromJson(jsonUser.ToString()));
+
+            }
+
+            foreach (var user in usersAvailableBRB){
+                var iupi = await addBrbRcuUserAssoc(user);
+                List<Tuple<UO,Vinculo>> userData = await getUserData(iupi);
+                UpdateProfile(iupi, userData);
+            }
+            Thread.Sleep(7200000);
+            
+        }
+        public async Task<String> addBrbRcuUserAssoc(BRB_User user){
+            var iupi = RCUConnector.getRcuIupi(user.email);
+            BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
+            newAssoc.email = user.email;
+            newAssoc.brb_id = user.id;
+            newAssoc.rcu_id = iupi;
+            database.InsertUserAssociation(newAssoc);  
+            return iupi;
+        }
+
+
         public async void updateBRB_RCU_ASSOC(){
             //GET BRB CURRENT USERS
-
             List<string> rcuids = new List<string>();
             foreach (var item in database.SelectUserAssociations())
             {

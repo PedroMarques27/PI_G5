@@ -44,7 +44,15 @@ namespace MUP_RR.Controllers
             var msg = await stringTask;
             return msg;
         }
+        
+        public static async Task<string> getNewUsersInTimeframe(String hours){
+            DateTime now = DateTime.Now;
+            DateTime before = now.AddHours(- Int32.Parse(hours));
+            var stringTask = client.GetStringAsync(BASE_URL+"Users/all/"+before.ToString("yyyy-MM-dd HH:mm:ss")+"/"+now.ToString("yyyy-MM-dd HH:mm:ss"));
 
+            var msg = await stringTask;
+            return msg;
+        }
 
         public static async Task<string> getUserById(string id){
             var stringTask = client.GetStringAsync(BASE_URL+"Users/"+id);

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {}
+    "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {
+    "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+        "projectUniqueName": "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
         "projectName": "MUP-RR",
-        "projectPath": "C:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
-        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Asus\\Desktop\\PI\\PI_G5\\MUP-RR\\MUP-RR\\obj\\",
+        "projectPath": "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+        "packagesPath": "C:\\Users\\pedro\\.nuget\\packages\\",
+        "outputPath": "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\pedro\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -67,7 +67,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.407\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.409\\RuntimeIdentifierGraph.json"
         }
       }
     }
