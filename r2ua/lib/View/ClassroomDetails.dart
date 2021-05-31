@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/Entities/Week.dart';
+import 'package:intl/intl.dart';
 
 class ClassroomDetails extends StatefulWidget {
   Classroom classroom;

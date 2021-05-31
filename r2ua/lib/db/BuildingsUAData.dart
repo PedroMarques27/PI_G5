@@ -1,17 +1,32 @@
+import 'dart:async';
 import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
+import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/Entities/BuildingsUA.dart';
 import 'package:geolocator/geolocator.dart';
 
-class BuildingUAData extends ChangeNotifier {
-  List<BuildingsUA> buildingsUA = [];
+class BuildingUAData {
+  StreamController<List<BuildingsUA>> buildingsUAStreamController =
+      StreamController<List<BuildingsUA>>.broadcast();
+  Stream get getBuildingsUA => buildingsUAStreamController.stream;
 
-  //add buildings to box
-  void getBuildingsUA() async {
+  void update(List<BuildingsUA> b) {
+    buildingsUAStreamController.sink.add(b);
+  }
+
+  void dispose() {
+    buildingsUAStreamController.close();
+  }
+
+  void getBuildingsNearByUser(List<BuildCount> buildings) async {
     var box = await Hive.openBox<BuildingsUA>("buildingsUA");
+    var list = box.values.toList();
+    for (var x in list) {
+      print(x);
+    }
     //add complete data
     BuildingsUA b1 = new BuildingsUA(
         brbBuildingName: "DAO",
@@ -20,6 +35,7 @@ class BuildingUAData extends ChangeNotifier {
         lat: 40.632583,
         long: -8.659139);
     await box.add(b1);
+
     BuildingsUA b2 = new BuildingsUA(
         brbBuildingName: "BIO",
         brbBuildingId: 4,
@@ -139,23 +155,16 @@ class BuildingUAData extends ChangeNotifier {
         lat: 40.6300705381147,
         long: -8.65877095378503);
     await box.add(b17);
-  }
 
-  Future<List<BuildingsUA>> getBuildingsNearByUser() async {
-    List<BuildingsUA> buildingsUAa = [];
+    List<BuildingsUA> buildingsUA = [];
     Geolocator g = new Geolocator();
     //user position
     Position position =
         await g.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-    for (var buildingUA in buildingsUA) {
-      if (g.distanceBetween(position.latitude, position.longitude,
-              buildingUA.lat, buildingUA.long) <
-          40) {}
-    }
-    Future<double> distanceInMeters =
-        g.distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
+    //check all buildings UA coordinates
+    for (var buildingUA in buildingsUA) {}
 
-    return buildingsUAa;
+    update(buildingsUA);
   }
 }
