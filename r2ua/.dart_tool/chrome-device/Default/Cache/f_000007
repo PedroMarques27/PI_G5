@@ -1,0 +1,466 @@
+define(['dart_sdk', 'packages/flutter/src/painting/edge_insets.dart', 'packages/flutter/src/painting/alignment.dart', 'packages/flutter/src/rendering/layer.dart', 'packages/flutter/src/widgets/widget_span.dart', 'packages/flutter/src/widgets/icon_theme.dart', 'packages/flutter/src/widgets/icon_theme_data.dart', 'packages/flutter/src/foundation/debug.dart', 'packages/flutter/src/painting/colors.dart', 'packages/flutter/src/material/icons.dart', 'packages/flutter/src/foundation/_platform_web.dart', 'packages/flutter/src/widgets/icon.dart', 'packages/flutter/src/widgets/icon_data.dart', 'packages/flutter/src/painting/border_radius.dart', 'packages/flutter/src/painting/borders.dart', 'packages/flutter/src/animation/animation_controller.dart', 'packages/flutter/src/animation/listener_helpers.dart', 'packages/flutter/src/animation/curves.dart', 'packages/flutter/src/painting/matrix_utils.dart', 'packages/vector_math/vector_math_64.dart', 'packages/flutter/src/material/material_state.dart', 'packages/flutter/src/painting/strut_style.dart', 'packages/flutter/src/material/colors.dart', 'packages/flutter/src/rendering/layout_helper.dart', 'packages/flutter/src/rendering/shifted_box.dart', 'packages/flutter/src/painting/rounded_rectangle_border.dart', 'packages/flutter/src/material/constants.dart', 'packages/flutter/src/rendering/flex.dart', 'packages/flutter/src/foundation/key.dart', 'packages/flutter/src/widgets/safe_area.dart', 'packages/flutter/src/widgets/dismissible.dart', 'packages/flutter/src/foundation/object.dart', 'packages/flutter/src/foundation/print.dart', 'packages/flutter/src/painting/circle_border.dart', 'packages/flutter/src/painting/stadium_border.dart', 'packages/flutter/src/widgets/layout_builder.dart', 'packages/flutter/src/painting/box_decoration.dart', 'packages/flutter/src/painting/box_border.dart', 'packages/flutter/src/rendering/proxy_box.dart', 'packages/flutter/src/widgets/implicit_animations.dart', 'packages/flutter/src/gestures/recognizer.dart', 'packages/flutter/src/gestures/drag_details.dart', 'packages/flutter/src/widgets/single_child_scroll_view.dart', 'packages/flutter/src/painting/basic_types.dart', 'packages/flutter/src/rendering/paragraph.dart', 'packages/flutter/src/painting/_network_image_web.dart', 'packages/flutter/src/foundation/collections.dart', 'packages/flutter/src/rendering/custom_paint.dart', 'packages/flutter/src/material/tab_controller.dart', 'packages/flutter/src/painting/decoration.dart', 'packages/flutter/src/widgets/preferred_size.dart', 'packages/flutter/src/material/tab_indicator.dart', 'packages/flutter/src/widgets/page_view.dart', 'packages/flutter/src/painting/placeholder_span.dart', 'packages/flutter/src/widgets/dual_transition_builder.dart', 'packages/flutter/src/animation/tween_sequence.dart', 'packages/flutter/src/cupertino/route.dart', 'packages/flutter/src/foundation/change_notifier.dart', 'packages/flutter/src/material/input_border.dart', 'packages/flutter/src/gestures/binding.dart', 'packages/flutter/src/semantics/semantics_service.dart', 'packages/flutter/src/gestures/events.dart', 'packages/flutter/src/painting/geometry.dart', 'packages/flutter/src/semantics/semantics_event.dart', 'packages/flutter/src/services/system_sound.dart', 'packages/flutter/src/services/haptic_feedback.dart', 'packages/flutter/src/gestures/tap.dart', 'packages/flutter/src/foundation/observer_list.dart', 'packages/flutter/src/widgets/bottom_navigation_bar_item.dart', 'packages/flutter/src/painting/notched_shapes.dart', 'packages/flutter/src/material/typography.dart', 'packages/flutter/src/material/floating_action_button_theme.dart', 'packages/flutter/src/material/bottom_sheet_theme.dart', 'packages/flutter/src/cupertino/text_theme.dart', 'packages/flutter/src/widgets/draggable_scrollable_sheet.dart', 'packages/flutter/src/rendering/custom_layout.dart', 'packages/flutter/src/services/system_channels.dart', 'packages/flutter/src/scheduler/ticker.dart', 'packages/flutter/src/foundation/synchronous_future.dart', 'packages/flutter/src/services/system_chrome.dart', 'packages/flutter/src/widgets/navigation_toolbar.dart', 'packages/flutter/src/rendering/stack.dart', 'packages/flutter/src/semantics/semantics.dart', 'packages/flutter/src/widgets/annotated_region.dart', 'packages/flutter/src/rendering/sliver_persistent_header.dart', 'packages/flutter/src/widgets/sliver_persistent_header.dart'], (function load__packages__flutter__src__material__icon_button_dart(dart_sdk, packages__flutter__src__painting__edge_insets$46dart, packages__flutter__src__painting__alignment$46dart, packages__flutter__src__rendering__layer$46dart, packages__flutter__src__widgets__widget_span$46dart, packages__flutter__src__widgets__icon_theme$46dart, packages__flutter__src__widgets__icon_theme_data$46dart, packages__flutter__src__foundation__debug$46dart, packages__flutter__src__painting__colors$46dart, packages__flutter__src__material__icons$46dart, packages__flutter__src__foundation___platform_web$46dart, packages__flutter__src__widgets__icon$46dart, packages__flutter__src__widgets__icon_data$46dart, packages__flutter__src__painting__border_radius$46dart, packages__flutter__src__painting__borders$46dart, packages__flutter__src__animation__animation_controller$46dart, packages__flutter__src__animation__listener_helpers$46dart, packages__flutter__src__animation__curves$46dart, packages__flutter__src__painting__matrix_utils$46dart, packages__vector_math__vector_math_64$46dart, packages__flutter__src__material__material_state$46dart, packages__flutter__src__painting__strut_style$46dart, packages__flutter__src__material__colors$46dart, packages__flutter__src__rendering__layout_helper$46dart, packages__flutter__src__rendering__shifted_box$46dart, packages__flutter__src__painting__rounded_rectangle_border$46dart, packages__flutter__src__material__constants$46dart, packages__flutter__src__rendering__flex$46dart, packages__flutter__src__foundation__key$46dart, packages__flutter__src__widgets__safe_area$46dart, packages__flutter__src__widgets__dismissible$46dart, packages__flutter__src__foundation__object$46dart, packages__flutter__src__foundation__print$46dart, packages__flutter__src__painting__circle_border$46dart, packages__flutter__src__painting__stadium_border$46dart, packages__flutter__src__widgets__layout_builder$46dart, packages__flutter__src__painting__box_decoration$46dart, packages__flutter__src__painting__box_border$46dart, packages__flutter__src__rendering__proxy_box$46dart, packages__flutter__src__widgets__implicit_animations$46dart, packages__flutter__src__gestures__recognizer$46dart, packages__flutter__src__gestures__drag_details$46dart, packages__flutter__src__widgets__single_child_scroll_view$46dart, packages__flutter__src__painting__basic_types$46dart, packages__flutter__src__rendering__paragraph$46dart, packages__flutter__src__painting___network_image_web$46dart, packages__flutter__src__foundation__collections$46dart, packages__flutter__src__rendering__custom_paint$46dart, packages__flutter__src__material__tab_controller$46dart, packages__flutter__src__painting__decoration$46dart, packages__flutter__src__widgets__preferred_size$46dart, packages__flutter__src__material__tab_indicator$46dart, packages__flutter__src__widgets__page_view$46dart, packages__flutter__src__painting__placeholder_span$46dart, packages__flutter__src__widgets__dual_transition_builder$46dart, packages__flutter__src__animation__tween_sequence$46dart, packages__flutter__src__cupertino__route$46dart, packages__flutter__src__foundation__change_notifier$46dart, packages__flutter__src__material__input_border$46dart, packages__flutter__src__gestures__binding$46dart, packages__flutter__src__semantics__semantics_service$46dart, packages__flutter__src__gestures__events$46dart, packages__flutter__src__painting__geometry$46dart, packages__flutter__src__semantics__semantics_event$46dart, packages__flutter__src__services__system_sound$46dart, packages__flutter__src__services__haptic_feedback$46dart, packages__flutter__src__gestures__tap$46dart, packages__flutter__src__foundation__observer_list$46dart, packages__flutter__src__widgets__bottom_navigation_bar_item$46dart, packages__flutter__src__painting__notched_shapes$46dart, packages__flutter__src__material__typography$46dart, packages__flutter__src__material__floating_action_button_theme$46dart, packages__flutter__src__material__bottom_sheet_theme$46dart, packages__flutter__src__cupertino__text_theme$46dart, packages__flutter__src__widgets__draggable_scrollable_sheet$46dart, packages__flutter__src__rendering__custom_layout$46dart, packages__flutter__src__services__system_channels$46dart, packages__flutter__src__scheduler__ticker$46dart, packages__flutter__src__foundation__synchronous_future$46dart, packages__flutter__src__services__system_chrome$46dart, packages__flutter__src__widgets__navigation_toolbar$46dart, packages__flutter__src__rendering__stack$46dart, packages__flutter__src__semantics__semantics$46dart, packages__flutter__src__widgets__annotated_region$46dart, packages__flutter__src__rendering__sliver_persistent_header$46dart, packages__flutter__src__widgets__sliver_persistent_header$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const math = dart_sdk.math;
+  const ui = dart_sdk.ui;
+  const _internal = dart_sdk._internal;
+  const _interceptors = dart_sdk._interceptors;
+  const collection = dart_sdk.collection;
+  const _js_helper = dart_sdk._js_helper;
+  const async = dart_sdk.async;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const edge_insets = packages__flutter__src__painting__edge_insets$46dart.src__painting__edge_insets;
+  const alignment = packages__flutter__src__painting__alignment$46dart.src__painting__alignment;
+  const mouse_cursor = packages__flutter__src__rendering__layer$46dart.src__rendering__mouse_cursor;
+  const box$ = packages__flutter__src__rendering__layer$46dart.src__rendering__box;
+  const object = packages__flutter__src__rendering__layer$46dart.src__rendering__object;
+  const layer = packages__flutter__src__rendering__layer$46dart.src__rendering__layer;
+  const binding = packages__flutter__src__rendering__layer$46dart.src__rendering__binding;
+  const basic = packages__flutter__src__widgets__widget_span$46dart.src__widgets__basic;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const focus_manager = packages__flutter__src__widgets__widget_span$46dart.src__widgets__focus_manager;
+  const navigator$ = packages__flutter__src__widgets__widget_span$46dart.src__widgets__navigator;
+  const debug = packages__flutter__src__widgets__widget_span$46dart.src__widgets__debug;
+  const media_query = packages__flutter__src__widgets__widget_span$46dart.src__widgets__media_query;
+  const ticker_provider = packages__flutter__src__widgets__widget_span$46dart.src__widgets__ticker_provider;
+  const text$ = packages__flutter__src__widgets__widget_span$46dart.src__widgets__text;
+  const container = packages__flutter__src__widgets__widget_span$46dart.src__widgets__container;
+  const transitions = packages__flutter__src__widgets__widget_span$46dart.src__widgets__transitions;
+  const heroes = packages__flutter__src__widgets__widget_span$46dart.src__widgets__heroes;
+  const inherited_theme = packages__flutter__src__widgets__widget_span$46dart.src__widgets__inherited_theme;
+  const routes = packages__flutter__src__widgets__widget_span$46dart.src__widgets__routes;
+  const focus_scope = packages__flutter__src__widgets__widget_span$46dart.src__widgets__focus_scope;
+  const gesture_detector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__gesture_detector;
+  const scroll_position_with_single_context = packages__flutter__src__widgets__widget_span$46dart.src__widgets__scroll_position_with_single_context;
+  const scroll_controller = packages__flutter__src__widgets__widget_span$46dart.src__widgets__scroll_controller;
+  const scroll_physics = packages__flutter__src__widgets__widget_span$46dart.src__widgets__scroll_physics;
+  const scroll_notification = packages__flutter__src__widgets__widget_span$46dart.src__widgets__scroll_notification;
+  const notification_listener = packages__flutter__src__widgets__widget_span$46dart.src__widgets__notification_listener;
+  const pages = packages__flutter__src__widgets__widget_span$46dart.src__widgets__pages;
+  const overlay$ = packages__flutter__src__widgets__widget_span$46dart.src__widgets__overlay;
+  const actions = packages__flutter__src__widgets__widget_span$46dart.src__widgets__actions;
+  const automatic_keep_alive = packages__flutter__src__widgets__widget_span$46dart.src__widgets__automatic_keep_alive;
+  const restoration_properties = packages__flutter__src__widgets__widget_span$46dart.src__widgets__restoration_properties;
+  const primary_scroll_controller = packages__flutter__src__widgets__widget_span$46dart.src__widgets__primary_scroll_controller;
+  const modal_barrier = packages__flutter__src__widgets__widget_span$46dart.src__widgets__modal_barrier;
+  const restoration = packages__flutter__src__widgets__widget_span$46dart.src__widgets__restoration;
+  const localizations$ = packages__flutter__src__widgets__widget_span$46dart.src__widgets__localizations;
+  const scrollable = packages__flutter__src__widgets__widget_span$46dart.src__widgets__scrollable;
+  const scroll_position = packages__flutter__src__widgets__widget_span$46dart.src__widgets__scroll_position;
+  const icon_theme = packages__flutter__src__widgets__icon_theme$46dart.src__widgets__icon_theme;
+  const icon_theme_data = packages__flutter__src__widgets__icon_theme_data$46dart.src__widgets__icon_theme_data;
+  const diagnostics = packages__flutter__src__foundation__debug$46dart.src__foundation__diagnostics;
+  const assertions = packages__flutter__src__foundation__debug$46dart.src__foundation__assertions;
+  const debug$ = packages__flutter__src__foundation__debug$46dart.src__foundation__debug;
+  const colors = packages__flutter__src__painting__colors$46dart.src__painting__colors;
+  const icons = packages__flutter__src__material__icons$46dart.src__material__icons;
+  const platform$ = packages__flutter__src__foundation___platform_web$46dart.src__foundation__platform;
+  const icon = packages__flutter__src__widgets__icon$46dart.src__widgets__icon;
+  const icon_data = packages__flutter__src__widgets__icon_data$46dart.src__widgets__icon_data;
+  const border_radius = packages__flutter__src__painting__border_radius$46dart.src__painting__border_radius;
+  const borders = packages__flutter__src__painting__borders$46dart.src__painting__borders;
+  const animation_controller = packages__flutter__src__animation__animation_controller$46dart.src__animation__animation_controller;
+  const tween = packages__flutter__src__animation__listener_helpers$46dart.src__animation__tween;
+  const animation = packages__flutter__src__animation__listener_helpers$46dart.src__animation__animation;
+  const animations = packages__flutter__src__animation__listener_helpers$46dart.src__animation__animations;
+  const curves = packages__flutter__src__animation__curves$46dart.src__animation__curves;
+  const matrix_utils = packages__flutter__src__painting__matrix_utils$46dart.src__painting__matrix_utils;
+  const vector_math_64 = packages__vector_math__vector_math_64$46dart.vector_math_64;
+  const material_state = packages__flutter__src__material__material_state$46dart.src__material__material_state;
+  const text_style = packages__flutter__src__painting__strut_style$46dart.src__painting__text_style;
+  const colors$ = packages__flutter__src__material__colors$46dart.src__material__colors;
+  const layout_helper = packages__flutter__src__rendering__layout_helper$46dart.src__rendering__layout_helper;
+  const shifted_box = packages__flutter__src__rendering__shifted_box$46dart.src__rendering__shifted_box;
+  const rounded_rectangle_border = packages__flutter__src__painting__rounded_rectangle_border$46dart.src__painting__rounded_rectangle_border;
+  const constants = packages__flutter__src__material__constants$46dart.src__material__constants;
+  const flex = packages__flutter__src__rendering__flex$46dart.src__rendering__flex;
+  const key = packages__flutter__src__foundation__key$46dart.src__foundation__key;
+  const safe_area = packages__flutter__src__widgets__safe_area$46dart.src__widgets__safe_area;
+  const dismissible = packages__flutter__src__widgets__dismissible$46dart.src__widgets__dismissible;
+  const object$ = packages__flutter__src__foundation__object$46dart.src__foundation__object;
+  const print = packages__flutter__src__foundation__print$46dart.src__foundation__print;
+  const circle_border = packages__flutter__src__painting__circle_border$46dart.src__painting__circle_border;
+  const stadium_border = packages__flutter__src__painting__stadium_border$46dart.src__painting__stadium_border;
+  const layout_builder = packages__flutter__src__widgets__layout_builder$46dart.src__widgets__layout_builder;
+  const box_decoration = packages__flutter__src__painting__box_decoration$46dart.src__painting__box_decoration;
+  const box_border = packages__flutter__src__painting__box_border$46dart.src__painting__box_border;
+  const proxy_box = packages__flutter__src__rendering__proxy_box$46dart.src__rendering__proxy_box;
+  const implicit_animations = packages__flutter__src__widgets__implicit_animations$46dart.src__widgets__implicit_animations;
+  const recognizer = packages__flutter__src__gestures__recognizer$46dart.src__gestures__recognizer;
+  const drag_details = packages__flutter__src__gestures__drag_details$46dart.src__gestures__drag_details;
+  const single_child_scroll_view = packages__flutter__src__widgets__single_child_scroll_view$46dart.src__widgets__single_child_scroll_view;
+  const basic_types = packages__flutter__src__painting__basic_types$46dart.src__painting__basic_types;
+  const paragraph = packages__flutter__src__rendering__paragraph$46dart.src__rendering__paragraph;
+  const image_provider = packages__flutter__src__painting___network_image_web$46dart.src__painting__image_provider;
+  const collections = packages__flutter__src__foundation__collections$46dart.src__foundation__collections;
+  const custom_paint = packages__flutter__src__rendering__custom_paint$46dart.src__rendering__custom_paint;
+  const tab_controller = packages__flutter__src__material__tab_controller$46dart.src__material__tab_controller;
+  const decoration = packages__flutter__src__painting__decoration$46dart.src__painting__decoration;
+  const preferred_size = packages__flutter__src__widgets__preferred_size$46dart.src__widgets__preferred_size;
+  const tab_indicator = packages__flutter__src__material__tab_indicator$46dart.src__material__tab_indicator;
+  const page_view = packages__flutter__src__widgets__page_view$46dart.src__widgets__page_view;
+  const text_painter = packages__flutter__src__painting__placeholder_span$46dart.src__painting__text_painter;
+  const dual_transition_builder = packages__flutter__src__widgets__dual_transition_builder$46dart.src__widgets__dual_transition_builder;
+  const tween_sequence = packages__flutter__src__animation__tween_sequence$46dart.src__animation__tween_sequence;
+  const route$ = packages__flutter__src__cupertino__route$46dart.src__cupertino__route;
+  const change_notifier = packages__flutter__src__foundation__change_notifier$46dart.src__foundation__change_notifier;
+  const input_border = packages__flutter__src__material__input_border$46dart.src__material__input_border;
+  const binding$ = packages__flutter__src__gestures__binding$46dart.src__gestures__binding;
+  const semantics_service = packages__flutter__src__semantics__semantics_service$46dart.src__semantics__semantics_service;
+  const events = packages__flutter__src__gestures__events$46dart.src__gestures__events;
+  const geometry = packages__flutter__src__painting__geometry$46dart.src__painting__geometry;
+  const semantics_event = packages__flutter__src__semantics__semantics_event$46dart.src__semantics__semantics_event;
+  const system_sound = packages__flutter__src__services__system_sound$46dart.src__services__system_sound;
+  const haptic_feedback = packages__flutter__src__services__haptic_feedback$46dart.src__services__haptic_feedback;
+  const tap = packages__flutter__src__gestures__tap$46dart.src__gestures__tap;
+  const observer_list = packages__flutter__src__foundation__observer_list$46dart.src__foundation__observer_list;
+  const bottom_navigation_bar_item = packages__flutter__src__widgets__bottom_navigation_bar_item$46dart.src__widgets__bottom_navigation_bar_item;
+  const notched_shapes = packages__flutter__src__painting__notched_shapes$46dart.src__painting__notched_shapes;
+  const typography$ = packages__flutter__src__material__typography$46dart.src__material__typography;
+  const text_theme = packages__flutter__src__material__typography$46dart.src__material__text_theme;
+  const floating_action_button_theme = packages__flutter__src__material__floating_action_button_theme$46dart.src__material__floating_action_button_theme;
+  const bottom_sheet_theme = packages__flutter__src__material__bottom_sheet_theme$46dart.src__material__bottom_sheet_theme;
+  const theme = packages__flutter__src__cupertino__text_theme$46dart.src__cupertino__theme;
+  const colors$0 = packages__flutter__src__cupertino__text_theme$46dart.src__cupertino__colors;
+  const text_theme$ = packages__flutter__src__cupertino__text_theme$46dart.src__cupertino__text_theme;
+  const draggable_scrollable_sheet = packages__flutter__src__widgets__draggable_scrollable_sheet$46dart.src__widgets__draggable_scrollable_sheet;
+  const custom_layout = packages__flutter__src__rendering__custom_layout$46dart.src__rendering__custom_layout;
+  const restoration$ = packages__flutter__src__services__system_channels$46dart.src__services__restoration;
+  const ticker = packages__flutter__src__scheduler__ticker$46dart.src__scheduler__ticker;
+  const synchronous_future = packages__flutter__src__foundation__synchronous_future$46dart.src__foundation__synchronous_future;
+  const system_chrome = packages__flutter__src__services__system_chrome$46dart.src__services__system_chrome;
+  const navigation_toolbar = packages__flutter__src__widgets__navigation_toolbar$46dart.src__widgets__navigation_toolbar;
+  const stack = packages__flutter__src__rendering__stack$46dart.src__rendering__stack;
+  const semantics = packages__flutter__src__semantics__semantics$46dart.src__semantics__semantics;
+  const annotated_region = packages__flutter__src__widgets__annotated_region$46dart.src__widgets__annotated_region;
+  const sliver_persistent_header = packages__flutter__src__rendering__sliver_persistent_header$46dart.src__rendering__sliver_persistent_header;
+  const sliver_persistent_header$ = packages__flutter__src__widgets__sliver_persistent_header$46dart.src__widgets__sliver_persistent_header;
+  var icon_button = Object.create(dart.library);
+  var back_button = Object.create(dart.library);
+  var time = Object.create(dart.library);
+  var ink_ripple = Object.create(dart.library);
+  var button_style_button = Object.create(dart.library);
+  var text_button = Object.create(dart.library);
+  var snack_bar = Object.create(dart.library);
+  var floating_action_button_location = Object.create(dart.library);
+  var floating_action_button = Object.create(dart.library);
+  var flexible_space_bar = Object.create(dart.library);
+  var list_tile = Object.create(dart.library);
+  var drawer = Object.create(dart.library);
+  var divider = Object.create(dart.library);
+  var dialog = Object.create(dart.library);
+  var raised_button = Object.create(dart.library);
+  var outline_button = Object.create(dart.library);
+  var material_button = Object.create(dart.library);
+  var button = Object.create(dart.library);
+  var flat_button = Object.create(dart.library);
+  var toggle_buttons_theme = Object.create(dart.library);
+  var time_picker_theme = Object.create(dart.library);
+  var text_selection_theme = Object.create(dart.library);
+  var text_button_theme = Object.create(dart.library);
+  var tabs$ = Object.create(dart.library);
+  var tab_bar_theme = Object.create(dart.library);
+  var switch_theme = Object.create(dart.library);
+  var snack_bar_theme = Object.create(dart.library);
+  var slider_theme = Object.create(dart.library);
+  var scrollbar_theme = Object.create(dart.library);
+  var radio_theme = Object.create(dart.library);
+  var popup_menu_theme = Object.create(dart.library);
+  var page_transitions_theme = Object.create(dart.library);
+  var outlined_button_theme = Object.create(dart.library);
+  var navigation_rail = Object.create(dart.library);
+  var navigation_rail_theme = Object.create(dart.library);
+  var input_decorator = Object.create(dart.library);
+  var ink_splash = Object.create(dart.library);
+  var button_style = Object.create(dart.library);
+  var elevated_button_theme = Object.create(dart.library);
+  var divider_theme = Object.create(dart.library);
+  var dialog_theme = Object.create(dart.library);
+  var data_table_theme = Object.create(dart.library);
+  var chip_theme = Object.create(dart.library);
+  var checkbox_theme = Object.create(dart.library);
+  var card_theme = Object.create(dart.library);
+  var tooltip_theme = Object.create(dart.library);
+  var tooltip = Object.create(dart.library);
+  var ink_highlight = Object.create(dart.library);
+  var feedback = Object.create(dart.library);
+  var ink_well = Object.create(dart.library);
+  var bottom_navigation_bar = Object.create(dart.library);
+  var bottom_navigation_bar_theme = Object.create(dart.library);
+  var bottom_app_bar_theme = Object.create(dart.library);
+  var banner_theme = Object.create(dart.library);
+  var theme_data = Object.create(dart.library);
+  var color_scheme = Object.create(dart.library);
+  var button_theme = Object.create(dart.library);
+  var button_bar_theme = Object.create(dart.library);
+  var button_bar = Object.create(dart.library);
+  var bottom_sheet = Object.create(dart.library);
+  var scaffold$ = Object.create(dart.library);
+  var elevation_overlay = Object.create(dart.library);
+  var material = Object.create(dart.library);
+  var debug$0 = Object.create(dart.library);
+  var material_localizations = Object.create(dart.library);
+  var theme$ = Object.create(dart.library);
+  var app_bar_theme = Object.create(dart.library);
+  var app_bar = Object.create(dart.library);
+  dart._checkModuleNullSafetyMode(false);
+  var T$ = {
+    _LocationL: () => (T$._LocationL = dart.constFn(dart.legacy(widget_inspector._Location)))(),
+    DiagnosticsPropertyOfWidget: () => (T$.DiagnosticsPropertyOfWidget = dart.constFn(diagnostics.DiagnosticsProperty$(framework.Widget)))(),
+    VoidTovoid: () => (T$.VoidTovoid = dart.constFn(dart.fnType(dart.void, [])))(),
+    ObjectFlagPropertyOfVoidTovoid: () => (T$.ObjectFlagPropertyOfVoidTovoid = dart.constFn(diagnostics.ObjectFlagProperty$(T$.VoidTovoid())))(),
+    DiagnosticsPropertyOfEdgeInsetsGeometry: () => (T$.DiagnosticsPropertyOfEdgeInsetsGeometry = dart.constFn(diagnostics.DiagnosticsProperty$(edge_insets.EdgeInsetsGeometry)))(),
+    DiagnosticsPropertyOfFocusNode: () => (T$.DiagnosticsPropertyOfFocusNode = dart.constFn(diagnostics.DiagnosticsProperty$(focus_manager.FocusNode)))(),
+    ObjectN: () => (T$.ObjectN = dart.constFn(dart.nullable(core.Object)))(),
+    DayPeriodL: () => (T$.DayPeriodL = dart.constFn(dart.legacy(time.DayPeriod)))(),
+    intToString: () => (T$.intToString = dart.constFn(dart.fnType(core.String, [core.int])))(),
+    TimeOfDayFormatL: () => (T$.TimeOfDayFormatL = dart.constFn(dart.legacy(time.TimeOfDayFormat)))(),
+    HourFormatL: () => (T$.HourFormatL = dart.constFn(dart.legacy(time.HourFormat)))(),
+    TweenOfdouble: () => (T$.TweenOfdouble = dart.constFn(tween.Tween$(core.double)))(),
+    VoidTobool: () => (T$.VoidTobool = dart.constFn(dart.fnType(core.bool, [])))(),
+    JSArrayOfRenderObject: () => (T$.JSArrayOfRenderObject = dart.constFn(_interceptors.JSArray$(object.RenderObject)))(),
+    VoidToRect: () => (T$.VoidToRect = dart.constFn(dart.fnType(ui.Rect, [])))(),
+    DiagnosticsPropertyOfButtonStyle: () => (T$.DiagnosticsPropertyOfButtonStyle = dart.constFn(diagnostics.DiagnosticsProperty$(button_style.ButtonStyle)))(),
+    LinkedHashSetOfMaterialState: () => (T$.LinkedHashSetOfMaterialState = dart.constFn(collection.LinkedHashSet$(material_state.MaterialState)))(),
+    ButtonStyleN: () => (T$.ButtonStyleN = dart.constFn(dart.nullable(button_style.ButtonStyle)))(),
+    FnToTN: () => (T$.FnToTN = dart.constFn(dart.gFnType(T => [dart.nullable(T), [dart.fnType(dart.nullable(T), [T$.ButtonStyleN()])]], T => [T$.ObjectN()])))(),
+    FnToTN$1: () => (T$.FnToTN$1 = dart.constFn(dart.gFnType(T => [dart.nullable(T), [dart.fnType(dart.nullable(material_state.MaterialStateProperty$(T)), [T$.ButtonStyleN()])]], T => [T$.ObjectN()])))(),
+    doubleN: () => (T$.doubleN = dart.constFn(dart.nullable(core.double)))(),
+    MaterialStatePropertyOfdoubleN: () => (T$.MaterialStatePropertyOfdoubleN = dart.constFn(material_state.MaterialStateProperty$(T$.doubleN())))(),
+    MaterialStatePropertyNOfdoubleN: () => (T$.MaterialStatePropertyNOfdoubleN = dart.constFn(dart.nullable(T$.MaterialStatePropertyOfdoubleN())))(),
+    ButtonStyleNToMaterialStatePropertyNOfdoubleN: () => (T$.ButtonStyleNToMaterialStatePropertyNOfdoubleN = dart.constFn(dart.fnType(T$.MaterialStatePropertyNOfdoubleN(), [T$.ButtonStyleN()])))(),
+    TextStyleN: () => (T$.TextStyleN = dart.constFn(dart.nullable(text_style.TextStyle)))(),
+    MaterialStatePropertyOfTextStyleN: () => (T$.MaterialStatePropertyOfTextStyleN = dart.constFn(material_state.MaterialStateProperty$(T$.TextStyleN())))(),
+    MaterialStatePropertyNOfTextStyleN: () => (T$.MaterialStatePropertyNOfTextStyleN = dart.constFn(dart.nullable(T$.MaterialStatePropertyOfTextStyleN())))(),
+    ButtonStyleNToMaterialStatePropertyNOfTextStyleN: () => (T$.ButtonStyleNToMaterialStatePropertyNOfTextStyleN = dart.constFn(dart.fnType(T$.MaterialStatePropertyNOfTextStyleN(), [T$.ButtonStyleN()])))(),
+    ColorN: () => (T$.ColorN = dart.constFn(dart.nullable(ui.Color)))(),
+    MaterialStatePropertyOfColorN: () => (T$.MaterialStatePropertyOfColorN = dart.constFn(material_state.MaterialStateProperty$(T$.ColorN())))(),
+    MaterialStatePropertyNOfColorN: () => (T$.MaterialStatePropertyNOfColorN = dart.constFn(dart.nullable(T$.MaterialStatePropertyOfColorN())))(),
+    ButtonStyleNToMaterialStatePropertyNOfColorN: () => (T$.ButtonStyleNToMaterialStatePropertyNOfColorN = dart.constFn(dart.fnType(T$.MaterialStatePropertyNOfColorN(), [T$.ButtonStyleN()])))(),
+    EdgeInsetsGeometryN: () => (T$.EdgeInsetsGeometryN = dart.constFn(dart.nullable(edge_insets.EdgeInsetsGeometry)))(),
+    MaterialStatePropertyOfEdgeInsetsGeometryN: () => (T$.MaterialStatePropertyOfEdgeInsetsGeometryN = dart.constFn(material_state.MaterialStateProperty$(T$.EdgeInsetsGeometryN())))(),
+    MaterialStatePropertyNOfEdgeInsetsGeometryN: () => (T$.MaterialStatePropertyNOfEdgeInsetsGeometryN = dart.constFn(dart.nullable(T$.MaterialStatePropertyOfEdgeInsetsGeometryN())))(),
+    ButtonStyleNToMaterialStatePropertyNOfEdgeInsetsGeometryN: () => (T$.ButtonStyleNToMaterialStatePropertyNOfEdgeInsetsGeometryN = dart.constFn(dart.fnType(T$.MaterialStatePropertyNOfEdgeInsetsGeometryN(), [T$.ButtonStyleN()])))(),
+    SizeN: () => (T$.SizeN = dart.constFn(dart.nullable(ui.Size)))(),
+    MaterialStatePropertyOfSizeN: () => (T$.MaterialStatePropertyOfSizeN = dart.constFn(material_state.MaterialStateProperty$(T$.SizeN())))(),
+    MaterialStatePropertyNOfSizeN: () => (T$.MaterialStatePropertyNOfSizeN = dart.constFn(dart.nullable(T$.MaterialStatePropertyOfSizeN())))(),
+    ButtonStyleNToMaterialStatePropertyNOfSizeN: () => (T$.ButtonStyleNToMaterialStatePropertyNOfSizeN = dart.constFn(dart.fnType(T$.MaterialStatePropertyNOfSizeN(), [T$.ButtonStyleN()])))(),
+    BorderSideN: () => (T$.BorderSideN = dart.constFn(dart.nullable(borders.BorderSide)))(),
+    MaterialStatePropertyOfBorderSideN: () => (T$.MaterialStatePropertyOfBorderSideN = dart.constFn(material_state.MaterialStateProperty$(T$.BorderSideN())))(),
+    MaterialStatePropertyNOfBorderSideN: () => (T$.MaterialStatePropertyNOfBorderSideN = dart.constFn(dart.nullable(T$.MaterialStatePropertyOfBorderSideN())))(),
+    ButtonStyleNToMaterialStatePropertyNOfBorderSideN: () => (T$.ButtonStyleNToMaterialStatePropertyNOfBorderSideN = dart.constFn(dart.fnType(T$.MaterialStatePropertyNOfBorderSideN(), [T$.ButtonStyleN()])))(),
+    OutlinedBorderN: () => (T$.OutlinedBorderN = dart.constFn(dart.nullable(borders.OutlinedBorder)))(),
+    MaterialStatePropertyOfOutlinedBorderN: () => (T$.MaterialStatePropertyOfOutlinedBorderN = dart.constFn(material_state.MaterialStateProperty$(T$.OutlinedBorderN())))(),
+    MaterialStatePropertyNOfOutlinedBorderN: () => (T$.MaterialStatePropertyNOfOutlinedBorderN = dart.constFn(dart.nullable(T$.MaterialStatePropertyOfOutlinedBorderN())))(),
+    ButtonStyleNToMaterialStatePropertyNOfOutlinedBorderN: () => (T$.ButtonStyleNToMaterialStatePropertyNOfOutlinedBorderN = dart.constFn(dart.fnType(T$.MaterialStatePropertyNOfOutlinedBorderN(), [T$.ButtonStyleN()])))(),
+    MouseCursorN: () => (T$.MouseCursorN = dart.constFn(dart.nullable(mouse_cursor.MouseCursor)))(),
+    ButtonStyleNToMouseCursorN: () => (T$.ButtonStyleNToMouseCursorN = dart.constFn(dart.fnType(T$.MouseCursorN(), [T$.ButtonStyleN()])))(),
+    SetOfMaterialState: () => (T$.SetOfMaterialState = dart.constFn(core.Set$(material_state.MaterialState)))(),
+    SetOfMaterialStateToMouseCursorN: () => (T$.SetOfMaterialStateToMouseCursorN = dart.constFn(dart.fnType(T$.MouseCursorN(), [T$.SetOfMaterialState()])))(),
+    ButtonStyleNToColorN: () => (T$.ButtonStyleNToColorN = dart.constFn(dart.fnType(T$.ColorN(), [T$.ButtonStyleN()])))(),
+    SetOfMaterialStateToColorN: () => (T$.SetOfMaterialStateToColorN = dart.constFn(dart.fnType(T$.ColorN(), [T$.SetOfMaterialState()])))(),
+    VisualDensityN: () => (T$.VisualDensityN = dart.constFn(dart.nullable(theme_data.VisualDensity)))(),
+    ButtonStyleNToVisualDensityN: () => (T$.ButtonStyleNToVisualDensityN = dart.constFn(dart.fnType(T$.VisualDensityN(), [T$.ButtonStyleN()])))(),
+    MaterialTapTargetSizeN: () => (T$.MaterialTapTargetSizeN = dart.constFn(dart.nullable(theme_data.MaterialTapTargetSize)))(),
+    ButtonStyleNToMaterialTapTargetSizeN: () => (T$.ButtonStyleNToMaterialTapTargetSizeN = dart.constFn(dart.fnType(T$.MaterialTapTargetSizeN(), [T$.ButtonStyleN()])))(),
+    DurationN: () => (T$.DurationN = dart.constFn(dart.nullable(core.Duration)))(),
+    ButtonStyleNToDurationN: () => (T$.ButtonStyleNToDurationN = dart.constFn(dart.fnType(T$.DurationN(), [T$.ButtonStyleN()])))(),
+    boolN: () => (T$.boolN = dart.constFn(dart.nullable(core.bool)))(),
+    ButtonStyleNToboolN: () => (T$.ButtonStyleNToboolN = dart.constFn(dart.fnType(T$.boolN(), [T$.ButtonStyleN()])))(),
+    AlignmentGeometryN: () => (T$.AlignmentGeometryN = dart.constFn(dart.nullable(alignment.AlignmentGeometry)))(),
+    ButtonStyleNToAlignmentGeometryN: () => (T$.ButtonStyleNToAlignmentGeometryN = dart.constFn(dart.fnType(T$.AlignmentGeometryN(), [T$.ButtonStyleN()])))(),
+    AnimationStatusTovoid: () => (T$.AnimationStatusTovoid = dart.constFn(dart.fnType(dart.void, [animation.AnimationStatus])))(),
+    RenderBoxAndBoxConstraintsToSize: () => (T$.RenderBoxAndBoxConstraintsToSize = dart.constFn(dart.fnType(ui.Size, [box$.RenderBox, box$.BoxConstraints])))(),
+    OffsetN: () => (T$.OffsetN = dart.constFn(dart.nullable(ui.Offset)))(),
+    BoxHitTestResultAndOffsetNTobool: () => (T$.BoxHitTestResultAndOffsetNTobool = dart.constFn(dart.fnType(core.bool, [box$.BoxHitTestResult, T$.OffsetN()])))(),
+    JSArrayOfWidget: () => (T$.JSArrayOfWidget = dart.constFn(_interceptors.JSArray$(framework.Widget)))(),
+    SnackBarClosedReasonL: () => (T$.SnackBarClosedReasonL = dart.constFn(dart.legacy(snack_bar.SnackBarClosedReason)))(),
+    StringL: () => (T$.StringL = dart.constFn(dart.legacy(core.String)))(),
+    ValueKeyOfStringL: () => (T$.ValueKeyOfStringL = dart.constFn(key.ValueKey$(T$.StringL())))(),
+    DismissDirectionTovoid: () => (T$.DismissDirectionTovoid = dart.constFn(dart.fnType(dart.void, [dismissible.DismissDirection])))(),
+    WidgetN: () => (T$.WidgetN = dart.constFn(dart.nullable(framework.Widget)))(),
+    BuildContextAndWidgetNToAlign: () => (T$.BuildContextAndWidgetNToAlign = dart.constFn(dart.fnType(basic.Align, [framework.BuildContext, T$.WidgetN()])))(),
+    _AnimationSwapOfdouble: () => (T$._AnimationSwapOfdouble = dart.constFn(floating_action_button_location._AnimationSwap$(core.double)))(),
+    ObjectFlagPropertyOfObject: () => (T$.ObjectFlagPropertyOfObject = dart.constFn(diagnostics.ObjectFlagProperty$(core.Object)))(),
+    DiagnosticsPropertyOfShapeBorder: () => (T$.DiagnosticsPropertyOfShapeBorder = dart.constFn(diagnostics.DiagnosticsProperty$(borders.ShapeBorder)))(),
+    DiagnosticsPropertyOfMaterialTapTargetSize: () => (T$.DiagnosticsPropertyOfMaterialTapTargetSize = dart.constFn(diagnostics.DiagnosticsProperty$(theme_data.MaterialTapTargetSize)))(),
+    CollapseModeL: () => (T$.CollapseModeL = dart.constFn(dart.legacy(flexible_space_bar.CollapseMode)))(),
+    StretchModeL: () => (T$.StretchModeL = dart.constFn(dart.legacy(flexible_space_bar.StretchMode)))(),
+    BuildContextAndBoxConstraintsToContainer: () => (T$.BuildContextAndBoxConstraintsToContainer = dart.constFn(dart.fnType(container.Container, [framework.BuildContext, box$.BoxConstraints])))(),
+    BuildContextAndBoxConstraintsToClipRect: () => (T$.BuildContextAndBoxConstraintsToClipRect = dart.constFn(dart.fnType(basic.ClipRect, [framework.BuildContext, box$.BoxConstraints])))(),
+    ListTileStyleL: () => (T$.ListTileStyleL = dart.constFn(dart.legacy(list_tile.ListTileStyle)))(),
+    BuildContextToListTileTheme: () => (T$.BuildContextToListTileTheme = dart.constFn(dart.fnType(list_tile.ListTileTheme, [framework.BuildContext])))(),
+    ListTileControlAffinityL: () => (T$.ListTileControlAffinityL = dart.constFn(dart.legacy(list_tile.ListTileControlAffinity)))(),
+    SyncIterableOfWidget: () => (T$.SyncIterableOfWidget = dart.constFn(_js_helper.SyncIterable$(framework.Widget)))(),
+    _ListTileSlotL: () => (T$._ListTileSlotL = dart.constFn(dart.legacy(list_tile._ListTileSlot)))(),
+    LinkedMapOf_ListTileSlot$Element: () => (T$.LinkedMapOf_ListTileSlot$Element = dart.constFn(_js_helper.LinkedMap$(list_tile._ListTileSlot, framework.Element)))(),
+    LinkedMapOf_ListTileSlot$RenderBox: () => (T$.LinkedMapOf_ListTileSlot$RenderBox = dart.constFn(_js_helper.LinkedMap$(list_tile._ListTileSlot, box$.RenderBox)))(),
+    SyncIterableOfRenderBox: () => (T$.SyncIterableOfRenderBox = dart.constFn(_js_helper.SyncIterable$(box$.RenderBox)))(),
+    JSArrayOfDiagnosticsNode: () => (T$.JSArrayOfDiagnosticsNode = dart.constFn(_interceptors.JSArray$(diagnostics.DiagnosticsNode)))(),
+    RenderBoxN: () => (T$.RenderBoxN = dart.constFn(dart.nullable(box$.RenderBox)))(),
+    RenderBoxNAndStringTovoid: () => (T$.RenderBoxNAndStringTovoid = dart.constFn(dart.fnType(dart.void, [T$.RenderBoxN(), core.String])))(),
+    RenderBoxNTovoid: () => (T$.RenderBoxNTovoid = dart.constFn(dart.fnType(dart.void, [T$.RenderBoxN()])))(),
+    BoxHitTestResultAndOffsetTobool: () => (T$.BoxHitTestResultAndOffsetTobool = dart.constFn(dart.fnType(core.bool, [box$.BoxHitTestResult, ui.Offset])))(),
+    DrawerAlignmentL: () => (T$.DrawerAlignmentL = dart.constFn(dart.legacy(drawer.DrawerAlignment)))(),
+    StateOfStatefulWidget: () => (T$.StateOfStatefulWidget = dart.constFn(framework.State$(framework.StatefulWidget)))(),
+    GlobalKeyOfStateOfStatefulWidget: () => (T$.GlobalKeyOfStateOfStatefulWidget = dart.constFn(framework.GlobalKey$(T$.StateOfStatefulWidget())))(),
+    AnimationOfdouble: () => (T$.AnimationOfdouble = dart.constFn(animation.Animation$(core.double)))(),
+    BuildContextAndAnimationOfdoubleAndAnimationOfdoubleToWidget: () => (T$.BuildContextAndAnimationOfdoubleAndAnimationOfdoubleToWidget = dart.constFn(dart.fnType(framework.Widget, [framework.BuildContext, T$.AnimationOfdouble(), T$.AnimationOfdouble()])))(),
+    BuildContextAndAnimationOfdoubleAndAnimationOfdouble__ToWidget: () => (T$.BuildContextAndAnimationOfdoubleAndAnimationOfdouble__ToWidget = dart.constFn(dart.fnType(framework.Widget, [framework.BuildContext, T$.AnimationOfdouble(), T$.AnimationOfdouble(), framework.Widget])))(),
+    DiagnosticsPropertyOfdouble: () => (T$.DiagnosticsPropertyOfdouble = dart.constFn(diagnostics.DiagnosticsProperty$(core.double)))(),
+    DiagnosticsPropertyOfButtonTextTheme: () => (T$.DiagnosticsPropertyOfButtonTextTheme = dart.constFn(diagnostics.DiagnosticsProperty$(button_theme.ButtonTextTheme)))(),
+    DiagnosticsPropertyOfBrightness: () => (T$.DiagnosticsPropertyOfBrightness = dart.constFn(diagnostics.DiagnosticsProperty$(ui.Brightness)))(),
+    DiagnosticsPropertyOfVisualDensity: () => (T$.DiagnosticsPropertyOfVisualDensity = dart.constFn(diagnostics.DiagnosticsProperty$(theme_data.VisualDensity)))(),
+    DiagnosticsPropertyOfBorderSide: () => (T$.DiagnosticsPropertyOfBorderSide = dart.constFn(diagnostics.DiagnosticsProperty$(borders.BorderSide)))(),
+    BuildContextAndWidgetNToRaisedButton: () => (T$.BuildContextAndWidgetNToRaisedButton = dart.constFn(dart.fnType(raised_button.RaisedButton, [framework.BuildContext, T$.WidgetN()])))(),
+    ShapeBorderN: () => (T$.ShapeBorderN = dart.constFn(dart.nullable(borders.ShapeBorder)))(),
+    DiagnosticsPropertyOfBoxConstraints: () => (T$.DiagnosticsPropertyOfBoxConstraints = dart.constFn(diagnostics.DiagnosticsProperty$(box$.BoxConstraints)))(),
+    DiagnosticsPropertyOfBorderRadius: () => (T$.DiagnosticsPropertyOfBorderRadius = dart.constFn(diagnostics.DiagnosticsProperty$(border_radius.BorderRadius)))(),
+    DiagnosticsPropertyOfTextStyle: () => (T$.DiagnosticsPropertyOfTextStyle = dart.constFn(diagnostics.DiagnosticsProperty$(text_style.TextStyle)))(),
+    DiagnosticsPropertyOfInputDecorationTheme: () => (T$.DiagnosticsPropertyOfInputDecorationTheme = dart.constFn(diagnostics.DiagnosticsProperty$(input_decorator.InputDecorationTheme)))(),
+    TabBarIndicatorSizeL: () => (T$.TabBarIndicatorSizeL = dart.constFn(dart.legacy(tabs$.TabBarIndicatorSize)))(),
+    JSArrayOfdouble: () => (T$.JSArrayOfdouble = dart.constFn(_interceptors.JSArray$(core.double)))(),
+    WidgetL: () => (T$.WidgetL = dart.constFn(dart.legacy(framework.Widget)))(),
+    WidgetToGlobalKeyOfStateOfStatefulWidget: () => (T$.WidgetToGlobalKeyOfStateOfStatefulWidget = dart.constFn(dart.fnType(T$.GlobalKeyOfStateOfStatefulWidget(), [framework.Widget])))(),
+    ListOfGlobalKeyOfStateOfStatefulWidget: () => (T$.ListOfGlobalKeyOfStateOfStatefulWidget = dart.constFn(core.List$(T$.GlobalKeyOfStateOfStatefulWidget())))(),
+    intToGlobalKeyOfStateOfStatefulWidget: () => (T$.intToGlobalKeyOfStateOfStatefulWidget = dart.constFn(dart.fnType(T$.GlobalKeyOfStateOfStatefulWidget(), [core.int])))(),
+    FutureOfvoid: () => (T$.FutureOfvoid = dart.constFn(async.Future$(dart.void)))(),
+    ListOfWidget: () => (T$.ListOfWidget = dart.constFn(core.List$(framework.Widget)))(),
+    NotificationListenerOfScrollNotification: () => (T$.NotificationListenerOfScrollNotification = dart.constFn(notification_listener.NotificationListener$(scroll_notification.ScrollNotification)))(),
+    intToWidget: () => (T$.intToWidget = dart.constFn(dart.fnType(framework.Widget, [core.int])))(),
+    BuildContextAndWidgetNToSemantics: () => (T$.BuildContextAndWidgetNToSemantics = dart.constFn(dart.fnType(basic.Semantics, [framework.BuildContext, T$.WidgetN()])))(),
+    ColorNAndColorNAnddoubleToColorN: () => (T$.ColorNAndColorNAnddoubleToColorN = dart.constFn(dart.fnType(T$.ColorN(), [T$.ColorN(), T$.ColorN(), core.double])))(),
+    DiagnosticsPropertyOfMaterialStatePropertyOfColorN: () => (T$.DiagnosticsPropertyOfMaterialStatePropertyOfColorN = dart.constFn(diagnostics.DiagnosticsProperty$(T$.MaterialStatePropertyOfColorN())))(),
+    MaterialStatePropertyOfMouseCursorN: () => (T$.MaterialStatePropertyOfMouseCursorN = dart.constFn(material_state.MaterialStateProperty$(T$.MouseCursorN())))(),
+    DiagnosticsPropertyOfMaterialStatePropertyOfMouseCursorN: () => (T$.DiagnosticsPropertyOfMaterialStatePropertyOfMouseCursorN = dart.constFn(diagnostics.DiagnosticsProperty$(T$.MaterialStatePropertyOfMouseCursorN())))(),
+    SnackBarBehaviorL: () => (T$.SnackBarBehaviorL = dart.constFn(dart.legacy(snack_bar_theme.SnackBarBehavior)))(),
+    DiagnosticsPropertyOfSnackBarBehavior: () => (T$.DiagnosticsPropertyOfSnackBarBehavior = dart.constFn(diagnostics.DiagnosticsProperty$(snack_bar_theme.SnackBarBehavior)))(),
+    ShowValueIndicatorL: () => (T$.ShowValueIndicatorL = dart.constFn(dart.legacy(slider_theme.ShowValueIndicator)))(),
+    ThumbL: () => (T$.ThumbL = dart.constFn(dart.legacy(slider_theme.Thumb)))(),
+    JSArrayOfObjectN: () => (T$.JSArrayOfObjectN = dart.constFn(_interceptors.JSArray$(T$.ObjectN())))(),
+    DiagnosticsPropertyOfSliderComponentShape: () => (T$.DiagnosticsPropertyOfSliderComponentShape = dart.constFn(diagnostics.DiagnosticsProperty$(slider_theme.SliderComponentShape)))(),
+    DiagnosticsPropertyOfSliderTickMarkShape: () => (T$.DiagnosticsPropertyOfSliderTickMarkShape = dart.constFn(diagnostics.DiagnosticsProperty$(slider_theme.SliderTickMarkShape)))(),
+    DiagnosticsPropertyOfSliderTrackShape: () => (T$.DiagnosticsPropertyOfSliderTrackShape = dart.constFn(diagnostics.DiagnosticsProperty$(slider_theme.SliderTrackShape)))(),
+    DiagnosticsPropertyOfRangeSliderTickMarkShape: () => (T$.DiagnosticsPropertyOfRangeSliderTickMarkShape = dart.constFn(diagnostics.DiagnosticsProperty$(slider_theme.RangeSliderTickMarkShape)))(),
+    DiagnosticsPropertyOfRangeSliderThumbShape: () => (T$.DiagnosticsPropertyOfRangeSliderThumbShape = dart.constFn(diagnostics.DiagnosticsProperty$(slider_theme.RangeSliderThumbShape)))(),
+    DiagnosticsPropertyOfRangeSliderTrackShape: () => (T$.DiagnosticsPropertyOfRangeSliderTrackShape = dart.constFn(diagnostics.DiagnosticsProperty$(slider_theme.RangeSliderTrackShape)))(),
+    DiagnosticsPropertyOfRangeSliderValueIndicatorShape: () => (T$.DiagnosticsPropertyOfRangeSliderValueIndicatorShape = dart.constFn(diagnostics.DiagnosticsProperty$(slider_theme.RangeSliderValueIndicatorShape)))(),
+    EnumPropertyOfShowValueIndicator: () => (T$.EnumPropertyOfShowValueIndicator = dart.constFn(diagnostics.EnumProperty$(slider_theme.ShowValueIndicator)))(),
+    ThumbN: () => (T$.ThumbN = dart.constFn(dart.nullable(slider_theme.Thumb)))(),
+    TextDirectionAndRangeValuesAnddouble__ToThumbN: () => (T$.TextDirectionAndRangeValuesAnddouble__ToThumbN = dart.constFn(dart.fnType(T$.ThumbN(), [ui.TextDirection, slider_theme.RangeValues, core.double, ui.Size, ui.Size, core.double])))(),
+    DiagnosticsPropertyOfTextDirectionAndRangeValuesAnddouble__ToThumbN: () => (T$.DiagnosticsPropertyOfTextDirectionAndRangeValuesAnddouble__ToThumbN = dart.constFn(diagnostics.DiagnosticsProperty$(T$.TextDirectionAndRangeValuesAnddouble__ToThumbN())))(),
+    numN: () => (T$.numN = dart.constFn(dart.nullable(core.num)))(),
+    numNAndnumNAnddoubleTodoubleN: () => (T$.numNAndnumNAnddoubleTodoubleN = dart.constFn(dart.fnType(T$.doubleN(), [T$.numN(), T$.numN(), core.double])))(),
+    DiagnosticsPropertyOfMaterialStatePropertyOfdoubleN: () => (T$.DiagnosticsPropertyOfMaterialStatePropertyOfdoubleN = dart.constFn(diagnostics.DiagnosticsProperty$(T$.MaterialStatePropertyOfdoubleN())))(),
+    DiagnosticsPropertyOfbool: () => (T$.DiagnosticsPropertyOfbool = dart.constFn(diagnostics.DiagnosticsProperty$(core.bool)))(),
+    DiagnosticsPropertyOfRadius: () => (T$.DiagnosticsPropertyOfRadius = dart.constFn(diagnostics.DiagnosticsProperty$(ui.Radius)))(),
+    TweenOfOffset: () => (T$.TweenOfOffset = dart.constFn(tween.Tween$(ui.Offset)))(),
+    BuildContextAndWidgetNToContainer: () => (T$.BuildContextAndWidgetNToContainer = dart.constFn(dart.fnType(container.Container, [framework.BuildContext, T$.WidgetN()])))(),
+    BuildContextAndWidgetNToFractionalTranslation: () => (T$.BuildContextAndWidgetNToFractionalTranslation = dart.constFn(dart.fnType(basic.FractionalTranslation, [framework.BuildContext, T$.WidgetN()])))(),
+    BuildContextAndBoxConstraintsToAnimatedBuilder: () => (T$.BuildContextAndBoxConstraintsToAnimatedBuilder = dart.constFn(dart.fnType(transitions.AnimatedBuilder, [framework.BuildContext, box$.BoxConstraints])))(),
+    BuildContextAndAnimationOfdoubleAndWidgetNTo_ZoomEnterTransition: () => (T$.BuildContextAndAnimationOfdoubleAndWidgetNTo_ZoomEnterTransition = dart.constFn(dart.fnType(page_transitions_theme._ZoomEnterTransition, [framework.BuildContext, T$.AnimationOfdouble(), T$.WidgetN()])))(),
+    BuildContextAndAnimationOfdoubleAndWidgetNTo_ZoomExitTransition: () => (T$.BuildContextAndAnimationOfdoubleAndWidgetNTo_ZoomExitTransition = dart.constFn(dart.fnType(page_transitions_theme._ZoomExitTransition, [framework.BuildContext, T$.AnimationOfdouble(), T$.WidgetN()])))(),
+    TweenSequenceItemOfdouble: () => (T$.TweenSequenceItemOfdouble = dart.constFn(tween_sequence.TweenSequenceItem$(core.double)))(),
+    JSArrayOfTweenSequenceItemOfdouble: () => (T$.JSArrayOfTweenSequenceItemOfdouble = dart.constFn(_interceptors.JSArray$(T$.TweenSequenceItemOfdouble())))(),
+    TweenSequenceOfdouble: () => (T$.TweenSequenceOfdouble = dart.constFn(tween_sequence.TweenSequence$(core.double)))(),
+    TweenOfdoubleN: () => (T$.TweenOfdoubleN = dart.constFn(tween.Tween$(T$.doubleN())))(),
+    PageTransitionsBuilderN: () => (T$.PageTransitionsBuilderN = dart.constFn(dart.nullable(page_transitions_theme.PageTransitionsBuilder)))(),
+    TargetPlatformToPageTransitionsBuilderN: () => (T$.TargetPlatformToPageTransitionsBuilderN = dart.constFn(dart.fnType(T$.PageTransitionsBuilderN(), [platform$.TargetPlatform])))(),
+    MapOfTargetPlatform$PageTransitionsBuilder: () => (T$.MapOfTargetPlatform$PageTransitionsBuilder = dart.constFn(core.Map$(platform$.TargetPlatform, page_transitions_theme.PageTransitionsBuilder)))(),
+    DiagnosticsPropertyOfMapOfTargetPlatform$PageTransitionsBuilder: () => (T$.DiagnosticsPropertyOfMapOfTargetPlatform$PageTransitionsBuilder = dart.constFn(diagnostics.DiagnosticsProperty$(T$.MapOfTargetPlatform$PageTransitionsBuilder())))(),
+    TargetPlatformL: () => (T$.TargetPlatformL = dart.constFn(dart.legacy(platform$.TargetPlatform)))(),
+    PageTransitionsBuilderL: () => (T$.PageTransitionsBuilderL = dart.constFn(dart.legacy(page_transitions_theme.PageTransitionsBuilder)))(),
+    ListOfAnimationController: () => (T$.ListOfAnimationController = dart.constFn(core.List$(animation_controller.AnimationController)))(),
+    intToAnimationController: () => (T$.intToAnimationController = dart.constFn(dart.fnType(animation_controller.AnimationController, [core.int])))(),
+    AnimationControllerToAnimationOfdouble: () => (T$.AnimationControllerToAnimationOfdouble = dart.constFn(dart.fnType(T$.AnimationOfdouble(), [animation_controller.AnimationController])))(),
+    boolTovoid: () => (T$.boolTovoid = dart.constFn(dart.fnType(dart.void, [core.bool])))(),
+    NavigationRailLabelTypeL: () => (T$.NavigationRailLabelTypeL = dart.constFn(dart.legacy(navigation_rail.NavigationRailLabelType)))(),
+    DiagnosticsPropertyOfIconThemeData: () => (T$.DiagnosticsPropertyOfIconThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(icon_theme_data.IconThemeData)))(),
+    DiagnosticsPropertyOfNavigationRailLabelType: () => (T$.DiagnosticsPropertyOfNavigationRailLabelType = dart.constFn(diagnostics.DiagnosticsProperty$(navigation_rail.NavigationRailLabelType)))(),
+    JSArrayOfListenable: () => (T$.JSArrayOfListenable = dart.constFn(_interceptors.JSArray$(change_notifier.Listenable)))(),
+    FloatingLabelBehaviorL: () => (T$.FloatingLabelBehaviorL = dart.constFn(dart.legacy(input_decorator.FloatingLabelBehavior)))(),
+    _DecorationSlotL: () => (T$._DecorationSlotL = dart.constFn(dart.legacy(input_decorator._DecorationSlot)))(),
+    LinkedMapOf_DecorationSlot$RenderBox: () => (T$.LinkedMapOf_DecorationSlot$RenderBox = dart.constFn(_js_helper.LinkedMap$(input_decorator._DecorationSlot, box$.RenderBox)))(),
+    LinkedMapOfRenderBoxN$double: () => (T$.LinkedMapOfRenderBoxN$double = dart.constFn(_js_helper.LinkedMap$(T$.RenderBoxN(), core.double)))(),
+    JSArrayOfRenderBoxN: () => (T$.JSArrayOfRenderBoxN = dart.constFn(_interceptors.JSArray$(T$.RenderBoxN())))(),
+    RenderBoxAnddoubleTodouble: () => (T$.RenderBoxAnddoubleTodouble = dart.constFn(dart.fnType(core.double, [box$.RenderBox, core.double])))(),
+    LinkedMapOf_DecorationSlot$Element: () => (T$.LinkedMapOf_DecorationSlot$Element = dart.constFn(_js_helper.LinkedMap$(input_decorator._DecorationSlot, framework.Element)))(),
+    DiagnosticsPropertyOfInputDecoration: () => (T$.DiagnosticsPropertyOfInputDecoration = dart.constFn(diagnostics.DiagnosticsProperty$(input_decorator.InputDecoration)))(),
+    JSArrayOfString: () => (T$.JSArrayOfString = dart.constFn(_interceptors.JSArray$(core.String)))(),
+    DiagnosticsPropertyOfFloatingLabelBehavior: () => (T$.DiagnosticsPropertyOfFloatingLabelBehavior = dart.constFn(diagnostics.DiagnosticsProperty$(input_decorator.FloatingLabelBehavior)))(),
+    DiagnosticsPropertyOfInputBorder: () => (T$.DiagnosticsPropertyOfInputBorder = dart.constFn(diagnostics.DiagnosticsProperty$(input_border.InputBorder)))(),
+    DiagnosticsPropertyOfMaterialStatePropertyOfTextStyleN: () => (T$.DiagnosticsPropertyOfMaterialStatePropertyOfTextStyleN = dart.constFn(diagnostics.DiagnosticsProperty$(T$.MaterialStatePropertyOfTextStyleN())))(),
+    DiagnosticsPropertyOfMaterialStatePropertyOfEdgeInsetsGeometryN: () => (T$.DiagnosticsPropertyOfMaterialStatePropertyOfEdgeInsetsGeometryN = dart.constFn(diagnostics.DiagnosticsProperty$(T$.MaterialStatePropertyOfEdgeInsetsGeometryN())))(),
+    DiagnosticsPropertyOfMaterialStatePropertyOfSizeN: () => (T$.DiagnosticsPropertyOfMaterialStatePropertyOfSizeN = dart.constFn(diagnostics.DiagnosticsProperty$(T$.MaterialStatePropertyOfSizeN())))(),
+    DiagnosticsPropertyOfMaterialStatePropertyOfBorderSideN: () => (T$.DiagnosticsPropertyOfMaterialStatePropertyOfBorderSideN = dart.constFn(diagnostics.DiagnosticsProperty$(T$.MaterialStatePropertyOfBorderSideN())))(),
+    DiagnosticsPropertyOfMaterialStatePropertyOfOutlinedBorderN: () => (T$.DiagnosticsPropertyOfMaterialStatePropertyOfOutlinedBorderN = dart.constFn(diagnostics.DiagnosticsProperty$(T$.MaterialStatePropertyOfOutlinedBorderN())))(),
+    EnumPropertyOfMaterialTapTargetSize: () => (T$.EnumPropertyOfMaterialTapTargetSize = dart.constFn(diagnostics.EnumProperty$(theme_data.MaterialTapTargetSize)))(),
+    DiagnosticsPropertyOfDuration: () => (T$.DiagnosticsPropertyOfDuration = dart.constFn(diagnostics.DiagnosticsProperty$(core.Duration)))(),
+    DiagnosticsPropertyOfAlignmentGeometry: () => (T$.DiagnosticsPropertyOfAlignmentGeometry = dart.constFn(diagnostics.DiagnosticsProperty$(alignment.AlignmentGeometry)))(),
+    TextStyleNAndTextStyleNAnddoubleToTextStyleN: () => (T$.TextStyleNAndTextStyleNAnddoubleToTextStyleN = dart.constFn(dart.fnType(T$.TextStyleN(), [T$.TextStyleN(), T$.TextStyleN(), core.double])))(),
+    EdgeInsetsGeometryNAndEdgeInsetsGeometryNAnddoubleToEdgeInsetsGeometryN: () => (T$.EdgeInsetsGeometryNAndEdgeInsetsGeometryNAnddoubleToEdgeInsetsGeometryN = dart.constFn(dart.fnType(T$.EdgeInsetsGeometryN(), [T$.EdgeInsetsGeometryN(), T$.EdgeInsetsGeometryN(), core.double])))(),
+    SizeNAndSizeNAnddoubleToSizeN: () => (T$.SizeNAndSizeNAnddoubleToSizeN = dart.constFn(dart.fnType(T$.SizeN(), [T$.SizeN(), T$.SizeN(), core.double])))(),
+    DiagnosticsPropertyOfDecoration: () => (T$.DiagnosticsPropertyOfDecoration = dart.constFn(diagnostics.DiagnosticsProperty$(decoration.Decoration)))(),
+    EnumPropertyOfBrightness: () => (T$.EnumPropertyOfBrightness = dart.constFn(diagnostics.EnumProperty$(ui.Brightness)))(),
+    DiagnosticsPropertyOfClip: () => (T$.DiagnosticsPropertyOfClip = dart.constFn(diagnostics.DiagnosticsProperty$(ui.Clip)))(),
+    BuildContextToWidget: () => (T$.BuildContextToWidget = dart.constFn(dart.fnType(framework.Widget, [framework.BuildContext])))(),
+    PointerEnterEventTovoid: () => (T$.PointerEnterEventTovoid = dart.constFn(dart.fnType(dart.void, [events.PointerEnterEvent])))(),
+    PointerExitEventTovoid: () => (T$.PointerExitEventTovoid = dart.constFn(dart.fnType(dart.void, [events.PointerExitEvent])))(),
+    IterablePropertyOfString: () => (T$.IterablePropertyOfString = dart.constFn(diagnostics.IterableProperty$(core.String)))(),
+    DiagnosticsPropertyOfMouseCursor: () => (T$.DiagnosticsPropertyOfMouseCursor = dart.constFn(diagnostics.DiagnosticsProperty$(mouse_cursor.MouseCursor)))(),
+    DiagnosticsPropertyOfBoxShape: () => (T$.DiagnosticsPropertyOfBoxShape = dart.constFn(diagnostics.DiagnosticsProperty$(box_border.BoxShape)))(),
+    _HighlightTypeL: () => (T$._HighlightTypeL = dart.constFn(dart.legacy(ink_well._HighlightType)))(),
+    InkHighlightN: () => (T$.InkHighlightN = dart.constFn(dart.nullable(ink_highlight.InkHighlight)))(),
+    LinkedMapOf_HighlightType$InkHighlightN: () => (T$.LinkedMapOf_HighlightType$InkHighlightN = dart.constFn(_js_helper.LinkedMap$(ink_well._HighlightType, T$.InkHighlightN())))(),
+    ObserverListOf_ParentInkResponseState: () => (T$.ObserverListOf_ParentInkResponseState = dart.constFn(observer_list.ObserverList$(ink_well._ParentInkResponseState)))(),
+    CallbackActionOfActivateIntent: () => (T$.CallbackActionOfActivateIntent = dart.constFn(actions.CallbackAction$(actions.ActivateIntent)))(),
+    CallbackActionOfButtonActivateIntent: () => (T$.CallbackActionOfButtonActivateIntent = dart.constFn(actions.CallbackAction$(actions.ButtonActivateIntent)))(),
+    ActionOfIntent: () => (T$.ActionOfIntent = dart.constFn(actions.Action$(actions.Intent)))(),
+    LinkedMapOfType$ActionOfIntent: () => (T$.LinkedMapOfType$ActionOfIntent = dart.constFn(_js_helper.LinkedMap$(core.Type, T$.ActionOfIntent())))(),
+    InkHighlightNTobool: () => (T$.InkHighlightNTobool = dart.constFn(dart.fnType(core.bool, [T$.InkHighlightN()])))(),
+    MaterialStateL: () => (T$.MaterialStateL = dart.constFn(dart.legacy(material_state.MaterialState)))(),
+    _HashSetOfInteractiveInkFeature: () => (T$._HashSetOfInteractiveInkFeature = dart.constFn(collection._HashSet$(ink_well.InteractiveInkFeature)))(),
+    BottomNavigationBarTypeL: () => (T$.BottomNavigationBarTypeL = dart.constFn(dart.legacy(bottom_navigation_bar.BottomNavigationBarType)))(),
+    BottomNavigationBarItemTobool: () => (T$.BottomNavigationBarItemTobool = dart.constFn(dart.fnType(core.bool, [bottom_navigation_bar_item.BottomNavigationBarItem])))(),
+    JSArrayOfAnimationController: () => (T$.JSArrayOfAnimationController = dart.constFn(_interceptors.JSArray$(animation_controller.AnimationController)))(),
+    ListQueueOf_Circle: () => (T$.ListQueueOf_Circle = dart.constFn(collection.ListQueue$(bottom_navigation_bar._Circle)))(),
+    ListOfCurvedAnimation: () => (T$.ListOfCurvedAnimation = dart.constFn(core.List$(animations.CurvedAnimation)))(),
+    intToCurvedAnimation: () => (T$.intToCurvedAnimation = dart.constFn(dart.fnType(animations.CurvedAnimation, [core.int])))(),
+    doubleAnddoubleTodouble: () => (T$.doubleAnddoubleTodouble = dart.constFn(dart.fnType(core.double, [core.double, core.double])))(),
+    IterableOfAnimationOfdouble: () => (T$.IterableOfAnimationOfdouble = dart.constFn(core.Iterable$(T$.AnimationOfdouble())))(),
+    IterableOfAnimationOfdoubleTodouble: () => (T$.IterableOfAnimationOfdoubleTodouble = dart.constFn(dart.fnType(core.double, [T$.IterableOfAnimationOfdouble()])))(),
+    DiagnosticsPropertyOfBottomNavigationBarType: () => (T$.DiagnosticsPropertyOfBottomNavigationBarType = dart.constFn(diagnostics.DiagnosticsProperty$(bottom_navigation_bar.BottomNavigationBarType)))(),
+    DiagnosticsPropertyOfNotchedShape: () => (T$.DiagnosticsPropertyOfNotchedShape = dart.constFn(diagnostics.DiagnosticsProperty$(notched_shapes.NotchedShape)))(),
+    MaterialTapTargetSizeL: () => (T$.MaterialTapTargetSizeL = dart.constFn(dart.legacy(theme_data.MaterialTapTargetSize)))(),
+    VoidToThemeData: () => (T$.VoidToThemeData = dart.constFn(dart.fnType(theme_data.ThemeData, [])))(),
+    EnumPropertyOfTargetPlatform: () => (T$.EnumPropertyOfTargetPlatform = dart.constFn(diagnostics.EnumProperty$(platform$.TargetPlatform)))(),
+    DiagnosticsPropertyOfButtonThemeData: () => (T$.DiagnosticsPropertyOfButtonThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(button_theme.ButtonThemeData)))(),
+    DiagnosticsPropertyOfToggleButtonsThemeData: () => (T$.DiagnosticsPropertyOfToggleButtonsThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(toggle_buttons_theme.ToggleButtonsThemeData)))(),
+    DiagnosticsPropertyOfTextTheme: () => (T$.DiagnosticsPropertyOfTextTheme = dart.constFn(diagnostics.DiagnosticsProperty$(text_theme.TextTheme)))(),
+    DiagnosticsPropertyOfSliderThemeData: () => (T$.DiagnosticsPropertyOfSliderThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(slider_theme.SliderThemeData)))(),
+    DiagnosticsPropertyOfTabBarTheme: () => (T$.DiagnosticsPropertyOfTabBarTheme = dart.constFn(diagnostics.DiagnosticsProperty$(tab_bar_theme.TabBarTheme)))(),
+    DiagnosticsPropertyOfTooltipThemeData: () => (T$.DiagnosticsPropertyOfTooltipThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(tooltip_theme.TooltipThemeData)))(),
+    DiagnosticsPropertyOfCardTheme: () => (T$.DiagnosticsPropertyOfCardTheme = dart.constFn(diagnostics.DiagnosticsProperty$(card_theme.CardTheme)))(),
+    DiagnosticsPropertyOfChipThemeData: () => (T$.DiagnosticsPropertyOfChipThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(chip_theme.ChipThemeData)))(),
+    DiagnosticsPropertyOfPageTransitionsTheme: () => (T$.DiagnosticsPropertyOfPageTransitionsTheme = dart.constFn(diagnostics.DiagnosticsProperty$(page_transitions_theme.PageTransitionsTheme)))(),
+    DiagnosticsPropertyOfAppBarTheme: () => (T$.DiagnosticsPropertyOfAppBarTheme = dart.constFn(diagnostics.DiagnosticsProperty$(app_bar_theme.AppBarTheme)))(),
+    DiagnosticsPropertyOfScrollbarThemeData: () => (T$.DiagnosticsPropertyOfScrollbarThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(scrollbar_theme.ScrollbarThemeData)))(),
+    DiagnosticsPropertyOfBottomAppBarTheme: () => (T$.DiagnosticsPropertyOfBottomAppBarTheme = dart.constFn(diagnostics.DiagnosticsProperty$(bottom_app_bar_theme.BottomAppBarTheme)))(),
+    DiagnosticsPropertyOfColorScheme: () => (T$.DiagnosticsPropertyOfColorScheme = dart.constFn(diagnostics.DiagnosticsProperty$(color_scheme.ColorScheme)))(),
+    DiagnosticsPropertyOfDialogTheme: () => (T$.DiagnosticsPropertyOfDialogTheme = dart.constFn(diagnostics.DiagnosticsProperty$(dialog_theme.DialogTheme)))(),
+    DiagnosticsPropertyOfFloatingActionButtonThemeData: () => (T$.DiagnosticsPropertyOfFloatingActionButtonThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(floating_action_button_theme.FloatingActionButtonThemeData)))(),
+    DiagnosticsPropertyOfNavigationRailThemeData: () => (T$.DiagnosticsPropertyOfNavigationRailThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(navigation_rail_theme.NavigationRailThemeData)))(),
+    DiagnosticsPropertyOfTypography: () => (T$.DiagnosticsPropertyOfTypography = dart.constFn(diagnostics.DiagnosticsProperty$(typography$.Typography)))(),
+    DiagnosticsPropertyOfNoDefaultCupertinoThemeData: () => (T$.DiagnosticsPropertyOfNoDefaultCupertinoThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(theme.NoDefaultCupertinoThemeData)))(),
+    DiagnosticsPropertyOfSnackBarThemeData: () => (T$.DiagnosticsPropertyOfSnackBarThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(snack_bar_theme.SnackBarThemeData)))(),
+    DiagnosticsPropertyOfBottomSheetThemeData: () => (T$.DiagnosticsPropertyOfBottomSheetThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(bottom_sheet_theme.BottomSheetThemeData)))(),
+    DiagnosticsPropertyOfPopupMenuThemeData: () => (T$.DiagnosticsPropertyOfPopupMenuThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(popup_menu_theme.PopupMenuThemeData)))(),
+    DiagnosticsPropertyOfMaterialBannerThemeData: () => (T$.DiagnosticsPropertyOfMaterialBannerThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(banner_theme.MaterialBannerThemeData)))(),
+    DiagnosticsPropertyOfDividerThemeData: () => (T$.DiagnosticsPropertyOfDividerThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(divider_theme.DividerThemeData)))(),
+    DiagnosticsPropertyOfButtonBarThemeData: () => (T$.DiagnosticsPropertyOfButtonBarThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(button_bar_theme.ButtonBarThemeData)))(),
+    DiagnosticsPropertyOfTimePickerThemeData: () => (T$.DiagnosticsPropertyOfTimePickerThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(time_picker_theme.TimePickerThemeData)))(),
+    DiagnosticsPropertyOfTextSelectionThemeData: () => (T$.DiagnosticsPropertyOfTextSelectionThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(text_selection_theme.TextSelectionThemeData)))(),
+    DiagnosticsPropertyOfBottomNavigationBarThemeData: () => (T$.DiagnosticsPropertyOfBottomNavigationBarThemeData = dart.constFn(diagnostics.DiagnosticsProperty$(bottom_navigation_bar_theme.BottomNavigationBarThemeData)))(),
+    DiagnosticsPropertyOfTextButtonThemeData: () => (T$.DiagnosticsPropertyOfTextBu
