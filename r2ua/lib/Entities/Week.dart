@@ -6,8 +6,6 @@ class Week {
   DateTime beginning, ending;
 
   Week(int _id, String begin) {
-    debugPrint(begin.toString() + " &&&&_" + beginning.toString());
-
     this.id = _id;
     beginning = DateTime.parse(begin);
 

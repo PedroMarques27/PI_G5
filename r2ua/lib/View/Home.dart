@@ -1,6 +1,11 @@
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive/hive.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:r2ua/Entities/BuildingsUA.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/db/BuildingsUAData.dart';
@@ -23,48 +28,142 @@ class Home extends StatefulWidget {
 
 class _Home extends State<Home> {
   int _selectedIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Text("Bookings"));
-  }
-}
+  var bUA = new List<BuildingDistance>();
 
-/*
- //TODO: retornar a lista de Buildings
-class _Home extends State<Home> {
-  
-  Widget _buildList(BuildContext context) {
-    return StreamBuilder(
-      
-    stream: brbBloc.getBuildCount,
-    builder: (context, snapshot) {
-      if (!snapshot.hasData) {
-        debugPrint("NO DATA");
-        return Center(child: CircularProgressIndicator());
-      }
-
-
-  List<BuildingsUA> buildings = new List<>();
-
-
-  void _getCurrentLocation() async {}
-  @override
-  void initialize() {
-    Stream buildingStream = brbBloc.getBuildCount;
-    buildingStream.listen((listOfBuildCount) {
-      BuildingUAData buildingsUADb = new BuildingUAData();
-    
-      buildingsUADb.getBuildingsNearByUser(listOfBuildCount);
-     
-      
+  Future init(List<BuildCount> listOfBuildCount) async {
+    debugPrint(bUA.length.toString() + "DEBUGGGGGGGGGGGGGGGGGGGGGG");
+    var temp = await buildingsUAData.getBuildingsNearByUser(listOfBuildCount);
+    setState(() {
+      bUA = temp;
+      debugPrint(bUA.length.toString() + "TTTTTTTTTTTTTTTTTTTTTT");
     });
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  } */
+    return Scaffold(body: _buildList(context));
+  }
+
+  Widget _buildList(BuildContext context) {
+    return StreamBuilder(
+        stream: buildingsUAData.getBuildingsUA,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            debugPrint("NO DATA");
+            return Center(child: CircularProgressIndicator());
+          }
+          buildingDistances = snapshot.data as List;
+
+          debugPrint(buildingDistances.first.buildingDistance.toString() +
+              "llllllllllllllllllllllllll");
+
+          return SingleChildScrollView(
+              child: Column(
+            children: [OrderList()],
+          ));
+        });
+  }
+
+  Widget OrderList() {
+    return Container(
+        height: MediaQuery.of(context).size.height / 2.3,
+        alignment: Alignment.topCenter,
+        margin: EdgeInsets.all(20),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(40, 40, 61, 0.8),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Center(
+              child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Text(
+              'Orders',
+              textScaleFactor: 1.0, // disables accessibility
+              style: TextStyle(
+                fontSize: 30.0,
+                color: Colors.white,
+              ),
+            ),
+          )),
+          Divider(height: 10, thickness: 2, color: Colors.red[400]),
+          Expanded(
+              child: ListView.builder(
+            itemCount: buildingDistances.length,
+            shrinkWrap: true,
+            // ignore: missing_return
+            itemBuilder: (context, position) {
+              GestureDetector(
+                  child: Container(
+                margin: EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      /*
+                        child: Image.asset('',
+                            // width: 300,
+                            height: 40,
+                            fit: BoxFit.fill), */
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          buildingDistances[position]
+                              .buildingsUA
+                              .realBuildingName
+                              .toString(),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ));
+            },
+          ))
+        ]));
+  }
+
+  List<BuildingDistance> buildingDistances = new List<BuildingDistance>();
+
+  void _getCurrentLocation() async {}
+  @override
+  void initState() {
+    super.initState();
+    brbBloc.getBuildCount.listen((listOfBuildCount) {
+      debugPrint("VVVVVVVVVVVVVVVV");
+
+      init(listOfBuildCount);
+    });
+
+    debugPrint("(((((((((((((");
+    initialize();
+
+    var buildingStream = brbBloc.getBuildCount;
+  }
+
+  //HERE
+  @override
+  void getPermissionStatus() async {
+    var permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.storage);
+    if (permission == PermissionStatus.granted) {
+    } // ideally you should specify another condition if permissions is denied
+    else if (permission == PermissionStatus.denied ||
+        permission == PermissionStatus.restricted) {
+      await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+      getPermissionStatus();
+    }
+  }
+
+  Future<void> initialize() async {
+    var tempDir = await getTemporaryDirectory();
+    String tempPath = tempDir.path;
+
+    Hive
+      ..init(tempPath)
+      ..registerAdapter(BuildingsUAAdapter());
+  }
+}

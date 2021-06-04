@@ -6,6 +6,7 @@ import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/View/ClassroomDetails.dart';
 
+//SEARCH 2
 class BuildingsClassrooms extends StatefulWidget {
   BuildCount buildCount;
   BuildingsClassrooms({Key key, this.buildCount}) : super(key: key);
@@ -52,6 +53,8 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
                         style: TextStyle(fontSize: 22.0)),
                   ],
                 )),
+
+            //CLASSROOMS LIST
             Expanded(
                 child: ListView.builder(
               itemCount: current.length,
@@ -100,6 +103,7 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
         ));
   }
 
+  //GO TO NEXT PAGE (PAGE 3)
   goToClassroomDetailsPage(
       BuildContext context, Classroom data, Building building) {
     Navigator.push(

@@ -2,12 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
+import 'package:r2ua/BlocPattern/EventPost.dart';
 import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/Entities/Week.dart';
 import 'package:intl/intl.dart';
+import 'package:r2ua/View/Events.dart';
 
+import 'BuildingsClassrooms.dart';
+
+//SEARCH 3
 class ClassroomDetails extends StatefulWidget {
   Classroom classroom;
   Building building;
@@ -41,10 +46,9 @@ class _ClassroomDetails extends State<ClassroomDetails> {
 
     currentWeek = weekList[current];
     eventsBloc.getAllClassroomEventsByTime(_classroom.id, currentWeek);
-    for (var a in weekList)
-      debugPrint(a.beginning.toString() + "////////////////");
 
     days = currentWeek.getDaysInTheWeek();
+    String current_week = "";
 
     return StreamBuilder(
         stream: eventsBloc.getListOfEvents,
@@ -54,7 +58,6 @@ class _ClassroomDetails extends State<ClassroomDetails> {
             return Center(child: CircularProgressIndicator());
           }
           events = (snapshot.data) as List;
-          debugPrint(events.toString() + "////////////////");
 
           return Scaffold(
               appBar: AppBar(title: Text(_building.name), actions: <Widget>[]),
@@ -125,6 +128,8 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                           Text("", style: TextStyle(fontSize: 22.0)),
                         ]),
                       )),
+
+                  //LIST OF EVENTS
                   Expanded(
                       child: StreamBuilder(
                           stream: eventsBloc.getListOfEvents,
@@ -226,9 +231,15 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                                               child: Text(
                                                   formatter.format(days[4])),
                                             )))),
+                                RaisedButton(
+                                    onPressed: () {
+                                      goToEventsPage(context, days, currentWeek,
+                                          _classroom.id);
+                                    },
+                                    child: Text('Book Classroom'))
                               ],
                             );
-                          }))
+                          })),
                 ],
               ));
         });
@@ -240,28 +251,33 @@ class _ClassroomDetails extends State<ClassroomDetails> {
         setState(() {
           current++;
           currentWeek = weekList[current];
+
           days = currentWeek.getDaysInTheWeek();
         });
       }
     } else {
-      if (current > 0)
+      if (current > 0) {
         setState(() {
           current--;
           currentWeek = weekList[current];
           days = currentWeek.getDaysInTheWeek();
         });
+      }
       //eventsBloc.getAllClassroomEventsByTime(_classroom.id, currentWeek);
 
     }
     eventsBloc.getAllClassroomEventsByTime(_classroom.id, currentWeek);
   }
 
-  /*   goToDetailsPage(BuildContext context, BuildCount data) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => BuildingsClassrooms(buildCount: data)),
-      );
-    } */
-
+  //""""""""""""""""
+  // ignore: always_declare_return_types
+  goToEventsPage(
+      BuildContext context, List<DateTime> days, Week data, int classroomID) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => Events(
+              days: days, classroomID: classroomID, week: data, title: 'r2UA')),
+    );
+  }
 }

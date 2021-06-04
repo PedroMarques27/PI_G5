@@ -58,10 +58,12 @@ class BrbBloc {
     HashSet<Classroom> classes = new HashSet<Classroom>();
     HashMap<int, Building> codesBuildings = new HashMap();
     List<BuildCount> data = new List<BuildCount>();
+
     for (var classId in classroomsIds) {
       Classroom cs = (await classroomsBloc.getClassroomById(classId));
 
       Building currentBuilding;
+
       if (codesBuildings.containsKey(cs.building)) {
         currentBuilding = codesBuildings[cs.building];
         for (var d in data) {
@@ -78,9 +80,9 @@ class BrbBloc {
         data.add(new BuildCount(
             building: currentBuilding, classrooms: _temp, count: 1));
       }
-
-      update(data);
     }
+    update(data);
+
     //var x = getWeek();
   }
 
@@ -109,7 +111,7 @@ class BuildCount {
   BuildCount({this.building, this.count, this.classrooms});
 }
 
-final buildingsUA = new BuildingUAData();
+final buildingsUAData = new BuildingUAData();
 final weekBloc = new WeekBloc();
 final eventsBloc = new EventsBloc();
 final usersBloc = UsersBloc();
