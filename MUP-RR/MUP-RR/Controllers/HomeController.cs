@@ -12,12 +12,14 @@ namespace MUP_RR.Controllers
 	{
 		public DBConnector database = new DBConnector();
 
+
 		public ActionResult Index()
 		{
-		 	ViewData["MUP-Table"] = database.SelectMup();
+		 	//ViewData["MUP-Table"] = database.SelectMup();
 
 			return View();
 		}
+		/*
 		List<Tuple<string, string, string, string>> translateMup(){
 			List<MupTable> mupTable = database.SelectMup();
 
@@ -32,7 +34,9 @@ namespace MUP_RR.Controllers
 			}
 
 
-		}  
+		
+		} 
+		*/
 		
 	}
 
