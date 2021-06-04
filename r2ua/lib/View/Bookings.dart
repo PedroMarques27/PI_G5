@@ -90,26 +90,14 @@ class _Bookings extends State<Bookings> {
                               Row(
                                 children: <Widget>[
                                   Text(currentList[index]
-                                          .startTime[0]
-                                          .toString() +
-                                      currentList[index]
-                                          .startTime[1]
-                                          .toString() +
-                                      currentList[index]
-                                          .startTime[2]
-                                          .toString() +
-                                      currentList[index]
-                                          .startTime[3]
-                                          .toString() +
-                                      currentList[index]
-                                          .startTime[4]
+                                          .startTime
+                                          .substring(0, 5)
                                           .toString() +
                                       "h - " +
-                                      currentList[index].endTime[0].toString() +
-                                      currentList[index].endTime[1].toString() +
-                                      currentList[index].endTime[2].toString() +
-                                      currentList[index].endTime[3].toString() +
-                                      currentList[index].endTime[4].toString() +
+                                      currentList[index]
+                                          .endTime
+                                          .substring(0, 5)
+                                          .toString() +
                                       "h"),
                                 ],
                               )
@@ -133,7 +121,7 @@ class _Bookings extends State<Bookings> {
       onChanged: (String newValue) {
         setState(() {
           dropdownValue = newValue;
-          
+
           if (newValue == "Future")
             currentList = currentEventsList;
           else

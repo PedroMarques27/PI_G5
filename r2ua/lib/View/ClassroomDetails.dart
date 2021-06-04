@@ -7,6 +7,7 @@ import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/Entities/Week.dart';
+import 'package:r2ua/View/CreateEvent.dart';
 
 class ClassroomDetails extends StatefulWidget {
   Classroom classroom;
@@ -25,6 +26,7 @@ class _ClassroomDetails extends State<ClassroomDetails> {
   Stream weekStream;
   int current = 0;
   List<DateTime> days = new List<DateTime>();
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +46,13 @@ class _ClassroomDetails extends State<ClassroomDetails> {
         currentWeek.getDaysInTheWeek()[0].toString(), _classroom.id);
 
     days = currentWeek.getDaysInTheWeek();
+    List<String> weekDays = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ];
 
     return Scaffold(
         appBar: AppBar(title: Text(_building.name), actions: <Widget>[]),
@@ -119,15 +128,17 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                       if (!snapshot.hasData)
                         return Center(child: CircularProgressIndicator());
                       currentList = (snapshot.data) as List;
-                      days.removeAt(6);
-                      days.removeAt(5);
+                      debugPrint("HHHHHH" + days.toString());
                       return ListView.builder(
-                          itemCount: days.length,
+                          itemCount: 5,
                           itemBuilder: (BuildContext ctx, int ind) {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(formatter.format(days[ind]),
+                                Text(
+                                    weekDays[ind] +
+                                        " - " +
+                                        formatter.format(days[ind]),
                                     style: TextStyle(fontSize: 18)),
                                 ListView.builder(
                                     itemCount: currentList.length,
@@ -178,7 +189,6 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                                     }),
                               ],
                             );
-
                             // design of date space
                             /* padding: EdgeInsets.all(8),
                         children: <Widget>[
@@ -199,7 +209,24 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                                         child: Text(formatter.format(days[0])),
                                       )))), */
                           });
-                    }))
+                    })),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.cyan, // background
+                onPrimary: Colors.white, // foreground
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CreateEvent(
+                            week: currentWeek,
+                            classId: _classroom.id,
+                          )),
+                );
+              },
+              child: Text('Book Classroom'),
+            )
           ],
         ));
   }
@@ -224,13 +251,4 @@ class _ClassroomDetails extends State<ClassroomDetails> {
     unavailableEventsBloc.searchUnavailableEventsByWeekByClassroom(
         currentWeek.getDaysInTheWeek()[0].toString(), _classroom.id);
   }
-
-  /*   goToDetailsPage(BuildContext context, BuildCount data) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => BuildingsClassrooms(buildCount: data)),
-      );
-    } */
-
 }

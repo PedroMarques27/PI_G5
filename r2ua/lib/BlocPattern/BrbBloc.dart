@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:r2ua/BlocPattern/PostEventBloc.dart';
 import 'package:r2ua/BlocPattern/WeekBloc.dart';
 import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/ClassroomGroups.dart';
@@ -116,4 +117,5 @@ final buildingBloc = BuildingBloc();
 final classroomGroupsBloc = ClassroomGroupsBloc();
 final classroomsBloc = ClassroomsBloc();
 final unavailableEventsBloc = new UnavailableEventsBloc();
+final postEventsBloc = new PostEventsBloc();
 final brbBloc = BrbBloc();
