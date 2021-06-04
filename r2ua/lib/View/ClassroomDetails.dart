@@ -39,7 +39,6 @@ class _ClassroomDetails extends State<ClassroomDetails> {
     weekStream = weekBloc.getWeekList;
     weekList = weekBloc.latest;
     currentWeek = weekList[current];
-    debugPrint("Weeeek" + currentWeek.getDaysInTheWeek()[0].toString());
 
     unavailableEventsBloc.searchUnavailableEventsByWeekByClassroom(
         currentWeek.getDaysInTheWeek()[0].toString(), _classroom.id);
@@ -120,40 +119,68 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                       if (!snapshot.hasData)
                         return Center(child: CircularProgressIndicator());
                       currentList = (snapshot.data) as List;
-
+                      days.removeAt(6);
+                      days.removeAt(5);
                       return ListView.builder(
-                          itemCount: currentList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                                child: Container(
-                                    margin: EdgeInsets.all(2),
-                                    padding: EdgeInsets.all(6.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[200],
-                                      border: Border.all(
-                                        color: Colors.grey[300],
-                                        width: 8,
-                                      ),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Column(children: [
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Text(
-                                                  currentList[index]
-                                                      .id
-                                                      .toString(),
-                                                  style:
-                                                      TextStyle(fontSize: 18)),
-                                            ])
-                                      ]),
-                                    )));
-                          });
-                      /* padding: EdgeInsets.all(8),
+                          itemCount: days.length,
+                          itemBuilder: (BuildContext ctx, int ind) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(formatter.format(days[ind]),
+                                    style: TextStyle(fontSize: 18)),
+                                ListView.builder(
+                                    itemCount: currentList.length,
+                                    physics: ClampingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      if (currentList[index].day == ind) {
+                                        return GestureDetector(
+                                            child: Container(
+                                                margin: EdgeInsets.all(2),
+                                                padding: EdgeInsets.all(6.0),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[200],
+                                                  border: Border.all(
+                                                    color: Colors.grey[300],
+                                                    width: 8,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
+                                                  child: Column(children: [
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: <Widget>[
+                                                          Text(
+                                                              currentList[index]
+                                                                      .startTime
+                                                                      .toString() +
+                                                                  "-" +
+                                                                  currentList[
+                                                                          index]
+                                                                      .endTime
+                                                                      .toString(),
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      18)),
+                                                        ])
+                                                  ]),
+                                                )));
+                                      }
+                                      return Container();
+                                    }),
+                              ],
+                            );
+
+                            // design of date space
+                            /* padding: EdgeInsets.all(8),
                         children: <Widget>[
                           GestureDetector(
                               child: Padding(
@@ -171,6 +198,7 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                                       child: Center(
                                         child: Text(formatter.format(days[0])),
                                       )))), */
+                          });
                     }))
           ],
         ));
