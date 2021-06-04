@@ -24,8 +24,6 @@ class Event {
       this.weeks});
 
   factory Event.fromJson(Map<String, dynamic> json) {
-    debugPrint('WEEEEEEEK' + json.toString());
-
     Iterable l = json['weeks'];
     List<Week> _weeks = List<Week>.from(l.map((model) => Week.fromJson(model)));
 

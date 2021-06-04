@@ -43,8 +43,6 @@ class BrbBloc {
       getClassroomGroupsBuildings(currentUser.classroomGroupsId);
     });
     usersBloc.getCurrentUser(email);
-    debugPrint(
-        'CurrentUser: $currentUser'); //-----------------------------------------------------
   }
 
   void getClassroomGroupsBuildings(List<int> groupsIds) async {

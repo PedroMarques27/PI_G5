@@ -17,7 +17,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     brbBloc.initialize(email);
     weekBloc.getWeeks();
-    eventsBloc.bookingsEvents(email, 50);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

@@ -55,7 +55,6 @@ class EventsBloc {
   }
 
   Future<List<Event>> searchEventsByUser(String email, int number) async {
-    debugPrint("EMAIL" + email);
     var uri = Uri.https(BASE_URL, ("/api/Events/search"));
     final response = await http.post(uri,
         headers: {
@@ -91,18 +90,17 @@ class EventsBloc {
         }));
 
     List<Event> userEvents;
-
+    
     if (json.decode(response.body)['data']['data'] != []) {
       Iterable l = json.decode(response.body)['data']['data'];
       userEvents = List<Event>.from(l.map((model) => Event.fromJson(model)));
     }
     update(userEvents);
-    debugPrint("\nSEARCH_BY_USER" + userEvents.length.toString());
+
     return userEvents;
   }
 
   Future<List<Event>> searchPastEventsByUser(String email) async {
-    debugPrint("EMAIL" + email);
     var uri = Uri.https(BASE_URL, ("/api/Events/search"));
     final response = await http.post(uri,
         headers: {
@@ -146,12 +144,6 @@ class EventsBloc {
         }));
 
     List<Event> userEvents;
-    /* debugPrint(
-      "datteeeee" +
-          DateTime.now().subtract(Duration(days: 30)).toIso8601String(),
-    ); */
-
-    debugPrint("\nPAST EVENTS" + json.decode(response.body).toString());
 
     if (json.decode(response.body)['data']['data'] != []) {
       Iterable l = json.decode(response.body)['data']['data'];
@@ -164,9 +156,8 @@ class EventsBloc {
   Future<UserEvents> bookingsEvents(String email, int number) async {
     UserEvents uE = UserEvents(
         futureEvents: await this.searchEventsByUser(email, number),
-        pastEvents: await searchPastEventsByUser(email));
-    debugPrint("\nFUTURE" + uE.futureEvents.length.toString());
-    debugPrint("PAST" + uE.pastEvents.length.toString());
+        pastEvents: await this.searchPastEventsByUser(email));
+
     return uE;
   }
 

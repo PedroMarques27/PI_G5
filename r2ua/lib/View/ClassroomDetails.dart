@@ -42,8 +42,6 @@ class _ClassroomDetails extends State<ClassroomDetails> {
 
     currentWeek = weekList[current];
     eventsBloc.getAllClassroomEventsByTime(_classroom.id, currentWeek);
-    /* for (var a in weekList)
-      debugPrint(a.beginning.toString() + "////////////////");*/
 
     days = currentWeek.getDaysInTheWeek();
 
