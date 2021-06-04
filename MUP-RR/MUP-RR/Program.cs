@@ -8,26 +8,7 @@ using MUP_RR.Models;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using MUP_RR.Controllers;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using MUP_RR.Models;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization.Json;
-using System.IO;
-using System.Runtime.Serialization.Json;
 using System.Threading;
 
 
@@ -117,6 +98,7 @@ namespace MUP_RR
             Thread.Sleep(7200000);
             
         }
+
         public async Task<String> addBrbRcuUserAssoc(BRB_User user){
             var iupi = RCUConnector.getRcuIupi(user.email);
             BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
