@@ -95,15 +95,16 @@ namespace MUP_RR.Controllers
             throw new Exception("Failed to update contact in database. \n ERROR MESSAGE: \n" + ex.Message);
         }    
     }
-    public void InsertProfile(Profile profile)
+    public void InsertProfile(Profile profile, int priority)
     {
         if (!verifySGBDConnection())
                 return;
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "INSERT MUPRR.Profile (id, name) VALUES (@id, @name)";
+        cmd.CommandText = "INSERT MUPRR.Profile (id, name, priority) VALUES (@id, @name, @priority)";
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@id", profile.id);
         cmd.Parameters.AddWithValue("@name", profile.name);
+        cmd.Parameters.AddWithValue("@priority", priority);
       
         cmd.Connection = connection;
    
@@ -448,6 +449,7 @@ namespace MUP_RR.Controllers
         {
             data.id = Convert.ToInt32(reader["id"]);
             data.name = reader["name"].ToString();
+            data.priority = Convert.ToInt32(reader["priority"]);
 
         }
         reader.Close();
@@ -469,6 +471,7 @@ namespace MUP_RR.Controllers
         {
             data.id = Convert.ToInt32(reader["id"].ToString());
             data.name = reader["name"].ToString();
+            data.priority = Convert.ToInt32(reader["priority"]);
             
         }
         reader.Close();
@@ -487,6 +490,7 @@ namespace MUP_RR.Controllers
             Profile v = new Profile();
             v.id = Convert.ToInt32(reader["id"].ToString());
             v.name = reader["name"].ToString();
+            v.priority = Convert.ToInt32(reader["priority"]);
         
             data.Add(v);
         }
