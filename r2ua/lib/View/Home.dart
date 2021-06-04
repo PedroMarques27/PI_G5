@@ -35,7 +35,6 @@ class _Home extends State<Home> {
 
   Widget _buildList(BuildContext context) {
     eventsBloc.searchEventsByUser(email, 3);
-    debugPrint("THISSS" + currentList.length.toString());
     return StreamBuilder(
         stream: eventsBloc.getListOfEvents,
         builder: (context, snapshot) {

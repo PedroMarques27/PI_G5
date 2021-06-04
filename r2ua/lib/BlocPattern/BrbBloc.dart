@@ -12,6 +12,7 @@ import 'package:r2ua/Entities/ClassroomGroups.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/User.dart';
 
+import 'UnavailableEventsBloc.dart';
 import 'BuildingBloc.dart';
 import 'ClassroomGroupsBloc.dart';
 import 'ClassroomsBloc.dart';
@@ -114,4 +115,5 @@ final usersBloc = UsersBloc();
 final buildingBloc = BuildingBloc();
 final classroomGroupsBloc = ClassroomGroupsBloc();
 final classroomsBloc = ClassroomsBloc();
+final unavailableEventsBloc = new UnavailableEventsBloc();
 final brbBloc = BrbBloc();
