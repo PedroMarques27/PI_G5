@@ -17,7 +17,6 @@ namespace MUP_RR
     class Program
     {
 
-        public enum PROFILES {OWNER, STAFF, DEFAULT};
         public DBConnector database = new DBConnector();
 
         
@@ -41,8 +40,6 @@ namespace MUP_RR
 
             BRB_RCU_ASSOC currentUser = database.SelectUserFromIUPI(iupi);
             
-            //remover
-            //List<Tuple<UO,Vinculo>> data = await getUserData(iupi);
             
             MupTable finalDecision = new MupTable();  
             HashSet<Profile> profiles = new HashSet<Profile>();
@@ -56,7 +53,7 @@ namespace MUP_RR
                 foreach (var qritem in queryResult)
                 {
                     profiles.Add(database.SelectProfileById(qritem.profile));
-                    classroomGroups.Add(database.SelectClassroomById(qritem.classGroup));
+                    classroomGroups.Add(database.SelectClassroomGroupById(qritem.classGroup));
                 }
 
                 if (queryResult.Count()==0){
@@ -257,6 +254,8 @@ namespace MUP_RR
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+        
+        
         
     }
 

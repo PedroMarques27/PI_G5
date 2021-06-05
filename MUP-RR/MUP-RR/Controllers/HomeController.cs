@@ -15,28 +15,32 @@ namespace MUP_RR.Controllers
 
 		public ActionResult Index()
 		{
-		 	//ViewData["MUP-Table"] = database.SelectMup();
-
 			return View();
 		}
-		/*
-		List<Tuple<string, string, string, string>> translateMup(){
+		public ActionResult Interface()
+		{
+		 	ViewData["MUP-Table"] = translateMup();
+			return View();
+		}
+		List<Tuple<int, string, string, string, string>> translateMup(){
 			List<MupTable> mupTable = database.SelectMup();
 
 
 			List<Tuple<int, string, string, string, string>> translation = new List<Tuple<int,string, string, string, string>>();
 			foreach (var item in mupTable)
 			{
+				
 				var profile = database.SelectProfileById(item.profile);
 				var classroomGroup = database.SelectClassroomGroupById(item.classGroup);
-				var uo = database.SelectUoById(item.uo);
+				var uo = database.SelectUoById(item.uo.ToString());
 				var vinculo = database.SelectVinculoById(item.vinculo);
+				var _temp = new Tuple<int,string, string, string, string>(item.id,profile.name, classroomGroup.name, uo.sigla, vinculo.sigla);
+				translation.Add(_temp);
 			}
 
-
-		
+			return translation;
 		} 
-		*/
+		
 		
 	}
 

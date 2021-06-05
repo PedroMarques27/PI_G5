@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Interface";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p><table style="width:100%">
+        <tr>
+            <th>Id</th>
+            <th>Profile</th>
+            <th>Classroom Group</th>
+            <th>Unidade Orgânica</th>
+            <th>Vínculo</th>
+        </tr> 
+        @foreach (var item in ViewData["MUP-Table"] as List<Tuple<int,string, string, string, string>>)
+            {
+                <tr>
+            <th>@item.Item1</th>
+            <th>@item.Item2</th>
+            <th>@item.Item3</th>
+            <th>@item.Item4</th>
+            <th>@item.Item5</th>
+            </tr>
+            }
+        
+        
+        </table></p>
