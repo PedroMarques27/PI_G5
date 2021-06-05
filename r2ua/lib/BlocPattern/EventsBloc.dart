@@ -55,6 +55,7 @@ class EventsBloc {
   }
 
   Future<List<Event>> searchEventsByUser(String email, int number) async {
+    debugPrint("numebr" + number.toString());
     var uri = Uri.https(BASE_URL, ("/api/Events/search"));
     final response = await http.post(uri,
         headers: {
@@ -66,8 +67,7 @@ class EventsBloc {
           "page": 1,
           "pageSize": number,
           "sorts": [
-            {"path": "Name", "ascending": true},
-            {"path": "Code", "ascending": true}
+            {"path": "Day", "ascending": true}
           ],
           "filters": [
             {
@@ -112,8 +112,7 @@ class EventsBloc {
           "page": 1,
           "pageSize": 10,
           "sorts": [
-            {"path": "Name", "ascending": true},
-            {"path": "Code", "ascending": true}
+            {"path": "Day", "ascending": true}
           ],
           "filters": [
             {
