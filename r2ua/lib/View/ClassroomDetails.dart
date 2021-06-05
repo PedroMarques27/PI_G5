@@ -8,11 +8,14 @@ import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/Entities/Week.dart';
 import 'package:r2ua/View/CreateEvent.dart';
+import 'package:r2ua/main.dart';
 
 class ClassroomDetails extends StatefulWidget {
   Classroom classroom;
   Building building;
-  ClassroomDetails({Key key, this.classroom, this.building}) : super(key: key);
+  String email;
+  ClassroomDetails({Key key, this.classroom, this.building, this.email})
+      : super(key: key);
 
   @override
   _ClassroomDetails createState() => _ClassroomDetails();
@@ -36,6 +39,7 @@ class _ClassroomDetails extends State<ClassroomDetails> {
   Widget build(BuildContext context) {
     Classroom _classroom = widget.classroom;
     Building _building = widget.building;
+    String email = widget.email;
     var formatter = new DateFormat('yyyy-MM-dd');
 
     weekStream = weekBloc.getWeekList;
@@ -222,6 +226,7 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                       builder: (context) => CreateEvent(
                             week: currentWeek,
                             classId: _classroom.id,
+                            email: email,
                           )),
                 );
               },

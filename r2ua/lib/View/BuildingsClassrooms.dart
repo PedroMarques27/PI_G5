@@ -8,7 +8,8 @@ import 'package:r2ua/View/ClassroomDetails.dart';
 
 class BuildingsClassrooms extends StatefulWidget {
   BuildCount buildCount;
-  BuildingsClassrooms({Key key, this.buildCount}) : super(key: key);
+  String email;
+  BuildingsClassrooms({Key key, this.buildCount, this.email}) : super(key: key);
 
   @override
   _BuildingsClassrooms createState() => _BuildingsClassrooms();
@@ -18,6 +19,7 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
   @override
   Widget build(BuildContext context) {
     BuildCount bC = widget.buildCount;
+    String email = widget.email;
     List<Classroom> current = bC.classrooms;
     return Scaffold(
         appBar: AppBar(
@@ -91,7 +93,7 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
                   ),
                   onTap: () {
                     goToClassroomDetailsPage(
-                        context, current[position], bC.building);
+                        context, current[position], bC.building, email);
                   },
                 );
               },
@@ -101,13 +103,14 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
   }
 
   goToClassroomDetailsPage(
-      BuildContext context, Classroom data, Building building) {
+      BuildContext context, Classroom data, Building building, String email) {
     Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => ClassroomDetails(
                 classroom: data,
                 building: building,
+                email: email,
               )),
     );
   }

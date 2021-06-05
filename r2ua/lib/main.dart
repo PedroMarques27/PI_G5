@@ -80,5 +80,5 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  var _children = [Home(email: email), Search(), Bookings(email: email)];
+  var _children = [Home(email: email), Search(email: email), Bookings(email: email)];
 }

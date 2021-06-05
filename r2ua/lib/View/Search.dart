@@ -8,9 +8,10 @@ import 'Home.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 
 class Search extends StatefulWidget {
-  Search({Key key, this.title}) : super(key: key);
+  Search({Key key, this.title, this.email}) : super(key: key);
 
   final String title;
+  String email;
 
   @override
   _Search createState() => _Search();
@@ -20,14 +21,15 @@ class _Search extends State<Search> {
   List<BuildCount> currentList = new List<BuildCount>();
   @override
   Widget build(BuildContext context) {
+    String email = widget.email;
     return Column(children: <Widget>[
       Expanded(
-        child: Container(child: _buildList(context)),
+        child: Container(child: _buildList(context, email)),
       )
     ]);
   }
 
-  Widget _buildList(BuildContext context) {
+  Widget _buildList(BuildContext context, String email) {
     return StreamBuilder(
         stream: brbBloc.getBuildCount,
         builder: (context, snapshot) {
@@ -139,7 +141,7 @@ class _Search extends State<Search> {
                       ),
                       onTap: () {
                         goToClassroomsPerBuildingPage(
-                            context, currentList[position]);
+                            context, currentList[position], email);
                       },
                     );
                   },
@@ -150,11 +152,13 @@ class _Search extends State<Search> {
         });
   }
 
-  goToClassroomsPerBuildingPage(BuildContext context, BuildCount data) {
+  goToClassroomsPerBuildingPage(
+      BuildContext context, BuildCount data, String email) {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => BuildingsClassrooms(buildCount: data)),
+          builder: (context) =>
+              BuildingsClassrooms(buildCount: data, email: email)),
     );
   }
 }

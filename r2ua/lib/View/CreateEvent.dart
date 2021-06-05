@@ -14,6 +14,7 @@ class CreateEvent extends StatefulWidget {
   // PASSAR O EMAIL TAMBEM ----------------------------------------------------------
   int classId;
   Week week;
+  String email;
   List<String> weekDays = [
     "Monday",
     "Tuesday",
@@ -55,12 +56,12 @@ class CreateEvent extends StatefulWidget {
     "Aula",
     "Exame",
     "Conferência",
-    "Meeting",
+    "Reunião",
     "Avaliação",
     "Reservas"
   ]; //ID +1 ---------------------IMPORTANTE
 
-  CreateEvent({Key key, this.week, this.classId}) : super(key: key);
+  CreateEvent({Key key, this.week, this.classId, this.email}) : super(key: key);
 
   @override
   _CreateEvent createState() => _CreateEvent();
@@ -74,9 +75,16 @@ class _CreateEvent extends State<CreateEvent> {
 
   @override
   Widget build(BuildContext context) {
+    final myControllerName = TextEditingController();
+    final myControllerNum = TextEditingController();
+
     int classId = widget.classId;
     Week week = widget.week;
+    String email = widget.email;
+    debugPrint("EMAILLLLLL" + email);
+
     List<String> wDays = widget.weekDays;
+    List<String> eType = widget.eventType;
 
     return Scaffold(
         appBar: AppBar(title: Text("Create Event"), actions: <Widget>[]),
@@ -113,11 +121,13 @@ class _CreateEvent extends State<CreateEvent> {
                         style: TextStyle(fontSize: 22.0)),
                     Text("\nEvent Name: ", style: TextStyle(fontSize: 22.0)),
                     TextField(
+                      controller: myControllerName,
                       decoration: InputDecoration(border: OutlineInputBorder()),
                     ),
                     Text("\nNumber of Students: ",
                         style: TextStyle(fontSize: 22.0)),
                     TextField(
+                      controller: myControllerNum,
                       decoration: InputDecoration(border: OutlineInputBorder()),
                     ),
                     Row(children: [
@@ -153,8 +163,16 @@ class _CreateEvent extends State<CreateEvent> {
                         onPrimary: Colors.white, // foreground
                       ),
                       onPressed: () {
-                        postEventsBloc.postEvent("Test App", "20:00", "21:00",
-                            1, 4, 5, "ines.pl@ua.pt", "2021-06-14", 33);
+                        postEventsBloc.postEvent(
+                            myControllerName.text,
+                            dropdownStartTimeValue,
+                            dropdownEndTimeValue,
+                            wDays.indexOf(dropdownWeekDayValue),
+                            eType.indexOf(dropdownEventTypeValue) + 1,
+                            int.parse(myControllerNum.text),
+                            email,
+                            week.beginning.toString(),
+                            classId);
                       },
                       child: Text('Book Classroom'),
                     )
@@ -257,4 +275,5 @@ class _CreateEvent extends State<CreateEvent> {
       }).toList(),
     );
   }
+
 }
