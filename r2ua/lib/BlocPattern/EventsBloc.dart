@@ -160,6 +160,26 @@ class EventsBloc {
     return uE;
   }
 
+  Future<bool> removeEvent(int eventId) async {
+    var uri = Uri.https(BASE_URL, ("/api/ThirdPartyEvents/removecollection"));
+
+    final response = await http.post(uri,
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer $token",
+          HttpHeaders.contentTypeHeader: "application/json",
+          "Access-Control-Allow-Origin": "*"
+        },
+        body: jsonEncode({
+          "identifiers": [eventId],
+          "propertyBags": [
+            {"key": "string", "value": "string"}
+          ]
+        }));
+    if (response.statusCode == 201) return true;
+
+    return false;
+  }
+
   Future<List<Event>> getAllClassroomEventsByTime(
       int classId, Week week) async {
     var uri = Uri.https(

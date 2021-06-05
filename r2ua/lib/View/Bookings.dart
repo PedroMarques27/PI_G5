@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/BlocPattern/EventsBloc.dart';
 import 'package:r2ua/Entities/Event.dart';
@@ -86,6 +87,9 @@ class _Bookings extends State<Bookings> {
                                             days: currentList[index].day))
                                         .toIso8601String()
                                         .split("T")[0]),
+                                    if (dropdownValue == "Future")
+                                      GestureDetector(
+                                          child: Icon(FontAwesomeIcons.trash))
                                   ]),
                               Row(
                                 children: <Widget>[
