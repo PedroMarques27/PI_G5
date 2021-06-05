@@ -71,7 +71,7 @@ class EventsBloc {
           ],
           "filters": [
             {
-              "and": false,
+              "and": true,
               "type": 1,
               "not": false,
               "value": email,
@@ -90,7 +90,7 @@ class EventsBloc {
         }));
 
     List<Event> userEvents;
-    
+
     if (json.decode(response.body)['data']['data'] != []) {
       Iterable l = json.decode(response.body)['data']['data'];
       userEvents = List<Event>.from(l.map((model) => Event.fromJson(model)));

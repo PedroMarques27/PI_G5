@@ -36,7 +36,7 @@ class PostEventsBloc {
       int classId) async {
     int weekId = await this.getWeekId(weekStartDate);
 
-    var uri = Uri.https(BASE_URL, ("/api/ThirdPartyEvents "));
+    var uri = Uri.https(BASE_URL, ("/api/ThirdPartyEvents"));
     final response = await http.post(uri,
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -44,6 +44,33 @@ class PostEventsBloc {
           "Access-Control-Allow-Origin": "*"
         },
         body: jsonEncode({
+          "name": name,
+          "code": (name + "_" + email).toLowerCase().replaceAll(" ", "_"),
+          "startTime": startTime,
+          "endTime": endTime,
+          "day": day,
+          "eventTypeId": eventType,
+          "numStudents": numStudents,
+          "requestedBy": email,
+          "eventWeeks": [
+            {
+              "model": {"weekId": weekId},
+              "status": 1
+            }
+          ],
+          "eventClassrooms": [
+            {
+              "model": {"classroomId": classId},
+              "status": 1
+            }
+          ],
+          "propertyBags": [
+            {"key": "string", "value": "string"}
+          ]
+        }));
+
+    debugPrint("\n\npost  " +
+        jsonEncode({
           "name": name,
           "code": (name + "_" + email).toLowerCase().replaceAll(" ", "_"),
           "startTime": startTime,
@@ -68,34 +95,7 @@ class PostEventsBloc {
             {"key": "string", "value": "string"}
           ]
         }));
-
-    debugPrint("\n\npost  " +
-        jsonEncode({
-          "name": name,
-          "code": name.toLowerCase().replaceAll(" ", "_"),
-          "startTime": startTime,
-          "endTime": endTime,
-          "day": day,
-          "eventTypeId": eventType,
-          "numStudents": numStudents.toString(),
-          "requestedBy": email,
-          "eventWeeks": [
-            {
-              "model": {"weekId": weekId},
-              "status": 1
-            }
-          ],
-          "eventClassrooms": [
-            {
-              "model": {"classroomId": classId},
-              "status": 1
-            }
-          ],
-          "propertyBags": [
-            {"key": "string", "value": "string"}
-          ]
-        }));
-
+    debugPrint("Status code" + response.body);
     debugPrint("Status code" + response.statusCode.toString());
     if (response.statusCode == 201) return true;
 
