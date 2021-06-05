@@ -48,6 +48,7 @@ namespace MUP_RR
             Task.Factory.StartNew(obj.updateDatabaseAssocTable);
             Task.Factory.StartNew(obj.updateNewBRBUsers);
             Task.Factory.StartNew(obj.updateDatabaseWithNewBrbData);
+            
             CreateHostBuilder(args).Build().Run();
         }
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -43,7 +43,6 @@ namespace MUP_RR.Controllers
             
             JObject jObject = JObject.Parse(msg);
             List<Profile> profiles = new List<Profile>();
-            var DEFAULT_PRIORITY = -99;
             foreach (var jsonProfile in jObject["data"])
             {
                 Profile newProfile = new Profile();
