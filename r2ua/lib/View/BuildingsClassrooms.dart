@@ -16,11 +16,14 @@ class BuildingsClassrooms extends StatefulWidget {
 }
 
 class _BuildingsClassrooms extends State<BuildingsClassrooms> {
+  String dropdownCharacteristics = "No filter";
   @override
   Widget build(BuildContext context) {
     BuildCount bC = widget.buildCount;
     String email = widget.email;
     List<Classroom> current = bC.classrooms;
+    Set<String> charact = getClassroomsCharacteristics(bC.classrooms);
+
     return Scaffold(
         appBar: AppBar(
             title: Text(bC.building.name + " Classrooms "),
@@ -54,6 +57,53 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
                         style: TextStyle(fontSize: 22.0)),
                   ],
                 )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: FaIcon(FontAwesomeIcons.sortAlphaDown),
+                  tooltip: 'Sort By Alpha',
+                  onPressed: () {
+                    setState(() {
+                      current.sort((a, b) => a.name.compareTo(b.name));
+                    });
+                  },
+                ),
+                IconButton(
+                  icon: FaIcon(FontAwesomeIcons.sortAlphaUp),
+                  tooltip: 'Sort By Alpha',
+                  onPressed: () {
+                    setState(() {
+                      current.sort((b, a) => a.name.compareTo(b.name));
+                    });
+                  },
+                ),
+                IconButton(
+                  icon: FaIcon(FontAwesomeIcons.sortNumericDown),
+                  tooltip: 'Sort By Capacity',
+                  onPressed: () {
+                    setState(() {
+                      current.sort((a, b) => a.capacity.compareTo(b.capacity));
+                    });
+                  },
+                ),
+                IconButton(
+                  icon: FaIcon(FontAwesomeIcons.sortNumericUp),
+                  tooltip: 'Sort By Capacity',
+                  onPressed: () {
+                    setState(() {
+                      current.sort((b, a) => a.capacity.compareTo(b.capacity));
+                    });
+                  },
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text("Characteristics: ", style: TextStyle(fontSize: 15.0)),
+                DropdownCharacteristics(context, bC.classrooms, current),
+              ],
+            ),
             Expanded(
                 child: ListView.builder(
               itemCount: current.length,
@@ -113,5 +163,57 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
                 email: email,
               )),
     );
+  }
+
+  Widget DropdownCharacteristics(
+      BuildContext context, List<Classroom> classes, List<Classroom> current) {
+    return DropdownButton<String>(
+      value: dropdownCharacteristics,
+      icon: const Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: const TextStyle(color: Colors.black),
+      underline: Container(
+        height: 2,
+      ),
+      onChanged: (String newValue) {
+        setState(() {
+          dropdownCharacteristics = newValue;
+          current = filterClassroomsByCharacteristic(classes, newValue);
+        });
+      },
+      items: this
+          .getClassroomsCharacteristics(widget.buildCount.classrooms)
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value, style: TextStyle(fontSize: 13.0)),
+        );
+      }).toList(),
+    );
+  }
+
+  Set<String> getClassroomsCharacteristics(List<Classroom> classes) {
+    Set<String> characteristics = Set<String>();
+    characteristics.add("No filter");
+    for (Classroom c in classes)
+      for (Characteristic charac in c.characteristics)
+        characteristics.add(charac.name);
+    debugPrint(characteristics.toString());
+    return characteristics;
+  }
+
+  List<Classroom> filterClassroomsByCharacteristic(
+      List<Classroom> classes, String characteristic) {
+    List<Classroom> rightClasses = List<Classroom>();
+
+    for (Classroom c in classes)
+      for (Characteristic charac in c.characteristics)
+        if (charac.name == characteristic) {
+          debugPrint(c.name);
+          rightClasses.add(c);
+        }
+
+    return rightClasses;
   }
 }

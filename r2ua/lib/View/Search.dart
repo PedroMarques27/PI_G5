@@ -79,7 +79,7 @@ class _Search extends State<Search> {
                             },
                           ),
                           IconButton(
-                            icon: FaIcon(FontAwesomeIcons.sortNumericUp),
+                            icon: FaIcon(FontAwesomeIcons.sortNumericDown),
                             tooltip: 'Sort By Count',
                             onPressed: () {
                               setState(() {
@@ -89,7 +89,7 @@ class _Search extends State<Search> {
                             },
                           ),
                           IconButton(
-                            icon: FaIcon(FontAwesomeIcons.sortNumericDown),
+                            icon: FaIcon(FontAwesomeIcons.sortNumericUp),
                             tooltip: 'Sort By Count',
                             onPressed: () {
                               setState(() {

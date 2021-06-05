@@ -132,7 +132,6 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                       if (!snapshot.hasData)
                         return Center(child: CircularProgressIndicator());
                       currentList = (snapshot.data) as List;
-                      debugPrint("HHHHHH" + days.toString());
                       return ListView.builder(
                           itemCount: 5,
                           itemBuilder: (BuildContext ctx, int ind) {

@@ -160,7 +160,7 @@ class EventsBloc {
     return uE;
   }
 
-  Future<bool> removeEvent(int eventId) async {
+  Future<bool> removeEvent(int eventId, String email, int number) async {
     var uri = Uri.https(BASE_URL, ("/api/ThirdPartyEvents/removecollection"));
 
     final response = await http.post(uri,
@@ -175,7 +175,11 @@ class EventsBloc {
             {"key": "string", "value": "string"}
           ]
         }));
-    if (response.statusCode == 201) return true;
+    if (response.statusCode == 201) {
+      // para ele fazer o update
+      this.searchEventsByUser(email, number);
+      return true;
+    }
 
     return false;
   }
