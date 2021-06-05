@@ -24,7 +24,7 @@ class PostEventsBloc {
 
   void stop() {}
 
-  Future<List<Event>> postEvent(
+  Future<bool> postEvent(
       String name,
       String startTime,
       String endTime,
@@ -34,10 +34,10 @@ class PostEventsBloc {
       String email,
       String weekStartDate,
       int classId) async {
-    
     int weekId = await this.getWeekId(weekStartDate);
+    debugPrint("IDDDDD" + weekId.toString());
 
-    var uri = Uri.https(BASE_URL, ("/api/Events/search"));
+    var uri = Uri.https(BASE_URL, ("/api/ThirdPartyEvents "));
     final response = await http.post(uri,
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -45,6 +45,33 @@ class PostEventsBloc {
           "Access-Control-Allow-Origin": "*"
         },
         body: jsonEncode({
+          "name": name,
+          "code": (name + "_" + email).toLowerCase().replaceAll(" ", "_"),
+          "startTime": startTime,
+          "endTime": endTime,
+          "day": day,
+          "eventTypeId": eventType,
+          "numStudents": numStudents.toString(),
+          "requestedBy": email,
+          "eventWeeks": [
+            {
+              "model": {"weekId": weekId},
+              "status": 1
+            }
+          ],
+          "eventClassrooms": [
+            {
+              "model": {"classroomId": classId},
+              "status": 1
+            }
+          ],
+          "propertyBags": [
+            {"key": "string", "value": "string"}
+          ]
+        }));
+
+    debugPrint("\n\npost  " +
+        jsonEncode({
           "name": name,
           "code": name.toLowerCase().replaceAll(" ", "_"),
           "startTime": startTime,
@@ -70,18 +97,15 @@ class PostEventsBloc {
           ]
         }));
 
-    List<Event> userEvents;
+    debugPrint("Status code" + response.statusCode.toString());
+    if (response.statusCode == 201) return true;
 
-    if (json.decode(response.body)['data']['data'] != []) {
-      Iterable l = json.decode(response.body)['data']['data'];
-      userEvents = List<Event>.from(l.map((model) => Event.fromJson(model)));
-    }
-
-    return userEvents;
+    return false;
   }
 
   Future<int> getWeekId(String weekDate) async {
-    var uri = Uri.https(BASE_URL, "/api/Weeks/starting" + weekDate);
+    debugPrint("heeelooo " + weekDate);
+    var uri = Uri.https(BASE_URL, "/api/Weeks/starting/" + weekDate);
     final response = await http.get(
       uri,
       headers: {
@@ -91,8 +115,10 @@ class PostEventsBloc {
       },
     );
 
-    debugPrint(json.decode(response.body)['data'][0].toString());
-
+    debugPrint("WEEEEK " + response.body);
+    debugPrint("\nWEEEEK " + json.decode(response.body)['data'][0].toString());
+    debugPrint(
+        "\nWEEEEK " + json.decode(response.body)['data'][0]['id'].toString());
     return json.decode(response.body)['data'][0]['id'];
   }
 }
