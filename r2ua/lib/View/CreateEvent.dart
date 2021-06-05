@@ -15,6 +15,7 @@ class CreateEvent extends StatefulWidget {
   int classId;
   Week week;
   String email;
+  int numMaxStud;
   List<String> weekDays = [
     "Monday",
     "Tuesday",
@@ -61,7 +62,8 @@ class CreateEvent extends StatefulWidget {
     "Reservas"
   ]; //ID +1 ---------------------IMPORTANTE
 
-  CreateEvent({Key key, this.week, this.classId, this.email}) : super(key: key);
+  CreateEvent({Key key, this.week, this.classId, this.email, this.numMaxStud})
+      : super(key: key);
 
   @override
   _CreateEvent createState() => _CreateEvent();
@@ -72,16 +74,15 @@ class _CreateEvent extends State<CreateEvent> {
   String dropdownStartTimeValue = "08:00";
   String dropdownEndTimeValue = "08:30";
   String dropdownEventTypeValue = "Aula";
+  String dropdownCapacityValue = "1";
 
   @override
   Widget build(BuildContext context) {
     final myControllerName = TextEditingController();
-    final myControllerNum = TextEditingController();
 
     int classId = widget.classId;
     Week week = widget.week;
     String email = widget.email;
-    debugPrint("EMAILLLLLL" + email);
 
     List<String> wDays = widget.weekDays;
     List<String> eType = widget.eventType;
@@ -119,35 +120,42 @@ class _CreateEvent extends State<CreateEvent> {
                             " - " +
                             week.getFormattedEnding(),
                         style: TextStyle(fontSize: 22.0)),
+// Event Name
                     Text("\nEvent Name: ", style: TextStyle(fontSize: 22.0)),
                     TextField(
                       controller: myControllerName,
                       decoration: InputDecoration(border: OutlineInputBorder()),
                     ),
-                    Text("\nNumber of Students: ",
-                        style: TextStyle(fontSize: 22.0)),
-                    TextField(
-                      controller: myControllerNum,
-                      decoration: InputDecoration(border: OutlineInputBorder()),
-                    ),
+// Number Of Students
+                    Row(children: [
+                      Text("\nNumber of Students: ",
+                          style: TextStyle(fontSize: 22.0)),
+                      Column(children: <Widget>[
+                        DropdownCapacity(context),
+                      ]),
+                    ]),
+// Week day
                     Row(children: [
                       Text("\nWeek day: ", style: TextStyle(fontSize: 22.0)),
                       Column(children: <Widget>[
                         DropdownWeekDays(context),
                       ]),
                     ]),
+// Start Time
                     Row(children: [
                       Text("\nStart Time: ", style: TextStyle(fontSize: 22.0)),
                       Column(children: <Widget>[
                         DropdownStartTime(context),
                       ]),
                     ]),
+// End Time
                     Row(children: [
                       Text("\nEnd Time: ", style: TextStyle(fontSize: 22.0)),
                       Column(children: <Widget>[
                         DropdownEndTime(context),
                       ]),
                     ]),
+// Event Type
                     Row(
                       children: [
                         Text("\nEvent Type: ",
@@ -169,7 +177,7 @@ class _CreateEvent extends State<CreateEvent> {
                             dropdownEndTimeValue,
                             wDays.indexOf(dropdownWeekDayValue),
                             eType.indexOf(dropdownEventTypeValue) + 1,
-                            int.parse(myControllerNum.text),
+                            int.parse(dropdownCapacityValue) + 1,
                             email,
                             week.beginning.toString(),
                             classId);
@@ -276,4 +284,35 @@ class _CreateEvent extends State<CreateEvent> {
     );
   }
 
+  Widget DropdownCapacity(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownCapacityValue,
+      icon: const Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: const TextStyle(color: Colors.black),
+      underline: Container(
+        height: 2,
+      ),
+      onChanged: (String newValue) {
+        setState(() {
+          dropdownCapacityValue = newValue;
+        });
+      },
+      items: this
+          .numOfStudentsList(widget.numMaxStud)
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+
+  List<String> numOfStudentsList(int numMax) {
+    List<String> numStud = List<String>();
+    for (int i = 0; i < numMax; i++) numStud.add((i + 1).toString());
+    return numStud;
+  }
 }

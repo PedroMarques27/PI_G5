@@ -35,7 +35,6 @@ class PostEventsBloc {
       String weekStartDate,
       int classId) async {
     int weekId = await this.getWeekId(weekStartDate);
-    debugPrint("IDDDDD" + weekId.toString());
 
     var uri = Uri.https(BASE_URL, ("/api/ThirdPartyEvents "));
     final response = await http.post(uri,
@@ -104,7 +103,6 @@ class PostEventsBloc {
   }
 
   Future<int> getWeekId(String weekDate) async {
-    debugPrint("heeelooo " + weekDate);
     var uri = Uri.https(BASE_URL, "/api/Weeks/starting/" + weekDate);
     final response = await http.get(
       uri,
@@ -114,11 +112,6 @@ class PostEventsBloc {
         "Access-Control-Allow-Origin": "*"
       },
     );
-
-    debugPrint("WEEEEK " + response.body);
-    debugPrint("\nWEEEEK " + json.decode(response.body)['data'][0].toString());
-    debugPrint(
-        "\nWEEEEK " + json.decode(response.body)['data'][0]['id'].toString());
     return json.decode(response.body)['data'][0]['id'];
   }
 }

@@ -227,6 +227,7 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                             week: currentWeek,
                             classId: _classroom.id,
                             email: email,
+                            numMaxStud: _classroom.capacity,
                           )),
                 );
               },
