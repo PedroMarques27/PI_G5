@@ -17,12 +17,23 @@ class BuildingsClassrooms extends StatefulWidget {
 
 class _BuildingsClassrooms extends State<BuildingsClassrooms> {
   String dropdownCharacteristics = "No filter";
+  List<Classroom> fullInitialList;
+  List<Classroom> current;
+  BuildCount bC;
+  Set<String> charact;
+  @override
+  void initState() {
+    super.initState();
+    bC = widget.buildCount;
+
+    fullInitialList = bC.classrooms;
+    charact = getClassroomsCharacteristics(fullInitialList);
+    current = fullInitialList;
+  }
+
   @override
   Widget build(BuildContext context) {
-    BuildCount bC = widget.buildCount;
     String email = widget.email;
-    List<Classroom> current = bC.classrooms;
-    Set<String> charact = getClassroomsCharacteristics(bC.classrooms);
 
     return Scaffold(
         appBar: AppBar(
@@ -99,9 +110,9 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Characteristics: ", style: TextStyle(fontSize: 15.0)),
-                DropdownCharacteristics(context, bC.classrooms, current),
+                DropdownCharacteristics(context),
               ],
             ),
             Expanded(
@@ -133,11 +144,16 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
                                 ),
                               ),
                               Container(
-                                child: Row(children: <Widget>[
-                                  Icon(FontAwesomeIcons.users),
-                                  Text(current[position].capacity.toString(),
-                                      style: TextStyle(fontSize: 12.0)),
-                                ]),
+                                width: MediaQuery.of(context).size.width / 6,
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Icon(FontAwesomeIcons.users),
+                                      Text(
+                                          current[position].capacity.toString(),
+                                          style: TextStyle(fontSize: 12.0)),
+                                    ]),
                               )
                             ])),
                   ),
@@ -165,8 +181,7 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
     );
   }
 
-  Widget DropdownCharacteristics(
-      BuildContext context, List<Classroom> classes, List<Classroom> current) {
+  Widget DropdownCharacteristics(BuildContext context) {
     return DropdownButton<String>(
       value: dropdownCharacteristics,
       icon: const Icon(Icons.arrow_downward),
@@ -179,11 +194,11 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
       onChanged: (String newValue) {
         setState(() {
           dropdownCharacteristics = newValue;
-          current = filterClassroomsByCharacteristic(classes, newValue);
+          current = filterClassroomsByCharacteristic(newValue);
         });
       },
       items: this
-          .getClassroomsCharacteristics(widget.buildCount.classrooms)
+          .getClassroomsCharacteristics(bC.classrooms)
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
@@ -199,20 +214,22 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
     for (Classroom c in classes)
       for (Characteristic charac in c.characteristics)
         characteristics.add(charac.name);
-    debugPrint(characteristics.toString());
+
     return characteristics;
   }
 
-  List<Classroom> filterClassroomsByCharacteristic(
-      List<Classroom> classes, String characteristic) {
+  List<Classroom> filterClassroomsByCharacteristic(String characteristic) {
     List<Classroom> rightClasses = List<Classroom>();
-
-    for (Classroom c in classes)
-      for (Characteristic charac in c.characteristics)
-        if (charac.name == characteristic) {
-          debugPrint(c.name);
-          rightClasses.add(c);
-        }
+    if (characteristic == "No filter")
+      rightClasses = fullInitialList;
+    else {
+      for (Classroom c in fullInitialList)
+        for (Characteristic charac in c.characteristics)
+          if (charac.name == characteristic) {
+            debugPrint(c.name);
+            rightClasses.add(c);
+          }
+    }
 
     return rightClasses;
   }
