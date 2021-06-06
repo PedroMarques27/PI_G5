@@ -646,11 +646,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+      "projectUniqueName": "d:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
       "projectName": "MUP-RR",
-      "projectPath": "d:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+      "projectPath": "d:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
       "packagesPath": "C:\\Users\\pedro\\.nuget\\packages\\",
-      "outputPath": "d:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\obj\\",
+      "outputPath": "d:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

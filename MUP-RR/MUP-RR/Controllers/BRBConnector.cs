@@ -13,7 +13,7 @@ namespace MUP_RR.Controllers
     public class BRBConnector
     {   
         private static string BASE_URL = "https://bullet-api.dev.ua.pt/api/";
-        private static string AUTH_TOKEN = "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ4M2YzZWI0YzA3N2RjMDFmMjQ5MzIyNDk5NDM3NGJmIiwidHlwIjoiSldUIn0.eyJuYmYiOjE2MjAzOTg5NTIsImV4cCI6MTYyMjk5MDk1MiwiaXNzIjoiaHR0cHM6Ly9idWxsZXQtaXMuZGV2LnVhLnB0IiwiYXVkIjpbImh0dHBzOi8vYnVsbGV0LWlzLmRldi51YS5wdC9yZXNvdXJjZXMiLCJiZXN0bGVnYWN5X2FwaV9yZXNvdXJjZSJdLCJjbGllbnRfaWQiOiJyb29tX2Rpc3BsYXllciIsImNsaWVudF9jcmVhdGVfY2xhaW0iOiJ0cnVlIiwiY2xpZW50X3VwZGF0ZV9jbGFpbSI6InRydWUiLCJjbGllbnRfZGVsZXRlX2NsYWltIjoidHJ1ZSIsImNsaWVudF9yZWFkX2NsYWltIjoidHJ1ZSIsInNjb3BlIjpbImJlc3RsZWdhY3lfYXBpX3Njb3BlIl19.kPaVYPTkhQIbODbDrjlJRbM-rGWM015WGGUVXLnsRfduGm-QZF9KPcnMFINPIosbKl0ezWZbwh34Az_wbEKz-eUEN-CaJJ2YS2xa7YLQGfDycuT542w67j-TZxa_ZXMUtXEnYNAw9eJc9sx1HjcEiwFytdK6ogiaAUdhpQHTQW8pjWbt31YOcOjyscj7tAwUlxUkKaTfGHqp9pOdjjPDEHUi6yhkzpd-a8ayNRXV8kCADPtfr9vNNYR9bOKRV8CmkJaxDks3-LTnmSgp1KWjKV4VAskNSfWsBYmgqSHcN8cwHwV30sJ_ffRHLCib_WUPnJRnb_W0O8JjoBEuGwYGQw";
+        private static string AUTH_TOKEN = "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ4M2YzZWI0YzA3N2RjMDFmMjQ5MzIyNDk5NDM3NGJmIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2MjMwMDUwMjYsImV4cCI6MTYyNTU5NzAyNiwiaXNzIjoiaHR0cHM6Ly9idWxsZXQtaXMuZGV2LnVhLnB0IiwiYXVkIjoiYmVzdGxlZ2FjeV9hcGlfcmVzb3VyY2UiLCJjbGllbnRfaWQiOiJyb29tX2Rpc3BsYXllciIsImNsaWVudF9jcmVhdGVfY2xhaW0iOiJ0cnVlIiwiY2xpZW50X3VwZGF0ZV9jbGFpbSI6InRydWUiLCJjbGllbnRfZGVsZXRlX2NsYWltIjoidHJ1ZSIsImNsaWVudF9yZWFkX2NsYWltIjoidHJ1ZSIsInNjb3BlIjpbImJlc3RsZWdhY3lfYXBpX3Njb3BlIl19.QOkcuoXIiwzhY6d7SmdiBANtO9N8Ow8FWH-xUB3CV52jBay90Qdx16qkg0I6RfR7XmIRvEOgx5HYfX659sZ7C0lgKIPJxep_SRRRLyyqEKCqxbD8sePhvOn7mNAmy2mFfDRorzDrDCzP8TyJbpxVlHTJzYI_CC8q_0ers_Ig40h_Ar5Z7cdy-DV5ZpEyZVt-mZsVhAC40ZZiqQylqmf1dCkKiZbYryWWghuYIkdviO0adpsMGCjA9M2JTt81swk4fbI6n-7XuPgRQREK0M7D8M8YfubIJwjpBbKKqVzgvL4GuodEj8k0l7yZ5qFvUdYteqa_V6SBDcF7kWEnvAAWag";
         private static HttpClient client;
 
         public static async Task OpenConnection()
@@ -42,6 +42,7 @@ namespace MUP_RR.Controllers
         public static async Task<string> getNewUsersInTimeframe(String hours){
             DateTime now = DateTime.Now;
             DateTime before = now.AddHours(- Int32.Parse(hours));
+            Console.WriteLine(BASE_URL+"Users/all/"+before.ToString("yyyy-MM-dd HH:mm:ss")+"/"+now.ToString("yyyy-MM-dd HH:mm:ss"));
             var stringTask = client.GetStringAsync(BASE_URL+"Users/all/"+before.ToString("yyyy-MM-dd HH:mm:ss")+"/"+now.ToString("yyyy-MM-dd HH:mm:ss"));
 
             var msg = await stringTask;

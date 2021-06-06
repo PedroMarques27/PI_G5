@@ -59,4 +59,36 @@
         
     </table>
 </div>
+
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+    <h4>Manager of User Permissions Rules</h4>
+    <button onclick="@("window.location.href='" + @Url.Action("AddRule", "Home") + "'");">Add Rule</button>
+    <table class="table table-bordered table-striped mb-0">
+        <tr>
+            <th scope="col">Profile</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Up/Down</th>
+            
+        </tr> 
+        @foreach (var item in ViewData["MUP-Table"] as List<Profile>)
+            {
+                <tr>
+                    <th>@item.Item5</th>
+                    <th>@item.Item4.ToUpper()</th>
+                    <th>@item.Item3</th>
+                    <th>@item.Item2</th>
+                    <th>
+                        @using(Html.BeginForm("DeleteRule", "Home", FormMethod.Post)){
+                            @Html.Hidden("id", (int) item.Item1)
+                            <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
+                        }</th>
+                    
+                </tr>
+            }
+        
+        
+    </table>
+</div>
+
+
 <p></p>

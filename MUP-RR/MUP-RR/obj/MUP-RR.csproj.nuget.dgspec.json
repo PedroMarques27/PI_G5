@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {}
+    "D:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {}
   },
   "projects": {
-    "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {
+    "D:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+        "projectUniqueName": "D:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
         "projectName": "MUP-RR",
-        "projectPath": "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+        "projectPath": "D:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
         "packagesPath": "C:\\Users\\pedro\\.nuget\\packages\\",
-        "outputPath": "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\obj\\",
+        "outputPath": "D:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
