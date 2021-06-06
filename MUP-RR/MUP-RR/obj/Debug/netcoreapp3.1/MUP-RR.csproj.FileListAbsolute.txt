@@ -186,3 +186,4 @@ D:\Github\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.dll
 D:\Github\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.pdb
 D:\Github\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.genruntimeconfig.cache
 D:\Github\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Home\Interface.cshtml.g.cs
+D:\Github\PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Home\AddRule.cshtml.g.cs

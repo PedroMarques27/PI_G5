@@ -10,7 +10,7 @@ namespace MUP_RR.Models
 
         public override string ToString()
         {
-            return string.Format("Vinculo {1} - {2}", id, sigla, description);
+            return string.Format("{0}", sigla);
         }
     }
 

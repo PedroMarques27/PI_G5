@@ -583,6 +583,28 @@ namespace MUP_RR.Controllers
         reader.Close();
         return data;
     }
+    public ClassroomGroup SelectClassroomGroupByName(string name)
+    {
+        ClassroomGroup data = new ClassroomGroup();
+        if (!verifySGBDConnection())
+            return data;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.ClassroomGroup WHERE name=@name", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@name", name);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            data.id = Convert.ToInt32(reader["id"]);
+            data.name = reader["name"].ToString();
+
+        }
+        reader.Close();
+        return data;
+
+
+    }
+
     public ClassroomGroup SelectClassroomGroupById(string id)
     {
         ClassroomGroup data = new ClassroomGroup();
