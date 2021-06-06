@@ -1,18 +1,16 @@
 
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using System.Collections.Generic;
-
+using System.Linq;
 namespace MUP_RR.Models
 {
     public class Profile
     {   
         public int id { get; set; }
         public string name { get; set; }
-
-        private Dictionary<string, int> hierarchy = new Dictionary<string, int>(){
-            { "Dono", 0 },
-            { "Gestor", 1 },
-            { "Ver e Requisitar", 2 }
-        };
+        public int priority { get; set; }
+   
 
         public override string ToString()
         {
@@ -20,19 +18,27 @@ namespace MUP_RR.Models
         }
 
 
-        public static string getHigherStatus(HashSet<Profile> profiles){
+        public static Profile getHigherStatus(HashSet<Profile> profiles){
             Profile toReturn = new Profile();
-            toReturn.name = "Ver e Requisitar";
+            var priorities = new List<int>();
+            foreach(var p in profiles)
+                priorities.Add(p.priority);
 
+            var max = priorities.Min();;
+
+        
             foreach (Profile item in profiles)
             {
-                int current = toReturn.hierarchy[toReturn.name];
-                int latest = toReturn.hierarchy[item.name];
-                if (current>latest){
+                if (item.priority == max){
                     toReturn = item;
-                } 
+                    break;
+                }
             }
-            return toReturn.name;
+            return toReturn;
+        }
+        public Profile fromJson(string json){
+            Profile p = Newtonsoft.Json.JsonConvert.DeserializeObject<Profile>(json);
+            return p;
         }
 
         

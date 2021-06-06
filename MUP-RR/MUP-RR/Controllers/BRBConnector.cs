@@ -7,7 +7,13 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Text;      
 using System.Threading;      
-using System.Net.Http;      
+using System.Net.Http;   
+using System.Net.Http.Headers;         
+using Newtonsoft.Json;   
+using MUP_RR.Models;
+using System.Runtime.Serialization.Json;
+using Newtonsoft.Json.Linq;
+
 namespace MUP_RR.Controllers
 {
     public class BRBConnector
@@ -27,22 +33,42 @@ namespace MUP_RR.Controllers
         }
 
 
-        public async Task<string> getProfileList(){
+        public static async Task<List<Profile>> getProfileList(){
             var stringTask = client.GetStringAsync(BASE_URL+"Profiles");
             var msg = await stringTask;
-            return msg;
+            
+            JObject jObject = JObject.Parse(msg);
+            List<Profile> profiles = new List<Profile>();
+            foreach (var jsonProfile in jObject["data"])
+            {
+                Profile newProfile = new Profile();
+                profiles.Add(newProfile.fromJson(jsonProfile.ToString()));
+            }
+            return profiles;
         }
 
+        public static async Task<List<ClassroomGroup>> getClassroomGroups(){
+            var stringTask = client.GetStringAsync(BASE_URL+"ClassroomGroupBooking");
+            var msg = await stringTask;
+            
+            JObject jObject = JObject.Parse(msg);
+            List<ClassroomGroup> classGroups = new List<ClassroomGroup>();
+            foreach (var jsonProfile in jObject["data"])
+            {
+                ClassroomGroup newClassGroup = new ClassroomGroup();
+                classGroups.Add(newClassGroup.fromJson(jsonProfile.ToString()));
+            }
+            return classGroups;
+        }
         public static async Task<string> getUserList(){
             var stringTask = client.GetStringAsync(BASE_URL+"Users");
             var msg = await stringTask;
             return msg;
         }
         
-        public static async Task<string> getNewUsersInTimeframe(String hours){
+        public static async Task<string> getNewUsersInTimeframe(int time){
             DateTime now = DateTime.Now;
-            DateTime before = now.AddHours(- Int32.Parse(hours));
-            Console.WriteLine(BASE_URL+"Users/all/"+before.ToString("yyyy-MM-dd HH:mm:ss")+"/"+now.ToString("yyyy-MM-dd HH:mm:ss"));
+            DateTime before = now.AddMilliseconds(-time);
             var stringTask = client.GetStringAsync(BASE_URL+"Users/all/"+before.ToString("yyyy-MM-dd HH:mm:ss")+"/"+now.ToString("yyyy-MM-dd HH:mm:ss"));
 
             var msg = await stringTask;
