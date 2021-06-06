@@ -70,21 +70,7 @@
             <th scope="col">Up/Down</th>
             
         </tr> 
-        @foreach (var item in ViewData["MUP-Table"] as List<Profile>)
-            {
-                <tr>
-                    <th>@item.Item5</th>
-                    <th>@item.Item4.ToUpper()</th>
-                    <th>@item.Item3</th>
-                    <th>@item.Item2</th>
-                    <th>
-                        @using(Html.BeginForm("DeleteRule", "Home", FormMethod.Post)){
-                            @Html.Hidden("id", (int) item.Item1)
-                            <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
-                        }</th>
-                    
-                </tr>
-            }
+        
         
         
     </table>

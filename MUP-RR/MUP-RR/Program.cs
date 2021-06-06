@@ -97,26 +97,6 @@ namespace MUP_RR
 
 
 
-        public async void updateNewBRBUsers(){
-            var data = await BRBConnector.getNewUsersInTimeframe("2");
-            JObject jObject = JObject.Parse(data);
-            List<BRB_User> usersAvailableBRB = new List<BRB_User>();
-            
-            foreach (var jsonUser in jObject["data"])
-            {
-                BRB_User newUser = new BRB_User();
-                usersAvailableBRB.Add(newUser.fromJson(jsonUser.ToString()));
-
-            }
-
-            foreach (var user in usersAvailableBRB){
-                var iupi = await addBrbRcuUserAssoc(user);
-                List<Tuple<UO,Vinculo>> userData = await getUserData(iupi);
-                UpdateProfile(iupi, userData);
-            }
-            Thread.Sleep(7200000);
-            
-        }
 
         public async Task<String> addBrbRcuUserAssoc(BRB_User user){
             var iupi = RCUConnector.getRcuIupi(user.email);
