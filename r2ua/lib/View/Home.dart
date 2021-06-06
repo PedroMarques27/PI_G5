@@ -54,76 +54,79 @@ class _Home extends State<Home> {
           }
           buildingDistances = snapshot.data as List;
 
-          debugPrint(buildingDistances.first.buildingDistance.toString() +
-              "llllllllllllllllllllllllll");
+          debugPrint(
+              buildingDistances.first.buildingsUA.realBuildingName.toString() +
+                  "llllllllllllllllllllllllll");
 
           return SingleChildScrollView(
               child: Column(
-            children: [OrderList()],
+            children: [
+              Container(
+                  height: MediaQuery.of(context).size.height / 2.3,
+                  alignment: Alignment.topCenter,
+                  margin: EdgeInsets.all(20),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                            child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            'Orders',
+                            textScaleFactor: 1.0, // disables accessibility
+                            style: TextStyle(
+                              fontSize: 30.0,
+                            ),
+                          ),
+                        )),
+                        Divider(
+                            height: 10, thickness: 2, color: Colors.red[400]),
+                        Expanded(
+                            child: ListView.builder(
+                                itemCount: buildingDistances.length,
+                                itemBuilder: (context, position) {
+                                  return Expanded(
+                                      child: Container(
+                                    margin: EdgeInsets.all(10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Flexible(
+                                          child: Card(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  buildingDistances[position]
+                                                      .buildingsUA
+                                                      .realBuildingName
+                                                      .toString(),
+                                                ),
+                                                SizedBox(
+                                                  height: 5.0,
+                                                ),
+                                                Text(
+                                                  buildingDistances[position]
+                                                          .buildingDistance
+                                                          .toString() +
+                                                      " m",
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ));
+                                }))
+                      ]))
+            ],
           ));
         });
-  }
-
-  Widget OrderList() {
-    return Container(
-        height: MediaQuery.of(context).size.height / 2.3,
-        alignment: Alignment.topCenter,
-        margin: EdgeInsets.all(20),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Color.fromRGBO(40, 40, 61, 0.8),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Center(
-              child: Padding(
-            padding: EdgeInsets.all(10),
-            child: Text(
-              'Orders',
-              textScaleFactor: 1.0, // disables accessibility
-              style: TextStyle(
-                fontSize: 30.0,
-                color: Colors.white,
-              ),
-            ),
-          )),
-          Divider(height: 10, thickness: 2, color: Colors.red[400]),
-          Expanded(
-              child: ListView.builder(
-            itemCount: buildingDistances.length,
-            shrinkWrap: true,
-            // ignore: missing_return
-            itemBuilder: (context, position) {
-              GestureDetector(
-                  child: Container(
-                margin: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      /*
-                        child: Image.asset('',
-                            // width: 300,
-                            height: 40,
-                            fit: BoxFit.fill), */
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          buildingDistances[position]
-                              .buildingsUA
-                              .realBuildingName
-                              .toString(),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ));
-            },
-          ))
-        ]));
   }
 
   List<BuildingDistance> buildingDistances = new List<BuildingDistance>();

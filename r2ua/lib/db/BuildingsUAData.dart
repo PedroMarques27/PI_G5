@@ -26,7 +26,7 @@ class BuildingUAData {
     //var box = await Hive.openBox<BuildingsUA>('buildingsUA');
     //box values
     //var list = box.values.toList();
-
+    debugPrint("KKKKKKKKKKKKKKKK");
     //ADD buildings IDS
     var buildingsIds = new List<int>();
 
@@ -145,9 +145,12 @@ class BuildingUAData {
     ];
 
     var g = Geolocator();
+    debugPrint("222222222222222222222222222");
+
     //user position
     var position =
         await g.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    debugPrint("1111111111111111111111111");
 
     var buildingsUADistance = <BuildingDistance>[];
     debugPrint("###############" + buildingsIds.length.toString());
@@ -163,7 +166,8 @@ class BuildingUAData {
             distanceInMeters.toString());
 
         buildingsUADistance.add(BuildingDistance(
-            buildingsUA: b, buildingDistance: distanceInMeters));
+            buildingsUA: b,
+            buildingDistance: num.parse(distanceInMeters.toStringAsFixed(2))));
       }
     }
     debugPrint(
