@@ -1,8 +1,9 @@
 {
   "version": 2,
   "dgSpecHash": "a+BP1/MH8bs4rGIwZsoBrbTwW/482ZTmaXq4kI+affB5AtKjN4ssFNVuZ16wFAPU7O5pv916ZBBdqVGm5TIZ/A==",
+
   "success": true,
-  "projectFilePath": "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+  "projectFilePath": "D:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pedro\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
     "C:\\Users\\pedro\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",

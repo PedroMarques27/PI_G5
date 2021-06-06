@@ -1,0 +1,55 @@
+@model MUP_RR.Models.MupRuleForm
+
+@using(Html.BeginForm("AddRule", "Home", FormMethod.Post)){
+     <div class="control-group form-group">
+
+                    <div class="controls">
+
+                        <label>Unidade Orgânica:</label>
+                        @Html.DropDownListFor(m => m.uo, new SelectList((IEnumerable<UO>)  ViewData["UO"]), "Please select");        
+                                    
+
+                    </div>
+
+                </div>
+
+               <div class="control-group form-group">
+
+                    <div class="controls">
+
+                        <label >Vinculo:</label>
+                        @Html.DropDownListFor(m => m.vinculo, new SelectList((IEnumerable<Vinculo>)  ViewData["V"]), "Please select");        
+                              
+
+                    </div>
+
+                </div>
+
+                <div class="control-group form-group">
+
+                    <div class="controls">
+
+                        <label >Perfil:</label>
+                        @Html.DropDownListFor(m => m.profile, new SelectList((IEnumerable<Profile>)  ViewData["P"]), "Please select");        
+                              
+
+                    </div>
+
+                </div>
+
+                <div class="control-group form-group">
+
+                    <div class="controls">
+
+                        <label>Classroom Group:</label>
+                        @Html.DropDownListFor(m => m.classGroup, new SelectList((IEnumerable<ClassroomGroup>)  ViewData["CSG"]), "Please select");        
+                  
+
+                    </div>
+
+                </div>
+
+                <div id="success"></div>
+
+                <button type="submit" class="btn btn-success" id="addRuleButton">Add Rule</button>
+}

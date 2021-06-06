@@ -1,19 +1,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 using MUP_RR.Models;
 
 
 namespace MUP_RR.Controllers
 {
-    public enum PROFILES {OWNER, STAFF, DEFAULT};
 
     public class DBConnector
     {  
@@ -394,6 +388,24 @@ namespace MUP_RR.Controllers
         reader.Close();
         return data;
     }
+    public Vinculo SelectVinculoById(int id){
+        Vinculo v = new Vinculo();
+        if (!verifySGBDConnection())
+            return v;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Vinculo WHERE id=@id", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@id", id);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            v.id = int.Parse(reader["id"].ToString());
+            v.sigla = reader["sigla"].ToString();
+            v.description = reader["descricao"].ToString();
+        }
+        reader.Close();
+        return v;
+    }
     public List<Vinculo> SelectVinculo()
     {
         List<Vinculo> data = new List<Vinculo>();
@@ -499,6 +511,24 @@ namespace MUP_RR.Controllers
 
 
     }
+    public UO SelectUoById(string id){
+        UO v = new UO();
+        if (!verifySGBDConnection())
+            return v;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.UnidadeOrganica WHERE id=@id", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@id", id);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            v.id = int.Parse(reader["id"].ToString());
+            v.sigla = reader["sigla"].ToString();
+            v.description = reader["descricao"].ToString();
+        }
+        reader.Close();
+        return v;
+    }
     public List<UO> SelectUO()
     {
         List<UO> data = new List<UO>();
@@ -556,10 +586,30 @@ namespace MUP_RR.Controllers
         }
         reader.Close();
         return data;
+    }
+    public ClassroomGroup SelectClassroomGroupByName(string name)
+    {
+        ClassroomGroup data = new ClassroomGroup();
+        if (!verifySGBDConnection())
+            return data;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.ClassroomGroup WHERE name=@name", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@name", name);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            data.id = Convert.ToInt32(reader["id"]);
+            data.name = reader["name"].ToString();
+
+        }
+        reader.Close();
+        return data;
 
 
     }
-    public ClassroomGroup SelectClassroomById(string id)
+
+    public ClassroomGroup SelectClassroomGroupById(string id)
     {
         ClassroomGroup data = new ClassroomGroup();
         if (!verifySGBDConnection())
@@ -603,7 +653,6 @@ namespace MUP_RR.Controllers
 
 
     }
-
     public List<MupTable> SelectSpecificMup(int uo, int vinculo)
     {
         List<MupTable> data = new List<MupTable>();

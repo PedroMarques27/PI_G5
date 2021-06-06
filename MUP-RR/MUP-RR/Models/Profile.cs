@@ -14,7 +14,7 @@ namespace MUP_RR.Models
 
         public override string ToString()
         {
-            return string.Format("Profile {0}: {1}", id, name);
+            return string.Format("{1}", id, name);
         }
 
 
