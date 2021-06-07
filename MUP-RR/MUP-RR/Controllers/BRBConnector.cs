@@ -68,10 +68,11 @@ namespace MUP_RR.Controllers
         
         public static async Task<string> getNewUsersInTimeframe(int time){
             DateTime now = DateTime.Now;
-            DateTime before = now.AddMilliseconds(-time);
-            var stringTask = client.GetStringAsync(BASE_URL+"Users/all/"+before.ToString("yyyy-MM-dd HH:mm:ss")+"/"+now.ToString("yyyy-MM-dd HH:mm:ss"));
+            DateTime before = now.AddDays(-1);
+            var stringTask = client.GetStringAsync(BASE_URL+"Users/all/"+before.ToString(("yyyy-MM-dd"))+"/"+now.ToString(("yyyy-MM-dd")));
 
             var msg = await stringTask;
+           
             return msg;
         }
 
@@ -92,7 +93,7 @@ namespace MUP_RR.Controllers
             httpClient2.DefaultRequestHeaders.Add("Authorization",AUTH_TOKEN);
 
             var httpResponse2 = await httpClient2.PutAsync(BASE_URL+"UserProfile/usersprofilesByUsersEmail", httpContent2);
-            Console.WriteLine(httpResponse2);
+
 
             //Update classRoomGroups
             

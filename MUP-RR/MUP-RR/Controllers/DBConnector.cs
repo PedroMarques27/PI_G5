@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using MUP_RR.Models;
-
+using System.Threading.Tasks;
 
 namespace MUP_RR.Controllers
 {
@@ -23,17 +23,20 @@ namespace MUP_RR.Controllers
     //Initialize values
     private SqlConnection OpenConnection()
     {
-        var extra =" Integrated Security=SSPI;";
-        return new SqlConnection("Server=sql-dev.ua.pt;Database=muprr-dev;Trusted_Connection=True;");
+        SqlConnection connection = new SqlConnection("Server=sql-dev.ua.pt;Database=muprr-dev;Trusted_Connection=True;MultipleActiveResultSets=True;");
+        return connection;
     }
 
     private bool verifySGBDConnection()
     {
         if (connection == null)
             connection = OpenConnection();
-
-        if (connection.State != ConnectionState.Open)
+        
+        if (connection.State == ConnectionState.Closed )
             connection.Open();
+
+        while (connection.State == ConnectionState.Connecting)
+            continue;
 
         return connection.State == ConnectionState.Open;
     }
@@ -71,7 +74,8 @@ namespace MUP_RR.Controllers
     public void InsertUserAssociation(BRB_RCU_ASSOC _assoc)
     {
         if (!verifySGBDConnection())
-                return;
+            return;
+        
         SqlCommand cmd = new SqlCommand();
         cmd.CommandText = "INSERT MUPRR.BRB_RCU_ASSOC (BRB_ID, RCU_ID, UU) VALUES (@BRB_ID, @RCU_ID, @UU)";
         cmd.Parameters.Clear();
@@ -79,7 +83,7 @@ namespace MUP_RR.Controllers
         cmd.Parameters.AddWithValue("@RCU_ID", _assoc.rcu_id);
         cmd.Parameters.AddWithValue("@UU", _assoc.email);
         cmd.Connection = connection;
-   
+        Console.WriteLine(cmd.CommandText+"------------------------------------------------");
         try
         {
             cmd.ExecuteNonQuery();

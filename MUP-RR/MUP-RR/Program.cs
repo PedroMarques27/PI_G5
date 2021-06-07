@@ -43,11 +43,21 @@ namespace MUP_RR
             
             
             
-            Task.Factory.StartNew(obj.updateDatabaseAssocTable);
-            Task.Factory.StartNew(obj.updateNewBRBUsers);
-            Task.Factory.StartNew(obj.updateDatabaseWithNewBrbData);
-            
+            //Task.Factory.StartNew(obj.updateDatabaseAssocTable);
+            Task.Factory.StartNew(obj.startPeriodicTasks);
+   
             CreateHostBuilder(args).Build().Run();
+        }
+
+        public async Task startPeriodicTasks(){
+            while(true){
+                updateDatabaseWithNewBrbData();
+                updateNewBRBUsers();
+                Thread.Sleep(NEW_USERS_PERIOD); 
+                
+            }
+            
+
         }
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
@@ -57,10 +67,9 @@ namespace MUP_RR
                 });
         
         
-        public async void UpdateProfile(string iupi, List<Tuple<UO,Vinculo>> pairs){
+        public async void UpdateProfile(string brbId, List<Tuple<UO,Vinculo>> pairs){
 
-            BRB_RCU_ASSOC currentUser = database.SelectUserFromIUPI(iupi);
-            
+       
             
             MupTable finalDecision = new MupTable();  
             HashSet<Profile> profiles = new HashSet<Profile>();
@@ -86,7 +95,8 @@ namespace MUP_RR
             
             
 
-            string json = await BRBConnector.getUserById(currentUser.brb_id);
+            string json = await BRBConnector.getUserById(brbId);
+
             JObject jObject = JObject.Parse(json);
             var jsonUser = jObject["data"];
             BRB_User newUser = new BRB_User();
@@ -295,17 +305,18 @@ namespace MUP_RR
             }
 
             foreach (var user in usersAvailableBRB){
-                    var iupi = RCUConnector.getRcuIupi(user.email);
-                    BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
-                    newAssoc.email = user.email;
-                    newAssoc.brb_id = user.id;
-                    newAssoc.rcu_id = iupi;
-                    database.InsertUserAssociation(newAssoc);  
+                var iupi = RCUConnector.getRcuIupi(user.email);
+                BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
+                newAssoc.email = user.email;
+                newAssoc.brb_id = user.id;
+                newAssoc.rcu_id = iupi;
+                Console.WriteLine(newAssoc.email);
+                database.InsertUserAssociation(newAssoc);  
         
                 List<Tuple<UO,Vinculo>> userData = await getUserData(iupi);
-                UpdateProfile(iupi, userData);
+                UpdateProfile(newAssoc.brb_id, userData);
+                
             }
-            Thread.Sleep(NEW_USERS_PERIOD);
             
         }
        
@@ -342,7 +353,6 @@ namespace MUP_RR
                     database.InsertClassroomGroup(item);
                 }                
             }
-            Thread.Sleep(UPDATE_DB_PERIOD);
         }   
         
         
