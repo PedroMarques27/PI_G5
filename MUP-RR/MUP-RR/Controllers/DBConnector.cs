@@ -227,6 +227,32 @@ namespace MUP_RR.Controllers
     }
     
     
+
+   
+    public void UpdatePriorityOfProfiles(int p1, int p2)
+    {
+        int rows = 0;
+        if (!verifySGBDConnection())
+                return;
+        SqlCommand cmd = new SqlCommand();
+          
+        cmd.CommandText = "UPDATE MUPRR.Profile SET priority = CASE priority WHEN @P1 THEN @P2 WHEN @P2 THEN @P1 ELSE priority END WHERE priority IN(@P1, @P2)";
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@P1", p1);
+        cmd.Parameters.AddWithValue("@P2", p2);
+        
+        cmd.Connection = connection;
+
+        try
+        {
+            rows = cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Failed to update contact in database. \n ERROR MESSAGE: \n" + ex.Message);
+        }
+          
+    }
     
     //Delete statement
       public void DeleteUserAssociations(string rcuId)
@@ -454,6 +480,28 @@ namespace MUP_RR.Controllers
         SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Profile WHERE id=@ID", connection);
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@ID", id);
+
+        
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            data.id = Convert.ToInt32(reader["id"]);
+            data.name = reader["name"].ToString();
+            data.priority = Convert.ToInt32(reader["priority"]);
+
+        }
+        reader.Close();
+        return data;
+    }
+
+    public Profile SelectProfileByPriority(int priority){
+        Profile data = new Profile();
+        if (!verifySGBDConnection())
+            return data;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Profile WHERE priority=@priority", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@priority", priority);
 
         
         SqlDataReader reader = cmd.ExecuteReader();

@@ -20,6 +20,8 @@ namespace MUP_RR.Controllers
 		public ActionResult Interface()
 		{
 		 	ViewData["MUP-Table"] = translateMup();
+			HashSet<Profile> distinct = new HashSet<Profile>(database.SelectProfile());
+			ViewData["Profiles"] = distinct;
 			return View();
 		}
 
@@ -29,7 +31,14 @@ namespace MUP_RR.Controllers
 			database.DeleteMup(id);
 			return RedirectToAction("Interface");
 		}
-		
+		[HttpPost]
+		public ActionResult ChangePriority(int id, int priority){
+			var currentProfile = database.SelectProfileById(id.ToString());
+			database.UpdatePriorityOfProfiles(currentProfile.priority, priority);
+
+			return RedirectToAction("Interface");
+		}
+
 		[HttpGet]
 		public ActionResult AddRule(){
 			ViewData["P"] = database.SelectProfile();

@@ -16,7 +16,10 @@ namespace MUP_RR.Models
         {
             return string.Format("{1}", id, name);
         }
-
+        public bool isNull(){
+            if (name==null) return true;
+            return false;
+        }
 
         public static Profile getHigherStatus(HashSet<Profile> profiles){
             Profile toReturn = new Profile();
