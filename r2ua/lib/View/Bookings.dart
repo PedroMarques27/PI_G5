@@ -89,7 +89,13 @@ class _Bookings extends State<Bookings> {
                                         .split("T")[0]),
                                     if (dropdownValue == "Future")
                                       GestureDetector(
-                                          child: Icon(FontAwesomeIcons.trash))
+                                        child: Icon(FontAwesomeIcons.trash),
+                                        onTap: () {
+                                          eventsBloc.removeEvent(
+                                              currentList[index].id, email);
+                                          initState();
+                                        },
+                                      )
                                   ]),
                               Row(
                                 children: <Widget>[

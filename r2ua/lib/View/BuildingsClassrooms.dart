@@ -222,15 +222,12 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
     List<Classroom> rightClasses = List<Classroom>();
     if (characteristic == "No filter")
       rightClasses = fullInitialList;
-    else {
+    else
       for (Classroom c in fullInitialList)
         for (Characteristic charac in c.characteristics)
-          if (charac.name == characteristic) {
-            debugPrint(c.name);
+          if (charac.name == characteristic)             
             rightClasses.add(c);
-          }
-    }
-
+    
     return rightClasses;
   }
 }

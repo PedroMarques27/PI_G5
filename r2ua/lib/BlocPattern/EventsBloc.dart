@@ -81,7 +81,9 @@ class EventsBloc {
               "and": true,
               "type": 8,
               "not": false,
-              "value": DateTime.now().toIso8601String(),
+              "value": DateTime.now()
+                  .subtract(Duration(days: DateTime.now().weekday))
+                  .toIso8601String(),
               "path": "EventWeek.Week.StartDate"
             }
           ],
@@ -126,15 +128,18 @@ class EventsBloc {
               "and": true,
               "type": 7,
               "not": false,
-              "value": DateTime.now().toIso8601String(),
+              "value": DateTime.now()
+                  .subtract(Duration(days: DateTime.now().weekday))
+                  .toIso8601String(),
               "path": "EventWeek.Week.StartDate"
             },
             {
               "and": true,
               "type": 6,
               "not": false,
-              "value":
-                  DateTime.now().subtract(Duration(days: 30)).toIso8601String(),
+              "value": DateTime.now()
+                  .subtract(Duration(days: 30 + DateTime.now().weekday))
+                  .toIso8601String(),
               "path": "EventWeek.Week.StartDate"
             }
           ],
@@ -160,7 +165,7 @@ class EventsBloc {
     return uE;
   }
 
-  Future<bool> removeEvent(int eventId, String email, int number) async {
+  Future<bool> removeEvent(int eventId, String email) async {
     var uri = Uri.https(BASE_URL, ("/api/ThirdPartyEvents/removecollection"));
 
     final response = await http.post(uri,
@@ -175,11 +180,7 @@ class EventsBloc {
             {"key": "string", "value": "string"}
           ]
         }));
-    if (response.statusCode == 201) {
-      // para ele fazer o update
-      this.searchEventsByUser(email, number);
-      return true;
-    }
+    if (response.statusCode == 201) return true;
 
     return false;
   }
