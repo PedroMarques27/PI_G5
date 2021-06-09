@@ -399,6 +399,25 @@ namespace MUP_RR.Controllers
         reader.Close();
         return data;
     }
+    public BRB_RCU_ASSOC SelectUserFromBrbId(string id)
+    {
+        BRB_RCU_ASSOC data = new BRB_RCU_ASSOC();
+        if (!verifySGBDConnection())
+            return data;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.BRB_RCU_ASSOC WHERE BRB_ID=@BRB_ID", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@BRB_ID", id);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            data.brb_id = (reader["BRB_ID"].ToString());
+            data.rcu_id = reader["RCU_ID"].ToString();
+            data.email = reader["UU"].ToString();
+        }
+        reader.Close();
+        return data;
+    }
     public List<BRB_RCU_ASSOC> SelectUserAssociations()
     {
         List<BRB_RCU_ASSOC> data = new List<BRB_RCU_ASSOC>();

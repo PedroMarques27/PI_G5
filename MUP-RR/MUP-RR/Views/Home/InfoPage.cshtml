@@ -1,0 +1,111 @@
+
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+@{
+    ViewData["Title"] = "Information";
+}
+<style>
+    .my-custom-scrollbar {
+    position: relative;
+    height: 500px;
+    overflow: auto;
+    }
+    .table-wrapper-scroll-y {
+    display: block;
+    }
+    .button {
+  transition-duration: 0.4s;
+    }
+    .button2 {
+  transition-duration: 0.4s;
+    }
+    .button:hover {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    }
+    .button2:hover {
+    background-color: #AF4C4C; /* Green */
+    color: white;
+    }
+</style>
+<script>
+</script>
+
+<div class="row">
+    <div class="col-md-6 table-wrapper-scroll-y my-custom-scrollbar">
+        <h4>Vinculos of RCU</h4>
+        
+        <table class="table table-bordered table-striped mb-0">
+            <tr>
+                <th scope="col">Vínculo</th>
+                <th scope="col">Descrição</th>
+                
+            </tr> 
+            @foreach (var item in ViewData["Vinculo-Table"] as List<Tuple<string, string>>)
+                {
+                    <tr>
+                        <th>@item.Item1</th>
+                        <th>@item.Item2</th>
+                        
+                    </tr>
+                }
+            
+            
+        </table>
+    </div>
+
+    <div class="col-md-6 table-wrapper-scroll-y my-custom-scrollbar">
+        <h4>Unidades Organicas of RCU</h4>
+        
+        <table class="table table-bordered table-striped mb-0">
+            <tr>
+                <th scope="col">Unidade Organica</th>
+                <th scope="col">Descrição</th>
+                
+            </tr> 
+            @foreach (var item in ViewData["UO-Table"] as List<Tuple<string, string>>)
+                {
+                    <tr>
+                        <th>@item.Item1</th>
+                        <th>@item.Item2</th>
+                        
+                    </tr>
+                }
+            
+            
+        </table>
+    </div>
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col-md-6 table-wrapper-scroll-y my-custom-scrollbar">
+        <h4>Profiles of BRB</h4>
+        
+        <table class="table table-bordered table-striped mb-0">
+            @foreach (var item in ViewData["Profile-Table"] as HashSet<Profile>)
+                {
+                    <tr>
+                        <th>@item.name</th>
+                    </tr>
+                }
+            
+            
+        </table>
+    </div>
+
+    <div class="col-md-6 table-wrapper-scroll-y my-custom-scrollbar">
+        <h4>ClassRoom Groups of BRB</h4>
+        
+        <table class="table table-bordered table-striped mb-0">
+            @foreach (var item in ViewData["CRG-Table"] as HashSet<ClassroomGroup>)
+                {
+                    <tr>
+                        <th>@item.name</th>
+                    </tr>
+                }
+            
+            
+        </table>
+    </div>
+</div>

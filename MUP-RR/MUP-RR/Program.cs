@@ -9,12 +9,8 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using MUP_RR.Controllers;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MUP_RR.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
@@ -40,7 +36,6 @@ namespace MUP_RR
         {
             await BRBConnector.OpenConnection();
             Program obj = new Program();
-            
             
             
             //Task.Factory.StartNew(obj.updateDatabaseAssocTable);
@@ -305,16 +300,18 @@ namespace MUP_RR
             }
 
             foreach (var user in usersAvailableBRB){
-                var iupi = RCUConnector.getRcuIupi(user.email);
-                BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
-                newAssoc.email = user.email;
-                newAssoc.brb_id = user.id;
-                newAssoc.rcu_id = iupi;
-                Console.WriteLine(newAssoc.email);
-                database.InsertUserAssociation(newAssoc);  
-        
-                List<Tuple<UO,Vinculo>> userData = await getUserData(iupi);
-                UpdateProfile(newAssoc.brb_id, userData);
+                if(database.SelectUserFromBrbId(user.id).brb_id == null){         
+                    var iupi = RCUConnector.getRcuIupi(user.email);
+                    BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
+                    newAssoc.email = user.email;
+                    newAssoc.brb_id = user.id;
+                    newAssoc.rcu_id = iupi;
+                    Console.WriteLine(newAssoc.email);
+                    database.InsertUserAssociation(newAssoc);  
+            
+                    List<Tuple<UO,Vinculo>> userData = await getUserData(iupi);
+                    UpdateProfile(newAssoc.brb_id, userData);
+                }
                 
             }
             

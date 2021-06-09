@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MUP_RR.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace MUP_RR.Controllers
@@ -22,6 +23,26 @@ namespace MUP_RR.Controllers
 		 	ViewData["MUP-Table"] = translateMup();
 			HashSet<Profile> distinct = new HashSet<Profile>(database.SelectProfile());
 			ViewData["Profiles"] = distinct;
+			return View();
+		}
+
+		public ActionResult InfoPage()
+		{
+			List<Vinculo> vinculos = database.SelectVinculo();
+			List<Tuple<string, string>> vTable = vinculos.Select(x => new Tuple<string, string>(x.sigla, "descricao")).ToList();
+			ViewData["Vinculo-Table"] = vTable;
+
+			List<UO> uos = database.SelectUO();
+			List<Tuple<string, string>> uTable = uos.Select(x => new Tuple<string, string>(x.sigla, x.description)).ToList();
+			ViewData["UO-Table"] = uTable;
+
+			
+			HashSet<Profile> profiles = new HashSet<Profile>(database.SelectProfile());
+			ViewData["Profile-Table"] = profiles;
+
+			
+			HashSet<ClassroomGroup> crgs = new HashSet<ClassroomGroup>(database.SelectClassroomGroup());
+			ViewData["CRG-Table"] = crgs;
 			return View();
 		}
 
@@ -85,8 +106,7 @@ namespace MUP_RR.Controllers
 			}
 
 			return translation;
-		} 
-		
+		}
 		
 	}
 
