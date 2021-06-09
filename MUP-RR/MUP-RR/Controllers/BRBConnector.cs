@@ -78,6 +78,7 @@ namespace MUP_RR.Controllers
 
         public static async Task<string> getUserById(string id){
             var stringTask = client.GetStringAsync(BASE_URL+"Users/"+id);
+            Console.WriteLine(BASE_URL+"Users/"+id);
             var msg = await stringTask;
             return msg;
         }

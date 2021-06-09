@@ -67,7 +67,7 @@ namespace MUP_RR
                 });
         
         
-        public async void UpdateProfile(string brbId, List<Tuple<UO,Vinculo>> pairs){
+        public async void UpdateProfile(string iupi, List<Tuple<UO,Vinculo>> pairs){
 
        
             
@@ -87,14 +87,12 @@ namespace MUP_RR
                 }
 
                 if (queryResult.Count()==0){
-                    profiles.Add(database.SelectProfileByName("DEFAULT"));
+                    profiles.Add(database.SelectProfileByName("Default"));
                 }
             }
            
             var higher = Profile.getHigherStatus(profiles);
-            
-            
-
+            var brbId = database.SelectUserFromIUPI(iupi).brb_id;
             string json = await BRBConnector.getUserById(brbId);
 
             JObject jObject = JObject.Parse(json);
@@ -310,11 +308,11 @@ namespace MUP_RR
                 newAssoc.email = user.email;
                 newAssoc.brb_id = user.id;
                 newAssoc.rcu_id = iupi;
-                Console.WriteLine(newAssoc.email);
+                Console.WriteLine(newAssoc.brb_id);
                 database.InsertUserAssociation(newAssoc);  
         
                 List<Tuple<UO,Vinculo>> userData = await getUserData(iupi);
-                UpdateProfile(newAssoc.brb_id, userData);
+                UpdateProfile(newAssoc.rcu_id, userData);
                 
             }
             
