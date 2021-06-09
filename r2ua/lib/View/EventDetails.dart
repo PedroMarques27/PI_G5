@@ -6,8 +6,6 @@ import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/Event.dart';
-import 'package:r2ua/Entities/Week.dart';
-import 'package:r2ua/View/CreateEvent.dart';
 import 'package:r2ua/View/Home.dart';
 import 'package:r2ua/main.dart';
 
@@ -22,13 +20,7 @@ class EventDetails extends StatefulWidget {
 }
 
 class _EventDetails extends State<EventDetails> {
-  List<Event> currentList = new List<Event>();
-  List<Event> events = new List<Event>();
-  Week currentWeek;
-  List<Week> weekList = new List<Week>();
-  Stream weekStream;
-  int current = 0;
-  List<DateTime> days = new List<DateTime>();
+  Stream classroomStream;
 
   @override
   void initState() {
@@ -38,6 +30,7 @@ class _EventDetails extends State<EventDetails> {
   @override
   Widget build(BuildContext context) {
     Event _event = widget.event;
+    //Classroom classroom = await classroomsBloc.getClassroomById(_event.classId);
 
     List<String> weekDays = [
       "Monday",
@@ -48,7 +41,8 @@ class _EventDetails extends State<EventDetails> {
     ];
 
     return Scaffold(
-        appBar: AppBar(title: Text(_event.name), actions: <Widget>[]),
+        appBar:
+            AppBar(title: Text("Event: " + _event.name), actions: <Widget>[]),
         body: Column(
           children: <Widget>[
             Container(
@@ -102,8 +96,7 @@ class _EventDetails extends State<EventDetails> {
                             style: TextStyle(fontSize: 14),
                           ),
                           Text(
-                            "\nClassroom: " +
-                                _event.classes[0].toString(),
+                            "\nClassroom: " + _event.classId.toString(),
                             style: TextStyle(fontSize: 16),
                           ),
                         ],
