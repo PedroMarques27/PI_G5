@@ -41,6 +41,20 @@ class EventsBloc {
     return events;
   }
 
+  Future<Event> getEventById(int id) async {
+    var uri = Uri.https(BASE_URL, ("/api/ThirdPartyEvents/" + id.toString()));
+    final response = await http.get(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+        HttpHeaders.contentTypeHeader: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+    );
+    return Event.fromJson(json.decode(response.body)['data']);
+  }
+
+// ver se está a ser usado
   Future<Event> getEventByIdAndWeek(int id) async {
     var uri = Uri.https(BASE_URL, ("/api/Events/" + id.toString()));
     final response = await http.get(
@@ -180,8 +194,10 @@ class EventsBloc {
             {"key": "string", "value": "string"}
           ]
         }));
-    if (response.statusCode == 201) return true;
-
+    if (response.statusCode == 201) {
+      this.searchEventsByUser(email, 3);
+      return true;
+    }
     return false;
   }
 
@@ -218,6 +234,7 @@ class EventsBloc {
     List<Event> events = new List<Event>();
     update(events);
   }
+
 }
 
 class UserEvents {

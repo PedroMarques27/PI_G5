@@ -90,101 +90,108 @@ class _CreateEvent extends State<CreateEvent> {
     return Scaffold(
         appBar: AppBar(title: Text("Create Event"), actions: <Widget>[]),
         body: Column(children: <Widget>[
-          Container(
-              margin: EdgeInsets.all(2),
+          Expanded(
+              flex: 2,
               child: Container(
-                  margin:
-                      EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 10),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: Offset(0, 3), // changes position of shadow
+                  margin: EdgeInsets.all(2),
+                  child: Container(
+                      margin: EdgeInsets.only(
+                          left: 5, top: 5, right: 5, bottom: 10),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Column(children: [
-                    Text("Id: " + classId.toString(),
-                        style: TextStyle(fontSize: 22.0)),
-                    Text(
-                        week.getFormattedBegin() +
-                            " - " +
-                            week.getFormattedEnding(),
-                        style: TextStyle(fontSize: 22.0)),
-// Event Name
-                    Text("\nEvent Name: ", style: TextStyle(fontSize: 22.0)),
-                    TextField(
-                      controller: myControllerName,
-                      decoration: InputDecoration(border: OutlineInputBorder()),
-                    ),
-// Number Of Students
-                    Row(children: [
-                      Text("\nNumber of Students: ",
-                          style: TextStyle(fontSize: 22.0)),
-                      Column(children: <Widget>[
-                        DropdownCapacity(context),
-                      ]),
-                    ]),
-// Week day
-                    Row(children: [
-                      Text("\nWeek day: ", style: TextStyle(fontSize: 22.0)),
-                      Column(children: <Widget>[
-                        DropdownWeekDays(context),
-                      ]),
-                    ]),
-// Start Time
-                    Row(children: [
-                      Text("\nStart Time: ", style: TextStyle(fontSize: 22.0)),
-                      Column(children: <Widget>[
-                        DropdownStartTime(context),
-                      ]),
-                    ]),
-// End Time
-                    Row(children: [
-                      Text("\nEnd Time: ", style: TextStyle(fontSize: 22.0)),
-                      Column(children: <Widget>[
-                        DropdownEndTime(context),
-                      ]),
-                    ]),
-// Event Type
-                    Row(
-                      children: [
-                        Text("\nEvent Type: ",
+                      child: Column(children: [
+                        Text("Id: " + classId.toString(),
                             style: TextStyle(fontSize: 22.0)),
-                        Column(children: <Widget>[
-                          DropdownEventType(context),
+                        Text(
+                            week.getFormattedBegin() +
+                                " - " +
+                                week.getFormattedEnding(),
+                            style: TextStyle(fontSize: 22.0)),
+// Event Name
+                        Text("\nEvent Name: ",
+                            style: TextStyle(fontSize: 22.0)),
+                        TextField(
+                          controller: myControllerName,
+                          decoration:
+                              InputDecoration(border: OutlineInputBorder()),
+                        ),
+// Number Of Students
+                        Row(children: [
+                          Text("\nNumber of Students: ",
+                              style: TextStyle(fontSize: 22.0)),
+                          Column(children: <Widget>[
+                            DropdownCapacity(context),
+                          ]),
                         ]),
-                      ],
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.cyan, // background
-                        onPrimary: Colors.white, // foreground
-                      ),
-                      onPressed: () {
-                        postEventsBloc.postEvent(
-                            myControllerName.text,
-                            dropdownStartTimeValue,
-                            dropdownEndTimeValue,
-                            wDays.indexOf(dropdownWeekDayValue),
-                            eType.indexOf(dropdownEventTypeValue) + 1,
-                            int.parse(dropdownCapacityValue) + 1,
-                            email,
-                            week.beginning.toString(),
-                            classId);
-                      },
-                      child: Text('Book Classroom'),
-                    )
-                  ])))
+// Week day
+                        Row(children: [
+                          Text("\nWeek day: ",
+                              style: TextStyle(fontSize: 22.0)),
+                          Column(children: <Widget>[
+                            DropdownWeekDays(context),
+                          ]),
+                        ]),
+// Start Time
+                        Row(children: [
+                          Text("\nStart Time: ",
+                              style: TextStyle(fontSize: 22.0)),
+                          Column(children: <Widget>[
+                            DropdownStartTime(context),
+                          ]),
+                        ]),
+// End Time
+                        Row(children: [
+                          Text("\nEnd Time: ",
+                              style: TextStyle(fontSize: 22.0)),
+                          Column(children: <Widget>[
+                            DropdownEndTime(context),
+                          ]),
+                        ]),
+// Event Type
+                        Row(
+                          children: [
+                            Text("\nEvent Type: ",
+                                style: TextStyle(fontSize: 22.0)),
+                            Column(children: <Widget>[
+                              DropdownEventType(context),
+                            ]),
+                          ],
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.cyan, // background
+                            onPrimary: Colors.white, // foreground
+                          ),
+                          onPressed: () {
+                            postEventsBloc.postEvent(
+                                myControllerName.text,
+                                dropdownStartTimeValue,
+                                dropdownEndTimeValue,
+                                wDays.indexOf(dropdownWeekDayValue),
+                                eType.indexOf(dropdownEventTypeValue) + 1,
+                                int.parse(dropdownCapacityValue) + 1,
+                                email,
+                                week.beginning.toString(),
+                                classId);
+                          },
+                          child: Text('Book Classroom'),
+                        )
+                      ]))))
         ]));
   }
 

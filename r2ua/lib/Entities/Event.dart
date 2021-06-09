@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/Week.dart';
 
 class Event {
@@ -9,23 +10,29 @@ class Event {
   int id, day, numberPeople, eventTypeId;
   DateFormat date = new DateFormat('yyyy-MM-dd');
   List<Week> weeks;
+  List<Classroom> classes;
 
-  Event(
-      {this.id,
-      this.name,
-      this.startTime,
-      this.endTime,
-      this.duration,
-      this.sectionName,
-      this.observations,
-      this.day,
-      this.numberPeople,
-      this.eventTypeId,
-      this.weeks});
+  Event({
+    this.id,
+    this.name,
+    this.startTime,
+    this.endTime,
+    this.duration,
+    this.sectionName,
+    this.observations,
+    this.day,
+    this.numberPeople,
+    this.eventTypeId,
+    this.weeks,
+    this.classes,
+  });
 
   factory Event.fromJson(Map<String, dynamic> json) {
     Iterable l = json['weeks'];
     List<Week> _weeks = List<Week>.from(l.map((model) => Week.fromJson(model)));
+
+    Iterable c = json['classrooms'];
+    List<Classroom> _classes = List<Classroom>.from(c.map((model) => Classroom.fromJson(model)));
 
     return Event(
       id: json['id'],
@@ -39,6 +46,7 @@ class Event {
       numberPeople: json['numberPeople'],
       eventTypeId: json['eventType']['id'],
       weeks: _weeks,
+      classes: _classes
     );
   }
 }

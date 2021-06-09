@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/BlocPattern/EventsBloc.dart';
 import 'package:r2ua/Entities/Event.dart';
+import 'package:r2ua/View/EventDetails.dart';
 
 import 'Bookings.dart';
 import 'Search.dart';
@@ -144,6 +145,10 @@ class _Home extends State<Home> {
                       itemCount: currentList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
+                            onTap: () {
+                              goToEventDetails(
+                                  context, email, currentList[index]);
+                            },
                             child: Container(
                                 margin: EdgeInsets.all(2),
                                 padding: EdgeInsets.all(6.0),
@@ -178,36 +183,14 @@ class _Home extends State<Home> {
                                     Row(
                                       children: <Widget>[
                                         Text(currentList[index]
-                                                .startTime[0]
-                                                .toString() +
-                                            currentList[index]
-                                                .startTime[1]
-                                                .toString() +
-                                            currentList[index]
-                                                .startTime[2]
-                                                .toString() +
-                                            currentList[index]
-                                                .startTime[3]
-                                                .toString() +
-                                            currentList[index]
-                                                .startTime[4]
-                                                .toString() +
+                                                .startTime
+                                                .toString()
+                                                .substring(0, 5) +
                                             "h - " +
                                             currentList[index]
-                                                .endTime[0]
-                                                .toString() +
-                                            currentList[index]
-                                                .endTime[1]
-                                                .toString() +
-                                            currentList[index]
-                                                .endTime[2]
-                                                .toString() +
-                                            currentList[index]
-                                                .endTime[3]
-                                                .toString() +
-                                            currentList[index]
-                                                .endTime[4]
-                                                .toString() +
+                                                .endTime
+                                                .toString()
+                                                .substring(0, 5) +
                                             "h"),
                                       ],
                                     )
@@ -217,5 +200,13 @@ class _Home extends State<Home> {
             ],
           ));
         });
+  }
+
+  goToEventDetails(BuildContext context, String email, Event event) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => EventDetails(event: event, email: email)),
+    );
   }
 }

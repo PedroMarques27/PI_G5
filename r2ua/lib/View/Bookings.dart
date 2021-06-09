@@ -93,7 +93,18 @@ class _Bookings extends State<Bookings> {
                                         onTap: () {
                                           eventsBloc.removeEvent(
                                               currentList[index].id, email);
-                                          initState();
+                                          eventsBloc
+                                              .bookingsEvents(email, 100)
+                                              .then((value) {
+                                            setState(() {
+                                              userEvents = value;
+                                              currentEventsList =
+                                                  userEvents.futureEvents;
+                                              pastEventsList =
+                                                  userEvents.pastEvents;
+                                              currentList = currentEventsList;
+                                            });
+                                          });
                                         },
                                       )
                                   ]),

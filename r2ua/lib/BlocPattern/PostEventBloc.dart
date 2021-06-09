@@ -24,7 +24,7 @@ class PostEventsBloc {
 
   void stop() {}
 
-  Future<bool> postEvent(
+  Future<int> postEvent(
       String name,
       String startTime,
       String endTime,
@@ -69,37 +69,12 @@ class PostEventsBloc {
           ]
         }));
 
-    debugPrint("\n\npost  " +
-        jsonEncode({
-          "name": name,
-          "code": (name + "_" + email).toLowerCase().replaceAll(" ", "_"),
-          "startTime": startTime,
-          "endTime": endTime,
-          "day": day,
-          "eventTypeId": eventType,
-          "numStudents": numStudents.toString(),
-          "requestedBy": email,
-          "eventWeeks": [
-            {
-              "model": {"weekId": weekId},
-              "status": 1
-            }
-          ],
-          "eventClassrooms": [
-            {
-              "model": {"classroomId": classId},
-              "status": 1
-            }
-          ],
-          "propertyBags": [
-            {"key": "string", "value": "string"}
-          ]
-        }));
-    debugPrint("Status code" + response.body);
     debugPrint("Status code" + response.statusCode.toString());
-    if (response.statusCode == 201) return true;
 
-    return false;
+    if (response.statusCode == 201) 
+      return jsonDecode(response.body)["data"]["id"];
+
+    return -1;
   }
 
   Future<int> getWeekId(String weekDate) async {
