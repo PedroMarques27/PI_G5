@@ -235,3 +235,4 @@ D:\Github\Projeto-PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\staticwebassets\MU
 D:\Github\Projeto-PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.dll
 D:\Github\Projeto-PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.pdb
 D:\Github\Projeto-PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\MUP-RR.genruntimeconfig.cache
+D:\Github\Projeto-PI_G5\MUP-RR\MUP-RR\obj\Debug\netcoreapp3.1\Razor\Views\Home\InfoPage.cshtml.g.cs

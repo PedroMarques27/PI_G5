@@ -49,6 +49,25 @@ namespace MUP_RR.Controllers
     }
 
     //Insert statement
+    public void addLog(LOG log, String description){
+        if (!verifySGBDConnection())
+                return;
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandText = "INSERT MUPRR.logs (context, description) VALUES (@LOG, @DESCRIPTION)";
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@DESCRIPTION", description);
+        cmd.Parameters.AddWithValue("@LOG", log.ToString());
+        cmd.Connection = connection;
+   
+        try
+        {
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Failed to update contact in database. \n ERROR MESSAGE: \n" + ex.Message);
+        }    
+    }
     public void InsertMup(MupTable mpt)
     {
         if (!verifySGBDConnection())
@@ -83,7 +102,6 @@ namespace MUP_RR.Controllers
         cmd.Parameters.AddWithValue("@RCU_ID", _assoc.rcu_id);
         cmd.Parameters.AddWithValue("@UU", _assoc.email);
         cmd.Connection = connection;
-        Console.WriteLine(cmd.CommandText+"------------------------------------------------");
         try
         {
             cmd.ExecuteNonQuery();
@@ -280,83 +298,9 @@ namespace MUP_RR.Controllers
 
 
     }
-    public void DeleteVinculo(int id)
-    {
-        if (!verifySGBDConnection())
-            return ;
-        SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "DELETE MUPRR.Vinculo WHERE id=@id ";
-        cmd.Parameters.Clear();
-        cmd.Parameters.AddWithValue("@id", id);
-        cmd.Connection = connection;
-          
-        try
-        {
-            cmd.ExecuteNonQuery();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Failed to delete in database. \n ERROR MESSAGE: \n" + ex.Message);
-        }
-    }
-    public void DeleteProfile(string id)
-    {
-        if (!verifySGBDConnection())
-            return ;
-        SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "DELETE MUPRR.Profile WHERE id=@id ";
-        cmd.Parameters.Clear();
-        cmd.Parameters.AddWithValue("@id", id);
-        cmd.Connection = connection;
-          
-        try
-        {
-            cmd.ExecuteNonQuery();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Failed to delete in database. \n ERROR MESSAGE: \n" + ex.Message);
-        }
-    }
-    public void DeleteUO(int id)
-    {
-        if (!verifySGBDConnection())
-            return ;
-        SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "DELETE MUPRR.UnidadeOrganica WHERE id=@id ";
-        cmd.Parameters.Clear();
-        cmd.Parameters.AddWithValue("@id", id);
-        cmd.Connection = connection;
-          
-        try
-        {
-            cmd.ExecuteNonQuery();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Failed to delete in database. \n ERROR MESSAGE: \n" + ex.Message);
-        }
 
-    }
-    public void DeleteClassroomGroup(string id)
-    {
-        if (!verifySGBDConnection())
-            return ;
-        SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "DELETE MUPRR.ClassroomGroup WHERE id=@id ";
-        cmd.Parameters.Clear();
-        cmd.Parameters.AddWithValue("@id", id);
-        cmd.Connection = connection;
-          
-        try
-        {
-            cmd.ExecuteNonQuery();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Failed to delete in database. \n ERROR MESSAGE: \n" + ex.Message);
-        }
-    }
+
+    
     public void DeleteMup(int id)
     {
         if (!verifySGBDConnection())
