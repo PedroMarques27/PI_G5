@@ -26,6 +26,68 @@
     background-color: #AF4C4C; /* Green */
     color: white;
     }
+    
+.terminalTab{
+  width: 100%;
+  background-color: #bbb;
+  height: 30px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.circleX{
+  font-size: 18px;
+  font-family: "verdana";
+  width: 25px;
+  height: 25px;
+  background-color: #db4141;
+  color: #ffffff;
+  border-radius: 50%;
+  text-align: center;
+  margin-top: 2px;
+  margin-left: 6px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.letterX{
+  display: block;
+  padding-top: 3.5px;
+}
+
+.terminalName{
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  color: #black;
+  position: absolute;
+  top: 6px;
+}
+.fakeButtons {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  position: relative;
+  top: 6px;
+  left: 6px;
+  background-color: #ff3b47;
+  border-color: #9d252b;
+  display: inline-block;
+}
+
+.fakeMinimize {
+  left: 11px;
+  background-color: #ffc100;
+  border-color: #9d802c;
+}
+
+.fakeZoom {
+  left: 16px;
+  background-color: #00d742;
+  border-color: #049931;
+}
+
+
 </style>
 <script>
     function DeleteRule(id) {
@@ -49,8 +111,6 @@
 </h4>
 
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
-    
-    
     <table class="table table-bordered table-striped mb-0">
         <tr>
             <th scope="col">Vínculo</th>
@@ -80,6 +140,34 @@
     </table>
 </div>
 <hr>
+<div class="table-wrapper-scroll-y my-custom-scrollbar" style="width:55%; float:right">
+    <div class="terminalTab">
+        <span class="terminalName">Logs</span>
+        <div class="fakeButtons fakeClose"></div>
+        <div class="fakeButtons fakeMinimize"></div>
+        <div class="fakeButtons fakeZoom"></div>
+    </div>
+    <table class="table table-bordered table-striped mb-0" style="background-color:#151515" >
+        @foreach (var item in ViewData["LOGS"] as List<Log>)
+            {
+                <tr>
+                    <th style="border:none;"> 
+                        <a style="color: #9CD9F0; font-size: small;">@item.date</a> 
+                        <a style="color: #CDEE69; ">@item.context</a>
+                        <a style="font-size: small;  color: lightgrey;border:none;">@item.description</a>
+                    </th>
+                    
+                    
+                    
+                </tr>
+            }
+        
+        
+        
+        
+    </table>
+</div>
+
 <div class="table-wrapper-scroll-y my-custom-scrollbar" style="width:40%">
     <h4>Profiles</h4>
     <h8>If there Is already A Profile With The Specified Priority, They Will Trade Priorities</h8>

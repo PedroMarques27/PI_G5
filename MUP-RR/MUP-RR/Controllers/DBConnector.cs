@@ -94,7 +94,6 @@ namespace MUP_RR.Controllers
     {
         if (!verifySGBDConnection())
             return;
-        
         SqlCommand cmd = new SqlCommand();
         cmd.CommandText = "INSERT MUPRR.BRB_RCU_ASSOC (BRB_ID, RCU_ID, UU) VALUES (@BRB_ID, @RCU_ID, @UU)";
         cmd.Parameters.Clear();
@@ -108,7 +107,7 @@ namespace MUP_RR.Controllers
         }
         catch (Exception ex)
         {
-            throw new Exception("Failed to update contact in database. \n ERROR MESSAGE: \n" + ex.Message);
+            throw new Exception("Failed to insert contact in database. \n ERROR MESSAGE: \n" + ex.Message);
         }    
     }
     public void InsertProfile(Profile profile, int priority)
@@ -247,10 +246,6 @@ namespace MUP_RR.Controllers
         }
           
     }
-    
-    
-
-   
     public void UpdatePriorityOfProfiles(int p1, int p2)
     {
         int rows = 0;
@@ -277,7 +272,7 @@ namespace MUP_RR.Controllers
     }
     
     //Delete statement
-      public void DeleteUserAssociations(string rcuId)
+    public void DeleteUserAssociations(string rcuId)
     {
         if (!verifySGBDConnection())
             return ;
@@ -298,9 +293,6 @@ namespace MUP_RR.Controllers
 
 
     }
-
-
-    
     public void DeleteMup(int id)
     {
         if (!verifySGBDConnection())
@@ -322,8 +314,48 @@ namespace MUP_RR.Controllers
         
     }
 
-
     //Select statement
+    public DateTime SelectLatestLogByContext(LOG context){
+        var date = new DateTime();
+        if (!verifySGBDConnection())
+            return date;
+        SqlCommand cmd = new SqlCommand(" SELECT TOP 1 date FROM MUPRR.logs WHERE context = @CONTEXT ORDER BY date DESC", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@CONTEXT", context.ToString());
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            date = Convert.ToDateTime(reader["date"]);
+        }
+        reader.Close();
+        return date;
+    }
+
+    public List<Log> SelectLogsByDate(){
+        List<Log> logs = new List<Log>();
+      
+        if (!verifySGBDConnection())
+            return logs;
+        SqlCommand cmd = new SqlCommand(" SELECT * FROM MUPRR.logs ORDER BY date DESC", connection);
+        cmd.Parameters.Clear();
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        while (reader.Read())
+        {
+            Log _temp = new Log();
+            _temp.date = Convert.ToDateTime(reader["date"]);
+
+            LOG current;
+            Enum.TryParse(reader["context"].ToString(), out current);
+            _temp.context = current;
+
+            _temp.description = (reader["description"]).ToString();
+
+            logs.Add(_temp);
+        }
+        reader.Close();
+        return logs;
+    }
     public BRB_RCU_ASSOC SelectUserFromIUPI(string iupi)
     {
         BRB_RCU_ASSOC data = new BRB_RCU_ASSOC();

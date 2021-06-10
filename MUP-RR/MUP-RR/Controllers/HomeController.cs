@@ -23,6 +23,8 @@ namespace MUP_RR.Controllers
 		 	ViewData["MUP-Table"] = translateMup();
 			HashSet<Profile> distinct = new HashSet<Profile>(database.SelectProfile());
 			ViewData["Profiles"] = distinct;
+			var logs = database.SelectLogsByDate();
+			ViewData["LOGS"] = logs;
 			return View();
 		}
 
@@ -48,7 +50,6 @@ namespace MUP_RR.Controllers
 
 		[HttpPost]
 		public ActionResult DeleteRule(int id){
-			Console.WriteLine("-----------");
 			database.DeleteMup(id);
 			return RedirectToAction("Interface");
 		}
@@ -66,7 +67,6 @@ namespace MUP_RR.Controllers
 			ViewData["V"] = database.SelectVinculo();
 			ViewData["CSG"] = database.SelectClassroomGroup();
 			ViewData["UO"] = database.SelectUO();
-			
 			return View();
 		}
 		[HttpPost]

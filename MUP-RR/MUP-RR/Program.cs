@@ -14,9 +14,6 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Runtime.Serialization.Json;
 using System.IO;
@@ -30,26 +27,24 @@ namespace MUP_RR
 
         public DBConnector database = new DBConnector();
         private int NEW_USERS_PERIOD = 7200000;
-        private int UPDATE_DB_PERIOD = 7200000 * 24;
-
-        static async Task Main(string[] args)
+        private bool INITIALIZING = true;
+        static void Main(string[] args)
         {
-            await BRBConnector.OpenConnection();
+            BRBConnector.OpenConnection();
             Program obj = new Program();
+            obj.database.addLog(LOG.INFO, "Initializing MUP-RR");
             
-            
-            //Task.Factory.StartNew(obj.updateDatabaseAssocTable);
             Task.Factory.StartNew(obj.startPeriodicTasks);
-   
             CreateHostBuilder(args).Build().Run();
         }
 
-        public async Task startPeriodicTasks(){
+        public void startPeriodicTasks(){
             while(true){
+                database.addLog(LOG.INFO, "Starting Database Update");
                 updateDatabaseWithNewBrbData();
                 updateNewBRBUsers();
+                INITIALIZING = false;
                 Thread.Sleep(NEW_USERS_PERIOD); 
-                
             }
             
 
@@ -61,8 +56,8 @@ namespace MUP_RR
                     webBuilder.UseStartup<Startup>();
                 });
         
-        
         public async void UpdateProfile(string iupi, List<Tuple<UO,Vinculo>> pairs){
+            database.addLog(LOG.INFO, "Determining new User Permissions");
             MupTable finalDecision = new MupTable();  
             HashSet<Profile> profiles = new HashSet<Profile>();
             HashSet<ClassroomGroup> classroomGroups = new HashSet<ClassroomGroup>();
@@ -92,51 +87,11 @@ namespace MUP_RR
             BRB_User newUser = new BRB_User();
             newUser = newUser.fromJson(jsonUser.ToString());
             newUser.profile = higher;
+            database.addLog(LOG.INFO, "New User Permissions Defined");
             updateBRBUser(newUser, classroomGroups);
         }
-
-
-
-
-      
-
-
-        public async void updateBRB_RCU_ASSOC(){
-            //GET BRB CURRENT USERS
-            List<string> rcuids = new List<string>();
-            foreach (var item in database.SelectUserAssociations())
-            {
-                rcuids.Add(item.rcu_id);
-            }
-            var brbUsers = await BRBConnector.getUserList();
-            JObject jObject = JObject.Parse(brbUsers);
-            List<BRB_User> usersAvailableBRB = new List<BRB_User>();
-            foreach (var jsonUser in jObject["data"])
-            {
-                BRB_User newUser = new BRB_User();
-                usersAvailableBRB.Add(newUser.fromJson(jsonUser.ToString()));
-            }
-            //GET RCU IUPI ID's
-            foreach (BRB_User item in usersAvailableBRB)
-            {
-                var iupi = RCUConnector.getRcuIupi(item.email);
-                
-                if(!iupi.Contains("EXCEPTION:")){
-                    BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
-                    newAssoc.email = item.email;
-                    newAssoc.brb_id = item.id;
-                    newAssoc.rcu_id = iupi;
-
-                    if (!rcuids.Contains(iupi)){
-                        database.InsertUserAssociation(newAssoc);
-                    }
-                }
-            } 
-        }
-
-
         public async void updateBRBUser(BRB_User updatedUser, HashSet<ClassroomGroup> newGroups){
-           
+            database.addLog(LOG.INFO, "Updating User "+updatedUser.email);
             HashSet<int> groupsToDelete = new HashSet<int>();
             HashSet<int> groupsToAdd = new HashSet<int>();
 
@@ -149,14 +104,12 @@ namespace MUP_RR
                     groupsToAdd.Add(item);
                 }
             }
-
             foreach (int item in currentIds)
             {
                 if (!latestIds.Contains(item)){
                     groupsToDelete.Add(item);
                 }
             }
-
 
             JArray classes = new JArray(
                 from p in groupsToDelete
@@ -187,7 +140,6 @@ namespace MUP_RR
 
             JObject classRoomGroups =
             new JObject(
-                
                 new JProperty("usersClassroommGroups", new JArray(
                     new JObject(
                         new JProperty("userClassroomGroupsBooking",new JArray(classes.Union(toAdd)))
@@ -196,8 +148,7 @@ namespace MUP_RR
             ));
 
             JObject profile =
-            new JObject(
-                
+            new JObject( 
                 new JProperty("usersEmailProfiles", new JArray(
                     new JObject(
                         new JProperty("userEmail", updatedUser.email),
@@ -209,10 +160,10 @@ namespace MUP_RR
            
             await BRBConnector.postUpdateUser(classRoomGroups.ToString(), profile.ToString());
 
-
-            database.addLog(LOG.USER_UPDATE, "UPDATED USER " + updatedUser.email );
+            database.addLog(LOG.USER_UPDATE, "Updated User " + updatedUser.email+ " With New Permissions");
         }
-        public async Task<List<Tuple<UO,Vinculo>>> getUserData(string IUPI){
+        public List<Tuple<UO,Vinculo>> getUserData(string IUPI){
+            database.addLog(LOG.INFO, "Retrieving User Data From RCU");  
             List<Tuple<UO,Vinculo>> tupleList = new List<Tuple<UO,Vinculo>>();
      
             try{
@@ -221,7 +172,7 @@ namespace MUP_RR
                 JArray info = new JArray();
                 try{
                     info = (JArray)(jsonObjectGeneral["Vinculo"]);
-                }catch(Exception e){
+                }catch(Exception){
                     JObject singleData = (JObject)jsonObjectGeneral["Vinculo"]; 
                     info.Add(singleData);
                 }
@@ -231,51 +182,29 @@ namespace MUP_RR
                     Vinculo vc =  database.selectVinculoBySigla(obj["tipovinculo"]["Sigla"].ToString());
                     tupleList.Add(new Tuple<UO, Vinculo>(userUO,vc));
                 }
-
-                
+                database.addLog(LOG.INFO, "User Data Retrieved From RCU");  
                 return tupleList;
-            }catch(Exception e){
-                //Console.WriteLine(e.ToString());
+            }catch(Exception){
                 return new List<Tuple<UO,Vinculo>>();
             }
         }
         
         //Async Periodic Functions
-        public async void updateDatabaseAssocTable(){
-            //GET BRB CURRENT USERS
-            List<string> rcuids = new List<string>();
-            foreach (var item in database.SelectUserAssociations())
-            {
-                rcuids.Add(item.rcu_id);
-            }
-            var brbUsers = await BRBConnector.getUserList();
-            JObject jObject = JObject.Parse(brbUsers);
-            List<BRB_User> usersAvailableBRB = new List<BRB_User>();
-            foreach (var jsonUser in jObject["data"])
-            {
-                BRB_User newUser = new BRB_User();
-                usersAvailableBRB.Add(newUser.fromJson(jsonUser.ToString()));
-            }
-            //GET RCU IUPI ID's
-            foreach (BRB_User item in usersAvailableBRB)
-            {
-                var iupi = RCUConnector.getRcuIupi(item.email);
-                
-                if(!iupi.Contains("EXCEPTION:")){
-                    BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
-                    newAssoc.email = item.email;
-                    newAssoc.brb_id = item.id;
-                    newAssoc.rcu_id = iupi;
-
-                    if (!rcuids.Contains(iupi)){
-                        database.InsertUserAssociation(newAssoc);
-                    }
-                }
-            } 
-            Thread.Sleep(UPDATE_DB_PERIOD/2);
-        }
+    
         public async void updateNewBRBUsers(){
-            var data = await BRBConnector.getNewUsersInTimeframe(NEW_USERS_PERIOD);
+            database.addLog(LOG.INFO, "Retrieving New Users From BRB");  
+            DateTime time;
+            if (INITIALIZING){
+                time = database.SelectLatestLogByContext(LOG.NEW_USER);
+            }else{
+                time = DateTime.Now.AddDays(-1);
+            }
+            String data;
+            if (time == null)
+                data = await BRBConnector.getUserList();
+            else
+                data  = await BRBConnector.getNewUsersInTimeframe(time);
+
             JObject jObject = JObject.Parse(data);
             List<BRB_User> usersAvailableBRB = new List<BRB_User>();
             
@@ -285,26 +214,31 @@ namespace MUP_RR
                 usersAvailableBRB.Add(newUser.fromJson(jsonUser.ToString()));
 
             }
+            database.addLog(LOG.INFO, "New Users Retrieved From BRB");  
             var brb_users_added = 0;
             foreach (var user in usersAvailableBRB){
-                if(database.SelectUserFromBrbId(user.id).brb_id == null){
+                if(database.SelectUserFromBrbId(user.id).brb_id == null && user.email.Contains("@ua.pt")){
                     var iupi = RCUConnector.getRcuIupi(user.email);
                     BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
                     newAssoc.email = user.email;
                     newAssoc.brb_id = user.id;
                     newAssoc.rcu_id = iupi;
-                    database.InsertUserAssociation(newAssoc);  
+                    
+                    database.InsertUserAssociation(newAssoc);
+                    database.addLog(LOG.NEW_USER, user.email +" Added To Database");  
                     brb_users_added++;
-                    List<Tuple<UO,Vinculo>> userData = await getUserData(iupi);
+                    List<Tuple<UO,Vinculo>> userData = getUserData(iupi);
                     UpdateProfile(newAssoc.rcu_id, userData);
                 }
                 
             }
-            database.addLog(LOG.NEW_USERS, brb_users_added +" NEW USERS LOADED FROM BRB");
+            database.addLog(LOG.NEW_USER, brb_users_added + " New Users Added To Database");  
+            
             
         }
        
         public async void updateDatabaseWithNewBrbData(){
+            database.addLog(LOG.INFO, "Retrieving New Profiles From BRB");
             var brbProfiles = await BRBConnector.getProfileList();
             var databaseProfiles = database.SelectProfile();
 
@@ -313,35 +247,38 @@ namespace MUP_RR
             foreach(var i in databaseProfiles){
                 if (i.priority>max) max = i.priority;
                 dbIds.Add(i.id);
-       
             }
-            var new_profiles_counter = 0;
+            var newProfilesCounter = 0;
             foreach (var item in brbProfiles)
             {
                 if (!dbIds.Contains(item.id)){
                     max++;
-                    new_profiles_counter++;
                     database.InsertProfile(item, max);
+                    newProfilesCounter++;
+                    database.addLog(LOG.NEW_PROFILES, "Profile "+ item.name + " Added To Database");
                 }                
             }
-            database.addLog(LOG.NEW_PROFILES, new_profiles_counter + " NEW PROFILES ADDED");
-
+            database.addLog(LOG.NEW_PROFILES, newProfilesCounter + " New Profiles Added To Database");
+            database.addLog(LOG.INFO, "Retrieving New Classroom Groups From BRB");
             var brbClassroomGroups = await BRBConnector.getClassroomGroups();
             var databaseClassroomGroups = database.SelectClassroomGroup();
+            
 
+            var classroomGroupsCounter = 0;
             dbIds = new List<int>();
-            var new_csg_counter = 0;
             foreach(var i in databaseClassroomGroups){
                 dbIds.Add(i.id);
             }
             foreach (var item in brbClassroomGroups)
             {
                 if (!dbIds.Contains(item.id)){
-                    new_csg_counter++;
                     database.InsertClassroomGroup(item);
+                    classroomGroupsCounter++;
+                     database.addLog(LOG.NEW_CLASSROOMGROUPS, "Classroom Groups "+ item.name + " Added To Database");
                 }                
             }
-            database.addLog(LOG.NEW_CLASSROOMGROUPS, new_profiles_counter + " NEW CLASSROOM GROUPS ADDED");
+            database.addLog(LOG.NEW_CLASSROOMGROUPS, classroomGroupsCounter + " New Classroom Groups Added To Database");
+           
         }   
         
         
