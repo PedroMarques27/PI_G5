@@ -6,8 +6,9 @@
                     <div class="controls">
 
                         <label>Unidade Orgânica:</label>
-                        @Html.DropDownListFor(m => m.uo, new SelectList((IEnumerable<UO>)  ViewData["UO"]), "Please select");        
-                                    
+                        <p>
+                        @Html.DropDownListFor(m => m.uo, new SelectList((IEnumerable<UO>)  ViewData["UO"]), "Please select",new { style="width:30%"})       
+                        </p>         
 
                     </div>
 
@@ -18,8 +19,9 @@
                     <div class="controls">
 
                         <label >Vinculo:</label>
-                        @Html.DropDownListFor(m => m.vinculo, new SelectList((IEnumerable<Vinculo>)  ViewData["V"]), "Please select");        
-                              
+                        <p>
+                        @Html.DropDownListFor(m => m.vinculo, new SelectList((IEnumerable<Vinculo>)  ViewData["V"]), "Please select",new { style="width:30%"})        
+                        </p>
 
                     </div>
 
@@ -30,8 +32,9 @@
                     <div class="controls">
 
                         <label >Perfil:</label>
-                        @Html.DropDownListFor(m => m.profile, new SelectList((IEnumerable<Profile>)  ViewData["P"]), "Please select");        
-                              
+                        <p>
+                        @Html.DropDownListFor(m => m.profile, new SelectList((IEnumerable<Profile>)  ViewData["P"]), "Please select",new { style="width:30%"})        
+                        </p>   
 
                     </div>
 
@@ -42,8 +45,9 @@
                     <div class="controls">
 
                         <label>Classroom Group:</label>
-                        @Html.DropDownListFor(m => m.classGroup, new SelectList((IEnumerable<ClassroomGroup>)  ViewData["CSG"]), "Please select");        
-                  
+                        <p>
+                        @Html.DropDownListFor(m => m.classGroup, new SelectList((IEnumerable<ClassroomGroup>)  ViewData["CSG"]), "Please select",new { style="width:30%"})        
+                        </p>
 
                     </div>
 

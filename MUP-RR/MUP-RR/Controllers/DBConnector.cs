@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using MUP_RR.Models;
-
+using System.Threading.Tasks;
 
 namespace MUP_RR.Controllers
 {
@@ -23,17 +23,20 @@ namespace MUP_RR.Controllers
     //Initialize values
     private SqlConnection OpenConnection()
     {
-        var extra =" Integrated Security=SSPI;";
-        return new SqlConnection("Server=sql-dev.ua.pt;Database=muprr-dev;Trusted_Connection=True;");
+        SqlConnection connection = new SqlConnection("Server=sql-dev.ua.pt;Database=muprr-dev;Trusted_Connection=True;MultipleActiveResultSets=True;");
+        return connection;
     }
 
     private bool verifySGBDConnection()
     {
         if (connection == null)
             connection = OpenConnection();
-
-        if (connection.State != ConnectionState.Open)
+        
+        if (connection.State == ConnectionState.Closed )
             connection.Open();
+
+        while (connection.State == ConnectionState.Connecting)
+            continue;
 
         return connection.State == ConnectionState.Open;
     }
@@ -71,7 +74,8 @@ namespace MUP_RR.Controllers
     public void InsertUserAssociation(BRB_RCU_ASSOC _assoc)
     {
         if (!verifySGBDConnection())
-                return;
+            return;
+        
         SqlCommand cmd = new SqlCommand();
         cmd.CommandText = "INSERT MUPRR.BRB_RCU_ASSOC (BRB_ID, RCU_ID, UU) VALUES (@BRB_ID, @RCU_ID, @UU)";
         cmd.Parameters.Clear();
@@ -79,7 +83,7 @@ namespace MUP_RR.Controllers
         cmd.Parameters.AddWithValue("@RCU_ID", _assoc.rcu_id);
         cmd.Parameters.AddWithValue("@UU", _assoc.email);
         cmd.Connection = connection;
-   
+        Console.WriteLine(cmd.CommandText+"------------------------------------------------");
         try
         {
             cmd.ExecuteNonQuery();
@@ -227,6 +231,32 @@ namespace MUP_RR.Controllers
     }
     
     
+
+   
+    public void UpdatePriorityOfProfiles(int p1, int p2)
+    {
+        int rows = 0;
+        if (!verifySGBDConnection())
+                return;
+        SqlCommand cmd = new SqlCommand();
+          
+        cmd.CommandText = "UPDATE MUPRR.Profile SET priority = CASE priority WHEN @P1 THEN @P2 WHEN @P2 THEN @P1 ELSE priority END WHERE priority IN(@P1, @P2)";
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@P1", p1);
+        cmd.Parameters.AddWithValue("@P2", p2);
+        
+        cmd.Connection = connection;
+
+        try
+        {
+            rows = cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Failed to update contact in database. \n ERROR MESSAGE: \n" + ex.Message);
+        }
+          
+    }
     
     //Delete statement
       public void DeleteUserAssociations(string rcuId)
@@ -369,6 +399,25 @@ namespace MUP_RR.Controllers
         reader.Close();
         return data;
     }
+    public BRB_RCU_ASSOC SelectUserFromBrbId(string id)
+    {
+        BRB_RCU_ASSOC data = new BRB_RCU_ASSOC();
+        if (!verifySGBDConnection())
+            return data;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.BRB_RCU_ASSOC WHERE BRB_ID=@BRB_ID", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@BRB_ID", id);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            data.brb_id = (reader["BRB_ID"].ToString());
+            data.rcu_id = reader["RCU_ID"].ToString();
+            data.email = reader["UU"].ToString();
+        }
+        reader.Close();
+        return data;
+    }
     public List<BRB_RCU_ASSOC> SelectUserAssociations()
     {
         List<BRB_RCU_ASSOC> data = new List<BRB_RCU_ASSOC>();
@@ -454,6 +503,28 @@ namespace MUP_RR.Controllers
         SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Profile WHERE id=@ID", connection);
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@ID", id);
+
+        
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            data.id = Convert.ToInt32(reader["id"]);
+            data.name = reader["name"].ToString();
+            data.priority = Convert.ToInt32(reader["priority"]);
+
+        }
+        reader.Close();
+        return data;
+    }
+
+    public Profile SelectProfileByPriority(int priority){
+        Profile data = new Profile();
+        if (!verifySGBDConnection())
+            return data;
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Profile WHERE priority=@priority", connection);
+        cmd.Parameters.Clear();
+        cmd.Parameters.AddWithValue("@priority", priority);
 
         
         SqlDataReader reader = cmd.ExecuteReader();

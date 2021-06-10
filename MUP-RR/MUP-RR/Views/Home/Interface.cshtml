@@ -1,3 +1,5 @@
+
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 @{
     ViewData["Title"] = "Interface";
 }
@@ -9,6 +11,20 @@
     }
     .table-wrapper-scroll-y {
     display: block;
+    }
+    .button {
+  transition-duration: 0.4s;
+    }
+    .button2 {
+  transition-duration: 0.4s;
+    }
+    .button:hover {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    }
+    .button2:hover {
+    background-color: #AF4C4C; /* Green */
+    color: white;
     }
 </style>
 <script>
@@ -28,9 +44,13 @@
 </script>
 
 
+<button class="button" onclick="@("window.location.href='" + @Url.Action("AddRule", "Home") + "'");" style="float:right"> Add Rule</button>
+<h4>Manager of User Permissions Rules
+</h4>
+
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
-    <h4>Manager of User Permissions Rules</h4>
-    <button onclick="@("window.location.href='" + @Url.Action("AddRule", "Home") + "'");">Add Rule</button>
+    
+    
     <table class="table table-bordered table-striped mb-0">
         <tr>
             <th scope="col">Vínculo</th>
@@ -50,7 +70,7 @@
                     <th>
                         @using(Html.BeginForm("DeleteRule", "Home", FormMethod.Post)){
                             @Html.Hidden("id", (int) item.Item1)
-                            <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
+                            <input class="button2" type="submit" value="Delete" onclick="return confirm('Are you sure You Want To Delete This Rule?')">
                         }</th>
                     
                 </tr>
@@ -59,22 +79,36 @@
         
     </table>
 </div>
-
-<div class="table-wrapper-scroll-y my-custom-scrollbar">
-    <h4>Manager of User Permissions Rules</h4>
-    <button onclick="@("window.location.href='" + @Url.Action("AddRule", "Home") + "'");">Add Rule</button>
+<hr>
+<div class="table-wrapper-scroll-y my-custom-scrollbar" style="width:40%">
+    <h4>Profiles</h4>
+    <h8>If there Is already A Profile With The Specified Priority, They Will Trade Priorities</h8>
     <table class="table table-bordered table-striped mb-0">
         <tr>
             <th scope="col">Profile</th>
             <th scope="col">Priority</th>
-            <th scope="col">Up/Down</th>
+            <th scope="col">Insert New Priority</th>
             
         </tr> 
+
+        @foreach (var item in ViewData["Profiles"] as HashSet<Profile>)
+            {
+                <tr>
+                    <th style="width:40%">@item.name</th>
+                    <th style="width:20%">@item.priority</th>
+                    <th style="width:40%">
+                        @using(Html.BeginForm("ChangePriority", "Home", FormMethod.Post)){
+                            @Html.Hidden("id", (int) item.id)
+                            @Html.TextBox("priority","",new { style="width:60%", placeholder = "#Priority" })
+                            <input class="button" style="float:right" type="submit" value="Save" onclick="return confirm('Are you sure You Wish To Change This Profile\'s Priority?')">
+                        }</th>
+                    
+                </tr>
+            }
+        
         
         
         
     </table>
 </div>
 
-
-<p></p>

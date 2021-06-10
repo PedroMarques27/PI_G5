@@ -9,12 +9,8 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using MUP_RR.Controllers;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MUP_RR.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
@@ -42,12 +38,21 @@ namespace MUP_RR
             Program obj = new Program();
             
             
-            
-            Task.Factory.StartNew(obj.updateDatabaseAssocTable);
-            Task.Factory.StartNew(obj.updateNewBRBUsers);
-            Task.Factory.StartNew(obj.updateDatabaseWithNewBrbData);
-            
+            //Task.Factory.StartNew(obj.updateDatabaseAssocTable);
+            Task.Factory.StartNew(obj.startPeriodicTasks);
+   
             CreateHostBuilder(args).Build().Run();
+        }
+
+        public async Task startPeriodicTasks(){
+            while(true){
+                updateDatabaseWithNewBrbData();
+                updateNewBRBUsers();
+                Thread.Sleep(NEW_USERS_PERIOD); 
+                
+            }
+            
+
         }
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
@@ -59,8 +64,7 @@ namespace MUP_RR
         
         public async void UpdateProfile(string iupi, List<Tuple<UO,Vinculo>> pairs){
 
-            BRB_RCU_ASSOC currentUser = database.SelectUserFromIUPI(iupi);
-            
+       
             
             MupTable finalDecision = new MupTable();  
             HashSet<Profile> profiles = new HashSet<Profile>();
@@ -78,15 +82,14 @@ namespace MUP_RR
                 }
 
                 if (queryResult.Count()==0){
-                    profiles.Add(database.SelectProfileByName("DEFAULT"));
+                    profiles.Add(database.SelectProfileByName("Default"));
                 }
             }
            
             var higher = Profile.getHigherStatus(profiles);
-            
-            
+            var brbId = database.SelectUserFromIUPI(iupi).brb_id;
+            string json = await BRBConnector.getUserById(brbId);
 
-            string json = await BRBConnector.getUserById(currentUser.brb_id);
             JObject jObject = JObject.Parse(json);
             var jsonUser = jObject["data"];
             BRB_User newUser = new BRB_User();
@@ -295,17 +298,20 @@ namespace MUP_RR
             }
 
             foreach (var user in usersAvailableBRB){
+                if(database.SelectUserFromBrbId(user.id).brb_id == null){
                     var iupi = RCUConnector.getRcuIupi(user.email);
                     BRB_RCU_ASSOC newAssoc = new BRB_RCU_ASSOC();
                     newAssoc.email = user.email;
                     newAssoc.brb_id = user.id;
                     newAssoc.rcu_id = iupi;
+                    Console.WriteLine(newAssoc.brb_id);
                     database.InsertUserAssociation(newAssoc);  
-        
-                List<Tuple<UO,Vinculo>> userData = await getUserData(iupi);
-                UpdateProfile(iupi, userData);
+            
+                    List<Tuple<UO,Vinculo>> userData = await getUserData(iupi);
+                    UpdateProfile(newAssoc.rcu_id, userData);
+                }
+                
             }
-            Thread.Sleep(NEW_USERS_PERIOD);
             
         }
        
@@ -342,7 +348,6 @@ namespace MUP_RR
                     database.InsertClassroomGroup(item);
                 }                
             }
-            Thread.Sleep(UPDATE_DB_PERIOD);
         }   
         
         
