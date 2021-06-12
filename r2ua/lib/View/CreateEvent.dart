@@ -16,53 +16,15 @@ class CreateEvent extends StatefulWidget {
   Week week;
   String email;
   int numMaxStud;
-  List<String> weekDays = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday"
-  ];
-  List<String> hours = <String>[
-    "08:00",
-    "08:30",
-    "09:00",
-    "09:30",
-    "10:00",
-    "10:30",
-    "11:00",
-    "11:30",
-    "12:00",
-    "12:30",
-    "13:00",
-    "13:30",
-    "14:00",
-    "14:30",
-    "15:00",
-    "15:30",
-    "16:00",
-    "16:30",
-    "17:00",
-    "17:30",
-    "18:00",
-    "18:30",
-    "19:00",
-    "19:30",
-    "20:00",
-    "20:30",
-    "21:00",
-    "21:30"
-  ];
-  List<String> eventType = <String>[
-    "Aula",
-    "Exame",
-    "Conferência",
-    "Reunião",
-    "Avaliação",
-    "Reservas"
-  ]; //ID +1 ---------------------IMPORTANTE
+  List<Event> unavailable;
 
-  CreateEvent({Key key, this.week, this.classId, this.email, this.numMaxStud})
+  CreateEvent(
+      {Key key,
+      this.week,
+      this.classId,
+      this.email,
+      this.numMaxStud,
+      this.unavailable})
       : super(key: key);
 
   @override
@@ -70,6 +32,27 @@ class CreateEvent extends StatefulWidget {
 }
 
 class _CreateEvent extends State<CreateEvent> {
+  final _formKey = GlobalKey<FormState>();
+
+  void _submit(String eventName, String startTime, String endTime, int wDay,
+      int eType, int capacity) {
+    final isValid = _formKey.currentState.validate();
+    if (!isValid) {
+      return;
+    }
+    _formKey.currentState.save();
+    postEventsBloc.postEvent(
+        eventName,
+        startTime,
+        endTime,
+        wDay,
+        eType,
+        capacity,
+        widget.email,
+        widget.week.beginning.toString(),
+        widget.classId);
+  }
+
   String dropdownWeekDayValue = "Monday";
   String dropdownStartTimeValue = "08:00";
   String dropdownEndTimeValue = "08:30";
@@ -78,242 +61,286 @@ class _CreateEvent extends State<CreateEvent> {
 
   @override
   Widget build(BuildContext context) {
-    final myControllerName = TextEditingController();
-
-    int classId = widget.classId;
-    Week week = widget.week;
-    String email = widget.email;
-
-    List<String> wDays = widget.weekDays;
-    List<String> eType = widget.eventType;
+    /*  for (Event e in widget.unavailable) {
+      debugPrint("UNAVAILABLE " +
+          e.day.toString() +
+          " --- " +
+          e.startTime +
+          " --- " +
+          e.endTime);
+    } */
+    final controllerName = TextEditingController();
+    List<String> numStud = numOfStudentsList(widget.numMaxStud);
+    List<String> hours = <String>[
+      "08:00",
+      "08:30",
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "12:30",
+      "13:00",
+      "13:30",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:00",
+      "16:30",
+      "17:00",
+      "17:30",
+      "18:00",
+      "18:30",
+      "19:00",
+      "19:30",
+      "20:00",
+      "20:30",
+      "21:00",
+      "21:30",
+      "22:00"
+    ];
+    List<String> eventType = <String>[
+      "Aula",
+      "Exame",
+      "Conferência",
+      "Reunião",
+      "Avaliação",
+      "Reservas"
+    ]; //ID +1 ---------------------IMPORTANTE
+    List<String> weekDays = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ];
 
     return Scaffold(
-        appBar: AppBar(title: Text("Create Event"), actions: <Widget>[]),
-        body: Column(children: <Widget>[
-          Expanded(
-              flex: 2,
-              child: Container(
-                  margin: EdgeInsets.all(2),
-                  child: Container(
-                      margin: EdgeInsets.only(
-                          left: 5, top: 5, right: 5, bottom: 10),
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: Column(children: [
-                        Text("Id: " + classId.toString(),
-                            style: TextStyle(fontSize: 22.0)),
-                        Text(
-                            week.getFormattedBegin() +
-                                " - " +
-                                week.getFormattedEnding(),
-                            style: TextStyle(fontSize: 22.0)),
-// Event Name
-                        Text("\nEvent Name: ",
-                            style: TextStyle(fontSize: 22.0)),
-                        TextField(
-                          controller: myControllerName,
-                          decoration:
-                              InputDecoration(border: OutlineInputBorder()),
-                        ),
-// Number Of Students
-                        Row(children: [
-                          Text("\nNumber of Students: ",
-                              style: TextStyle(fontSize: 22.0)),
-                          Column(children: <Widget>[
-                            DropdownCapacity(context),
-                          ]),
-                        ]),
-// Week day
-                        Row(children: [
-                          Text("\nWeek day: ",
-                              style: TextStyle(fontSize: 22.0)),
-                          Column(children: <Widget>[
-                            DropdownWeekDays(context),
-                          ]),
-                        ]),
+      appBar: AppBar(
+        title: Text("Book Classroom"),
+      ),
+      //body
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        //form
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              Text(
+                "Create Reservation ",
+                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+              ),
+              //styling
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.1,
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Name'),
+                keyboardType: TextInputType.name,
+                onFieldSubmitted: (value) {},
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Enter a valid name!';
+                  }
+                  return null;
+                },
+              ),
+// Weekday
+              DropdownButtonFormField(
+                value: dropdownWeekDayValue,
+                decoration: InputDecoration(labelText: 'Weekday'),
+                hint: Text(
+                  'choose one',
+                ),
+                isExpanded: true,
+                onChanged: (value) {
+                  setState(() {
+                    dropdownWeekDayValue = value;
+                  });
+                },
+                onSaved: (value) {
+                  setState(() {
+                    dropdownWeekDayValue = value;
+                  });
+                },
+                items: weekDays.map((String val) {
+                  return DropdownMenuItem(
+                    value: val,
+                    child: Text(
+                      val,
+                    ),
+                  );
+                }).toList(),
+              ),
+// NumStudents
+              DropdownButtonFormField(
+                value: dropdownCapacityValue,
+                decoration: InputDecoration(labelText: 'Number of Students'),
+                hint: Text(
+                  'choose one',
+                ),
+                isExpanded: true,
+                onChanged: (value) {
+                  setState(() {
+                    dropdownCapacityValue = value;
+                  });
+                },
+                onSaved: (value) {
+                  setState(() {
+                    dropdownCapacityValue = value;
+                  });
+                },
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return "can't empty";
+                  } else {
+                    return null;
+                  }
+                },
+                items: numStud.map((String val) {
+                  return DropdownMenuItem(
+                    value: val,
+                    child: Text(
+                      val,
+                    ),
+                  );
+                }).toList(),
+              ),
 // Start Time
-                        Row(children: [
-                          Text("\nStart Time: ",
-                              style: TextStyle(fontSize: 22.0)),
-                          Column(children: <Widget>[
-                            DropdownStartTime(context),
-                          ]),
-                        ]),
+              DropdownButtonFormField(
+                value: dropdownStartTimeValue,
+                decoration: InputDecoration(labelText: 'Start Time'),
+                hint: Text(
+                  'choose one',
+                ),
+                isExpanded: true,
+                onChanged: (value) {
+                  setState(() {
+                    dropdownStartTimeValue = value;
+                  });
+                },
+                onSaved: (value) {
+                  setState(() {
+                    dropdownStartTimeValue = value;
+                  });
+                },
+                items: hours.map((String val) {
+                  return DropdownMenuItem(
+                    value: val,
+                    child: Text(
+                      val,
+                    ),
+                  );
+                }).toList(),
+              ),
 // End Time
-                        Row(children: [
-                          Text("\nEnd Time: ",
-                              style: TextStyle(fontSize: 22.0)),
-                          Column(children: <Widget>[
-                            DropdownEndTime(context),
-                          ]),
-                        ]),
+              DropdownButtonFormField(
+                value: dropdownEndTimeValue,
+                decoration: InputDecoration(labelText: 'End Time'),
+                hint: Text(
+                  'choose one',
+                ),
+                isExpanded: true,
+                onChanged: (value) {
+                  setState(() {
+                    dropdownEndTimeValue = value;
+                  });
+                },
+                onSaved: (value) {
+                  setState(() {
+                    dropdownEndTimeValue = value;
+                  });
+                },
+                validator: (String value) {
+                  List<String> available = availableTimes(widget.unavailable,
+                      weekDays.indexOf(dropdownWeekDayValue));
+                  if (!available.contains(dropdownStartTimeValue) |
+                      !available.contains(value)) {
+                    return "Impossible Time! Change your start or end time.";
+                  } else if (hours.indexOf(value) <=
+                      hours.indexOf(dropdownStartTimeValue)) {
+                    return "The end time has to be after start time";
+                  } else if (available.contains(dropdownStartTimeValue) &&
+                      available.contains(value)) {
+                    int a = available.indexOf(dropdownStartTimeValue);
+                    int b = available.indexOf(value);
+                    for (int i = a; i < b; i++)
+                      if (available[i] == "-")
+                        return "Impossible Time! Change your start or end time.";
+                    return null;
+                  } else {
+                    return null;
+                  }
+                },
+                items: hours.map((String val) {
+                  return DropdownMenuItem(
+                    value: val,
+                    child: Text(
+                      val,
+                    ),
+                  );
+                }).toList(),
+              ),
 // Event Type
-                        Row(
-                          children: [
-                            Text("\nEvent Type: ",
-                                style: TextStyle(fontSize: 22.0)),
-                            Column(children: <Widget>[
-                              DropdownEventType(context),
-                            ]),
-                          ],
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.cyan, // background
-                            onPrimary: Colors.white, // foreground
-                          ),
-                          onPressed: () {
-                            postEventsBloc.postEvent(
-                                myControllerName.text,
-                                dropdownStartTimeValue,
-                                dropdownEndTimeValue,
-                                wDays.indexOf(dropdownWeekDayValue),
-                                eType.indexOf(dropdownEventTypeValue) + 1,
-                                int.parse(dropdownCapacityValue) + 1,
-                                email,
-                                week.beginning.toString(),
-                                classId);
-                          },
-                          child: Text('Book Classroom'),
-                        )
-                      ]))))
-        ]));
-  }
+              DropdownButtonFormField(
+                value: dropdownEventTypeValue,
+                decoration: InputDecoration(labelText: 'Type of Event'),
+                hint: Text(
+                  'choose one',
+                ),
+                isExpanded: true,
+                onChanged: (value) {
+                  setState(() {
+                    dropdownEventTypeValue = value;
+                  });
+                },
+                onSaved: (value) {},
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return "can't empty";
+                  } else {
+                    return null;
+                  }
+                },
+                items: eventType.map((String val) {
+                  return DropdownMenuItem(
+                    value: val,
+                    child: Text(
+                      val,
+                    ),
+                  );
+                }).toList(),
+              ),
 
-  Widget DropdownWeekDays(BuildContext context) {
-    return DropdownButton<String>(
-      value: dropdownWeekDayValue,
-      icon: const Icon(Icons.arrow_downward),
-      iconSize: 24,
-      elevation: 16,
-      style: const TextStyle(color: Colors.black),
-      underline: Container(
-        height: 2,
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.1,
+              ),
+              RaisedButton(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 15.0,
+                  ),
+                  child: Text(
+                    "Submit",
+                    style: TextStyle(
+                      fontSize: 24.0,
+                    ),
+                  ),
+                  onPressed: () => _submit(
+                      "testeApp",
+                      dropdownStartTimeValue,
+                      dropdownEndTimeValue,
+                      weekDays.indexOf(dropdownWeekDayValue),
+                      eventType.indexOf(dropdownEventTypeValue) + 1,
+                      numStud.indexOf(dropdownCapacityValue) + 1))
+            ],
+          ),
+        ),
       ),
-      onChanged: (String newValue) {
-        setState(() {
-          dropdownWeekDayValue = newValue;
-        });
-      },
-      items: widget.weekDays.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget DropdownStartTime(BuildContext context) {
-    return DropdownButton<String>(
-      value: dropdownStartTimeValue,
-      icon: const Icon(Icons.arrow_downward),
-      iconSize: 24,
-      elevation: 16,
-      style: const TextStyle(color: Colors.black),
-      underline: Container(
-        height: 2,
-      ),
-      onChanged: (String newValue) {
-        setState(() {
-          dropdownStartTimeValue = newValue;
-        });
-      },
-      items: widget.hours.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget DropdownEndTime(BuildContext context) {
-    return DropdownButton<String>(
-      value: dropdownEndTimeValue,
-      icon: const Icon(Icons.arrow_downward),
-      iconSize: 24,
-      elevation: 16,
-      style: const TextStyle(color: Colors.black),
-      underline: Container(
-        height: 2,
-      ),
-      onChanged: (String newValue) {
-        setState(() {
-          dropdownEndTimeValue = newValue;
-        });
-      },
-      items: widget.hours.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget DropdownEventType(BuildContext context) {
-    return DropdownButton<String>(
-      value: dropdownEventTypeValue,
-      icon: const Icon(Icons.arrow_downward),
-      iconSize: 24,
-      elevation: 16,
-      style: const TextStyle(color: Colors.black),
-      underline: Container(
-        height: 2,
-      ),
-      onChanged: (String newValue) {
-        setState(() {
-          dropdownEventTypeValue = newValue;
-        });
-      },
-      items: widget.eventType.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget DropdownCapacity(BuildContext context) {
-    return DropdownButton<String>(
-      value: dropdownCapacityValue,
-      icon: const Icon(Icons.arrow_downward),
-      iconSize: 24,
-      elevation: 16,
-      style: const TextStyle(color: Colors.black),
-      underline: Container(
-        height: 2,
-      ),
-      onChanged: (String newValue) {
-        setState(() {
-          dropdownCapacityValue = newValue;
-        });
-      },
-      items: this
-          .numOfStudentsList(widget.numMaxStud)
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
     );
   }
 
@@ -321,5 +348,56 @@ class _CreateEvent extends State<CreateEvent> {
     List<String> numStud = List<String>();
     for (int i = 0; i < numMax; i++) numStud.add((i + 1).toString());
     return numStud;
+  }
+
+  List<String> availableTimes(List<Event> unavailable, int day) {
+    List<String> availableTimes = [
+      "08:00",
+      "08:30",
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "12:30",
+      "13:00",
+      "13:30",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:00",
+      "16:30",
+      "17:00",
+      "17:30",
+      "18:00",
+      "18:30",
+      "19:00",
+      "19:30",
+      "20:00",
+      "20:30",
+      "21:00",
+      "21:30",
+      "22:00"
+    ];
+
+    for (Event e in unavailable)
+      if (e.day == day) {
+        debugPrint(" \n" + e.startTime);
+        debugPrint(e.endTime);
+        int ind1 = availableTimes.indexOf(e.startTime.substring(0, 5));
+        int ind2 = availableTimes.indexOf(e.endTime.substring(0, 5));
+        debugPrint("PPP " + ind1.toString() + " --- " + ind2.toString());
+
+        for (int i = ind2 - 1; i >= ind1; i--) {
+          availableTimes.removeAt(i);
+        }
+        availableTimes.insert(ind1, "-");
+      }
+    debugPrint("[");
+    for (String s in availableTimes) debugPrint(s);
+    return availableTimes;
   }
 }

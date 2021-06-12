@@ -143,6 +143,7 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                                         " - " +
                                         formatter.format(days[ind]),
                                     style: TextStyle(fontSize: 18)),
+                                
                                 ListView.builder(
                                     itemCount: currentList.length,
                                     physics: ClampingScrollPhysics(),
@@ -227,6 +228,7 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                             classId: _classroom.id,
                             email: email,
                             numMaxStud: _classroom.capacity,
+                            unavailable: currentList,
                           )),
                 );
               },
