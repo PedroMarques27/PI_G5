@@ -9,20 +9,22 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:r2ua/BlocPattern/HomeBloc.dart';
 import 'package:r2ua/Entities/BuildingsUA.dart';
 import 'package:r2ua/Entities/Event.dart';
-import 'package:r2ua/db/BuildingsUAData.dart';
+import 'package:r2ua/BlocPattern/BuildingsUAData.dart';
+import 'package:r2ua/View/BuildingsClassrooms.dart';
 
 import 'Bookings.dart';
 import 'Search.dart';
 import 'package:r2ua/Entities/User.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:r2ua/db/BuildingsUAData.dart';
+import 'package:r2ua/BlocPattern/BuildingsUAData.dart';
 import 'package:r2ua/BlocPattern/HomeBloc.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key, this.title}) : super(key: key);
+  Home({Key key, this.title, this.email}) : super(key: key);
 
   final String title;
+  final String email;
 
   @override
   _Home createState() => _Home();
@@ -31,9 +33,9 @@ class Home extends StatefulWidget {
 class _Home extends State<Home> {
   int _selectedIndex = 0;
   var bUA = new List<BuildingDistance>();
+  var email = '';
 
   Future init(List<BuildCount> listOfBuildCount) async {
-    debugPrint(bUA.length.toString() + "DEBUGGGGGGGGGGGGGGGGGGGGGG");
     var temp = await buildingsUAData.getBuildingsNearByUser(listOfBuildCount);
     setState(() {
       bUA = temp;
@@ -43,127 +45,176 @@ class _Home extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    email = widget.email;
     return Scaffold(body: _buildList(context));
   }
 
   Widget _buildList(BuildContext context) {
     return StreamBuilder(
-        stream: homeBloc.getHomeView,
+        stream: homeBloc.getHomeData,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            debugPrint("NO DATA");
+          if (!snapshot.hasData || snapshot.data == null) {
             return Center(child: CircularProgressIndicator());
           }
-          homeViewData = snapshot.data as HomeView;
-
-
-
-          return SingleChildScrollView(
-              child: Column(
-            children: [
-              Container(
-                  height: MediaQuery.of(context).size.height / 2.3,
-                  alignment: Alignment.topCenter,
-                  margin: EdgeInsets.all(20),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
+          var current = (snapshot.data) as HomeData;
+          var buildings = current.buildings;
+          var events = current.events;
+          return Column(children: <Widget>[
+            Container(
+                margin: EdgeInsets.all(2),
+                padding: EdgeInsets.all(6.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  border: Border.all(
+                    color: Colors.grey[300],
+                    width: 2,
                   ),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                            child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            'Orders',
-                            textScaleFactor: 1.0, // disables accessibility
-                            style: TextStyle(
-                              fontSize: 30.0,
-                            ),
-                          ),
-                        )),
-                        Divider(
-                            height: 10, thickness: 2, color: Colors.red[400]),
-                        Expanded(
-                            child: ListView.builder(
-                                itemCount: homeViewData.buildingsDistance.length,
-                                itemBuilder: (context, position) {
-                                  return Expanded(
-                                      child: Container(
-                                    margin: EdgeInsets.all(10),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Flexible(
-                                          child: Card(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  homeViewData.buildingsDistance[position]
-                                                      .buildingsUA
-                                                      .realBuildingName
-                                                      .toString(),
-                                                ),
-                                                SizedBox(
-                                                  height: 5.0,
-                                                ),
-                                                Text(
-                                                  homeViewData.buildingsDistance[position]
-                                                          .buildingDistance
-                                                          .toString() +
-                                                      " m",
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Buildings Nearby", style: TextStyle(fontSize: 22.0)),
+                  ],
+                )),
+            Expanded(
+              flex: 1,
+              child: ListView.builder(
+                itemCount: buildings.length,
+                itemBuilder: (context, position) {
+                  return GestureDetector(
+                    onTap: () {
+                      goToClassroomsPerBuildingPage(
+                          context, buildings[position].buildingsClassrooms);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(2),
+                      padding: EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(
+                          color: Colors.grey[300],
+                          width: 8,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 6,
+                                  child: Text(
+                                    buildings[position]
+                                        .buildingsClassrooms
+                                        .building
+                                        .name,
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2, // 60%
+                                  child: Text(
+                                    buildings[position]
+                                            .buildingsDistance
+                                            .buildingDistance
+                                            .toString() +
+                                        'km',
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                ),
+                              ])),
+                    ),
+                  );
+                },
+              ),
+            ),
+            Expanded(
+                child: Column(
+              children: <Widget>[
+                Text("Next Reservations", style: TextStyle(fontSize: 24.0)),
+                Expanded(
+                    child: ListView.builder(
+                        itemCount: events.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                              onTap: () {
+                                //goToEventDetails(context, email, events[index]);
+                              },
+                              child: Container(
+                                  margin: EdgeInsets.all(2),
+                                  padding: EdgeInsets.all(6.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    border: Border.all(
+                                      color: Colors.grey[300],
+                                      width: 8,
                                     ),
-                                  ));
-                                }))
-                      ]))
-            ],
-          ));
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(children: [
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Text(events[index].name.toString(),
+                                                style: TextStyle(fontSize: 18)),
+                                            Text(events[index]
+                                                .weeks[0]
+                                                .beginning
+                                                .add(Duration(
+                                                    days: events[index].day))
+                                                .toIso8601String()
+                                                .split("T")[0]),
+                                          ]),
+                                      Row(
+                                        children: <Widget>[
+                                          Text(events[index]
+                                                  .startTime
+                                                  .toString()
+                                                  .substring(0, 5) +
+                                              "h - " +
+                                              events[index]
+                                                  .endTime
+                                                  .toString()
+                                                  .substring(0, 5) +
+                                              "h"),
+                                        ],
+                                      )
+                                    ]),
+                                  )));
+                        }))
+              ],
+            ))
+          ]);
         });
   }
+/*
+  goToEventDetails(BuildContext context, String email, Event event) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => EventDetails(event: event, email: email)),
+    );
+  }
+  */
 
-  HomeView homeViewData;
-
-  void _getCurrentLocation() async {}
   @override
   void initState() {
     super.initState();
-    HomeBloc.startCapturing();
 
     brbBloc.getBuildCount.listen((listOfBuildCount) {
-      debugPrint("VVVVVVVVVVVVVVVV");
-
       init(listOfBuildCount);
     });
-
-    debugPrint("(((((((((((((");
-
-    var buildingStream = brbBloc.getBuildCount;
   }
 
-
-
-
-  //HERE
-  @override
-  void getPermissionStatus() async {
-    var permission = await PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.storage);
-    if (permission == PermissionStatus.granted) {
-    } // ideally you should specify another condition if permissions is denied
-    else if (permission == PermissionStatus.denied ||
-        permission == PermissionStatus.restricted) {
-      await PermissionHandler().requestPermissions([PermissionGroup.storage]);
-      getPermissionStatus();
-    }
+  goToClassroomsPerBuildingPage(BuildContext context, BuildCount data) async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => BuildingsClassrooms(buildCount: data)),
+    );
   }
-
-
 }

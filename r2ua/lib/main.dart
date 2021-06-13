@@ -11,9 +11,9 @@ import 'View/Search.dart';
 
 import 'package:flutter/material.dart';
 
-import 'db/BuildingsUAData.dart';
+import 'BlocPattern/BuildingsUAData.dart';
 
-String email = "ftrancho@ua.pt";
+String email = "rfmf@ua.pt";
 void main() {
   runApp(MyApp());
 }
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     brbBloc.initialize(email);
-
+    homeBloc.startCapturing();
     weekBloc.getWeeks();
     return MaterialApp(
       title: 'Flutter Demo',

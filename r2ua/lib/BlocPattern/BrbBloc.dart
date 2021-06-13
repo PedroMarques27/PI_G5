@@ -9,7 +9,7 @@ import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/ClassroomGroups.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/User.dart';
-import 'package:r2ua/db/BuildingsUAData.dart';
+import 'package:r2ua/BlocPattern/BuildingsUAData.dart';
 import 'BuildingBloc.dart';
 import 'ClassroomGroupsBloc.dart';
 import 'ClassroomsBloc.dart';

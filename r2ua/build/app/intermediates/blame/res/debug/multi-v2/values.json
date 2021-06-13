@@ -1,46 +1,46 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Alex\\Desktop\\r2ua\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "outputFile": "D:\\Github\\Projeto-PI_G5\\r2ua\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Alex\\.gradle\\caches\\transforms-2\\files-2.1\\92462765db570551bdeabd5c8644eccd\\res\\values\\values.xml",
+                    "source": "D:\\Github\\Projeto-PI_G5\\r2ua\\android\\app\\src\\main\\res\\values\\styles.xml",
                     "from": {
-                        "startLines": "4,5,6,7,8,9,10,11,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,33,46",
-                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-                        "startOffsets": "215,301,377,463,549,625,702,778,951,1052,1233,1354,1457,1637,1756,1868,1967,2155,2256,2437,2558,2733,2877,2936,2994,3164,3475",
-                        "endLines": "4,5,6,7,8,9,10,11,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,45,64",
-                        "endColumns": "85,75,85,85,75,76,75,75,100,180,120,102,179,118,111,98,187,100,180,120,174,143,58,57,74,20,20",
-                        "endOffsets": "300,376,462,548,624,701,777,853,1051,1232,1353,1456,1636,1755,1867,1966,2154,2255,2436,2557,2732,2876,2935,2993,3068,3474,3887"
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "137,791",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "433,953"
                     },
                     "to": {
-                        "startLines": "4,5,6,7,8,9,10,11,86,87,88,89,90,91,92,93,95,96,97,98,99,100,101,102,103,253,266",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "265,355,435,525,615,695,776,856,5425,5530,5711,5836,5943,6123,6246,6362,6632,6820,6925,7106,7231,7406,7554,7617,7679,16677,16992",
-                        "endLines": "4,5,6,7,8,9,10,11,86,87,88,89,90,91,92,93,95,96,97,98,99,100,101,102,103,265,284",
-                        "endColumns": "89,79,89,89,79,80,79,79,104,180,124,106,179,122,115,102,187,104,180,124,174,147,62,61,78,20,20",
-                        "endOffsets": "350,430,520,610,690,771,851,931,5525,5706,5831,5938,6118,6241,6357,6460,6815,6920,7101,7226,7401,7549,7612,7674,7753,16987,17404"
+                        "startLines": "106,111",
+                        "startColumns": "4,4",
+                        "startOffsets": "7912,8209",
+                        "endLines": "110,113",
+                        "endColumns": "12,12",
+                        "endOffsets": "8204,8369"
                     }
                 },
                 {
-                    "source": "C:\\Users\\Alex\\Desktop\\r2ua\\build\\location\\intermediates\\packaged_res\\debug\\values\\values.xml",
+                    "source": "C:\\Users\\pedro\\.gradle\\caches\\transforms-2\\files-2.1\\0b12be649ad043b661b96313d8370a3e\\res\\values\\values.xml",
                     "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "82",
-                        "endOffsets": "133"
+                        "startLines": "4,7",
+                        "startColumns": "0,0",
+                        "startOffsets": "243,406",
+                        "endColumns": "63,166",
+                        "endOffsets": "306,572"
                     },
                     "to": {
-                        "startLines": "104",
-                        "startColumns": "4",
-                        "startOffsets": "7758",
-                        "endColumns": "82",
-                        "endOffsets": "7836"
+                        "startLines": "84,94",
+                        "startColumns": "4,4",
+                        "startOffsets": "5287,6465",
+                        "endColumns": "67,166",
+                        "endOffsets": "5350,6627"
                     }
                 },
                 {
-                    "source": "C:\\Users\\Alex\\.gradle\\caches\\transforms-2\\files-2.1\\24b0c4f8b232427522471c6bc009a847\\res\\values\\values.xml",
+                    "source": "C:\\Users\\pedro\\.gradle\\caches\\transforms-2\\files-2.1\\f49ef703512782c60506fc9d186630c2\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,83,84,88,89,90,91,98,141,173,210",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -59,39 +59,39 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Alex\\.gradle\\caches\\transforms-2\\files-2.1\\36a2a83c86baf85c930116a325286e9e\\res\\values\\values.xml",
+                    "source": "C:\\Users\\pedro\\.gradle\\caches\\transforms-2\\files-2.1\\612fc5cbf31557cef132af7baa16a6ab\\res\\values\\values.xml",
                     "from": {
-                        "startLines": "4,7",
-                        "startColumns": "0,0",
-                        "startOffsets": "243,406",
-                        "endColumns": "63,166",
-                        "endOffsets": "306,572"
+                        "startLines": "4,5,6,7,8,9,10,11,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,33,46",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "215,301,377,463,549,625,702,778,951,1052,1233,1354,1457,1637,1756,1868,1967,2155,2256,2437,2558,2733,2877,2936,2994,3164,3475",
+                        "endLines": "4,5,6,7,8,9,10,11,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,45,64",
+                        "endColumns": "85,75,85,85,75,76,75,75,100,180,120,102,179,118,111,98,187,100,180,120,174,143,58,57,74,20,20",
+                        "endOffsets": "300,376,462,548,624,701,777,853,1051,1232,1353,1456,1636,1755,1867,1966,2154,2255,2436,2557,2732,2876,2935,2993,3068,3474,3887"
                     },
                     "to": {
-                        "startLines": "84,94",
-                        "startColumns": "4,4",
-                        "startOffsets": "5287,6465",
-                        "endColumns": "67,166",
-                        "endOffsets": "5350,6627"
+                        "startLines": "4,5,6,7,8,9,10,11,86,87,88,89,90,91,92,93,95,96,97,98,99,100,101,102,103,253,266",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "265,355,435,525,615,695,776,856,5425,5530,5711,5836,5943,6123,6246,6362,6632,6820,6925,7106,7231,7406,7554,7617,7679,16677,16992",
+                        "endLines": "4,5,6,7,8,9,10,11,86,87,88,89,90,91,92,93,95,96,97,98,99,100,101,102,103,265,284",
+                        "endColumns": "89,79,89,89,79,80,79,79,104,180,124,106,179,122,115,102,187,104,180,124,174,147,62,61,78,20,20",
+                        "endOffsets": "350,430,520,610,690,771,851,931,5525,5706,5831,5938,6118,6241,6357,6460,6815,6920,7101,7226,7401,7549,7612,7674,7753,16987,17404"
                     }
                 },
                 {
-                    "source": "C:\\Users\\Alex\\Desktop\\r2ua\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "source": "D:\\Github\\Projeto-PI_G5\\r2ua\\build\\location\\intermediates\\packaged_res\\debug\\values\\values.xml",
                     "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "137,791",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "433,953"
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "82",
+                        "endOffsets": "133"
                     },
                     "to": {
-                        "startLines": "106,111",
-                        "startColumns": "4,4",
-                        "startOffsets": "7912,8209",
-                        "endLines": "110,113",
-                        "endColumns": "12,12",
-                        "endOffsets": "8204,8369"
+                        "startLines": "104",
+                        "startColumns": "4",
+                        "startOffsets": "7758",
+                        "endColumns": "82",
+                        "endOffsets": "7836"
                     }
                 }
             ]

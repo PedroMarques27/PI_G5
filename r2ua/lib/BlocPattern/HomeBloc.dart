@@ -1,55 +1,76 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:r2ua/Entities/Event.dart';
 
-import 'package:r2ua/db/BuildingsUAData.dart';
+import 'package:r2ua/BlocPattern/BuildingsUAData.dart';
 import 'BrbBloc.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'EventsBloc.dart';
 
 class HomeBloc {
-  StreamController<HomeView> homeViewStreamController =
-      StreamController<HomeView>.broadcast();
-  Stream get getHomeView => homeViewStreamController.stream;
-  StreamSubscription<BuildingDistance> buildingDistanceSubscription;
-  StreamSubscription<Event> eventSubscription;
-  Event event;
+  StreamController<HomeData> homeViewStreamController =
+      StreamController<HomeData>.broadcast();
+  Stream get getHomeData => homeViewStreamController.stream;
 
-  HomeView homeView;
+  Event event;
+  var events = <Event>[];
+  var buildingsDistance = <BuildingDistance>[];
+  var buildingClasses = <BuildCount>[];
 
   Future<void> startCapturing() async {
-    update();
-
-    eventSubscription = eventsBloc.getListOfEvents.listen((event) {
-      homeView.events = event;
+    eventsBloc.getListOfEvents.listen((event) {
+      debugPrint(event.toString() + "ººººººººººººººººººººººººººººººº");
+      events = event;
       update();
     });
 
-    buildingDistanceSubscription =
-        buildingsUAData.getBuildingsUA.listen((event) {
-      homeView.buildingsDistance = event;
+    buildingsUAData.getBuildingsUA.listen((list) {
+      buildingsDistance = list;
       update();
     });
-  }
 
-  void stop() {
-    eventSubscription.cancel();
-    buildingDistanceSubscription.cancel();
+    brbBloc.getBuildCount.listen((list) {
+      buildingClasses = list;
+      update();
+    });
   }
 
   void update() {
+    var data = createBuildingsList();
     homeViewStreamController.sink
-        .add(homeView); // add whatever data we want into the Sink
+        .add(HomeData(events, data)); // add whatever data we want into the Sink
   }
 
   void dispose() {
-    homeViewStreamController
-        .close(); // close our StreamController to avoid memory leak
+    homeViewStreamController.close();
+  }
+
+  List<BuildingsData> createBuildingsList() {
+    var toReturn = <BuildingsData>[];
+    for (var v in buildingsDistance) {
+      var id = v.buildingsUA.brbBuildingId;
+      var buildingsInfo = BuildingsData();
+      for (var b in buildingClasses) {
+        if (b.building.id == id) {
+          buildingsInfo.buildingsClassrooms = b;
+          buildingsInfo.buildingsDistance = v;
+          toReturn.add(buildingsInfo);
+          break;
+        }
+      }
+    }
+    return toReturn;
   }
 }
 
-class HomeView {
-  List<Event> events;
-  List<BuildingDistance> buildingsDistance;
-  HomeView(this.events, this.buildingsDistance);
+class BuildingsData {
+  BuildingDistance buildingsDistance = BuildingDistance();
+  BuildCount buildingsClassrooms = BuildCount();
+}
+
+class HomeData {
+  List<Event> events = <Event>[];
+  List<BuildingsData> buildings = <BuildingsData>[];
+  HomeData(this.events, this.buildings);
 }
