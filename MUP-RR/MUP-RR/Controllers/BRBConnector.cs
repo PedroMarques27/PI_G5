@@ -94,7 +94,6 @@ namespace MUP_RR.Controllers
 
 
             //Update classRoomGroups
-            
             var httpContent = new StringContent(classRoomGroups, Encoding.UTF8, "application/json");
 
             var httpClient = new HttpClient();

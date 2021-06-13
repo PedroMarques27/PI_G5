@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+6wwMONpTyJAvgvjcl5L1Eaj3tvo167dM0H9FrkjpsbueNjhOwVstG1yRFIQHwjWeURR0B90uV/IH1fQ4Cc6ag==",
+  "dgSpecHash": "a+BP1/MH8bs4rGIwZsoBrbTwW/482ZTmaXq4kI+affB5AtKjN4ssFNVuZ16wFAPU7O5pv916ZBBdqVGm5TIZ/A==",
   "success": true,
-  "projectFilePath": "D:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+  "projectFilePath": "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pedro\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
     "C:\\Users\\pedro\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
@@ -17,10 +17,7 @@
     "C:\\Users\\pedro\\.nuget\\packages\\system.security.principal.windows\\4.5.0\\system.security.principal.windows.4.5.0.nupkg.sha512",
     "C:\\Users\\pedro\\.nuget\\packages\\system.text.encoding.codepages\\4.5.0\\system.text.encoding.codepages.4.5.0.nupkg.sha512",
     "C:\\Users\\pedro\\.nuget\\packages\\system.text.encodings.web\\5.0.1\\system.text.encodings.web.5.0.1.nupkg.sha512",
-    "C:\\Users\\pedro\\.nuget\\packages\\system.text.json\\5.0.2\\system.text.json.5.0.2.nupkg.sha512",
-    "C:\\Users\\pedro\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\3.1.15\\microsoft.netcore.app.runtime.win-x64.3.1.15.nupkg.sha512",
-    "C:\\Users\\pedro\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\3.1.15\\microsoft.windowsdesktop.app.runtime.win-x64.3.1.15.nupkg.sha512",
-    "C:\\Users\\pedro\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\3.1.15\\microsoft.aspnetcore.app.runtime.win-x64.3.1.15.nupkg.sha512"
+    "C:\\Users\\pedro\\.nuget\\packages\\system.text.json\\5.0.2\\system.text.json.5.0.2.nupkg.sha512"
   ],
   "logs": []
 }

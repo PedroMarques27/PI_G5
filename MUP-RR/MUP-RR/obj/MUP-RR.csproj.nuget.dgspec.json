@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {}
+    "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {}
   },
   "projects": {
-    "D:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {
+    "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+        "projectUniqueName": "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
         "projectName": "MUP-RR",
-        "projectPath": "D:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
+        "projectPath": "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\MUP-RR.csproj",
         "packagesPath": "C:\\Users\\pedro\\.nuget\\packages\\",
-        "outputPath": "D:\\Github\\Projeto-PI_G5\\MUP-RR\\MUP-RR\\obj\\",
+        "outputPath": "D:\\Github\\PI_G5\\MUP-RR\\MUP-RR\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -64,20 +64,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[3.1.15, 3.1.15]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[3.1.15, 3.1.15]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[3.1.15, 3.1.15]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -87,11 +73,6 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.409\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     }

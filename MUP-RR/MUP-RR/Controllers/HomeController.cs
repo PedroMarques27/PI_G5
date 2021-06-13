@@ -31,7 +31,7 @@ namespace MUP_RR.Controllers
 		public ActionResult InfoPage()
 		{
 			List<Vinculo> vinculos = database.SelectVinculo();
-			List<Tuple<string, string>> vTable = vinculos.Select(x => new Tuple<string, string>(x.sigla, "descricao")).ToList();
+			List<Tuple<string, string>> vTable = vinculos.Select(x => new Tuple<string, string>(x.sigla, x.description)).ToList();
 			ViewData["Vinculo-Table"] = vTable;
 
 			List<UO> uos = database.SelectUO();
