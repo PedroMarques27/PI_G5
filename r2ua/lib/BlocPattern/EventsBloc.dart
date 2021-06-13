@@ -69,7 +69,6 @@ class EventsBloc {
   }
 
   Future<List<Event>> searchEventsByUser(String email, int number) async {
-    debugPrint("numebr" + number.toString());
     var uri = Uri.https(BASE_URL, ("/api/Events/search"));
     final response = await http.post(uri,
         headers: {

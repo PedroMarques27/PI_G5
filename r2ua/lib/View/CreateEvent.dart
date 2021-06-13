@@ -9,6 +9,10 @@ import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/Entities/Week.dart';
+import 'package:r2ua/View/Bookings.dart';
+import 'package:r2ua/View/EventDetails.dart';
+import 'package:r2ua/View/Home.dart';
+import 'package:r2ua/main.dart';
 
 class CreateEvent extends StatefulWidget {
   // PASSAR O EMAIL TAMBEM ----------------------------------------------------------
@@ -51,6 +55,13 @@ class _CreateEvent extends State<CreateEvent> {
         widget.email,
         widget.week.beginning.toString(),
         widget.classId);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => Bookings(
+                email: widget.email,
+              )),
+    );
   }
 
   String dropdownWeekDayValue = "Monday";
@@ -61,15 +72,6 @@ class _CreateEvent extends State<CreateEvent> {
 
   @override
   Widget build(BuildContext context) {
-    /*  for (Event e in widget.unavailable) {
-      debugPrint("UNAVAILABLE " +
-          e.day.toString() +
-          " --- " +
-          e.startTime +
-          " --- " +
-          e.endTime);
-    } */
-    final controllerName = TextEditingController();
     List<String> numStud = numOfStudentsList(widget.numMaxStud);
     List<String> hours = <String>[
       "08:00",
@@ -385,19 +387,14 @@ class _CreateEvent extends State<CreateEvent> {
 
     for (Event e in unavailable)
       if (e.day == day) {
-        debugPrint(" \n" + e.startTime);
-        debugPrint(e.endTime);
         int ind1 = availableTimes.indexOf(e.startTime.substring(0, 5));
         int ind2 = availableTimes.indexOf(e.endTime.substring(0, 5));
-        debugPrint("PPP " + ind1.toString() + " --- " + ind2.toString());
 
         for (int i = ind2 - 1; i >= ind1; i--) {
           availableTimes.removeAt(i);
         }
         availableTimes.insert(ind1, "-");
       }
-    debugPrint("[");
-    for (String s in availableTimes) debugPrint(s);
     return availableTimes;
   }
 }

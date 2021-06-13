@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/BlocPattern/EventsBloc.dart';
 import 'package:r2ua/Entities/Event.dart';
+import 'package:r2ua/View/EventDetails.dart';
 
 class Bookings extends StatefulWidget {
   Bookings({Key key, this.title, this.email}) : super(key: key);
@@ -60,70 +61,81 @@ class _Bookings extends State<Bookings> {
                 itemCount: currentList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
-                      child: Container(
-                          margin: EdgeInsets.all(2),
-                          padding: EdgeInsets.all(6.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            border: Border.all(
-                              color: Colors.grey[300],
-                              width: 8,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                        margin: EdgeInsets.all(2),
+                        padding: EdgeInsets.all(6.0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          border: Border.all(
+                            color: Colors.grey[300],
+                            width: 8,
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(children: [
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(currentList[index].name.toString(),
-                                        style: TextStyle(fontSize: 18)),
-                                    Text(currentList[index]
-                                        .weeks[0]
-                                        .beginning
-                                        .add(Duration(
-                                            days: currentList[index].day))
-                                        .toIso8601String()
-                                        .split("T")[0]),
-                                    if (dropdownValue == "Future")
-                                      GestureDetector(
-                                        child: Icon(FontAwesomeIcons.trash),
-                                        onTap: () {
-                                          eventsBloc.removeEvent(
-                                              currentList[index].id, email);
-                                          eventsBloc
-                                              .bookingsEvents(email, 100)
-                                              .then((value) {
-                                            setState(() {
-                                              userEvents = value;
-                                              currentEventsList =
-                                                  userEvents.futureEvents;
-                                              pastEventsList =
-                                                  userEvents.pastEvents;
-                                              currentList = currentEventsList;
-                                            });
-                                          });
-                                        },
-                                      )
-                                  ]),
-                              Row(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(children: [
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
+                                  Text(currentList[index].name.toString(),
+                                      style: TextStyle(fontSize: 18)),
                                   Text(currentList[index]
-                                          .startTime
-                                          .substring(0, 5)
-                                          .toString() +
-                                      "h - " +
-                                      currentList[index]
-                                          .endTime
-                                          .substring(0, 5)
-                                          .toString() +
-                                      "h"),
-                                ],
-                              )
-                            ]),
-                          )));
+                                      .weeks[0]
+                                      .beginning
+                                      .add(Duration(
+                                          days: currentList[index].day))
+                                      .toIso8601String()
+                                      .split("T")[0]),
+                                  if (dropdownValue == "Future")
+                                    GestureDetector(
+                                      child: Icon(FontAwesomeIcons.trash),
+                                      onTap: () {
+                                        eventsBloc.removeEvent(
+                                            currentList[index].id, email);
+                                        eventsBloc
+                                            .bookingsEvents(email, 100)
+                                            .then((value) {
+                                          setState(() {
+                                            userEvents = value;
+                                            currentEventsList =
+                                                userEvents.futureEvents;
+                                            pastEventsList =
+                                                userEvents.pastEvents;
+                                            currentList = currentEventsList;
+                                          });
+                                        });
+                                      },
+                                    )
+                                ]),
+                            Row(
+                              children: <Widget>[
+                                Text(currentList[index]
+                                        .startTime
+                                        .substring(0, 5)
+                                        .toString() +
+                                    "h - " +
+                                    currentList[index]
+                                        .endTime
+                                        .substring(0, 5)
+                                        .toString() +
+                                    "h"),
+                              ],
+                            )
+                          ]),
+                        )),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EventDetails(
+                                  event: currentList[index],
+                                  email: email,
+                                )),
+                      );
+                    },
+                  );
                 }))
       ],
     ));

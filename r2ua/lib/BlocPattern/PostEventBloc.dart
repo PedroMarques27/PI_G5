@@ -70,7 +70,7 @@ class PostEventsBloc {
         }));
 
     debugPrint("Status code" + response.statusCode.toString());
-    debugPrint(jsonEncode({
+    /* debugPrint(jsonEncode({
       "name": name,
       "code": (name + "_" + email).toLowerCase().replaceAll(" ", "_"),
       "startTime": startTime,
@@ -94,7 +94,7 @@ class PostEventsBloc {
       "propertyBags": [
         {"key": "string", "value": "string"}
       ]
-    }));
+    })); */
 
     if (response.statusCode == 201)
       return jsonDecode(response.body)["data"]["id"];
