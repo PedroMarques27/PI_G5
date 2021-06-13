@@ -1,4 +1,0 @@
-#Sun Jun 13 14:53:24 BST 2021
-base.0=D\:\\Github\\Projeto-PI_G5\\r2ua\\build\\app\\intermediates\\transforms\\dexMerger\\debug\\0
-renamed.0=classes.dex
-path.0=classes.dex
