@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 
 import 'View/Bookings.dart';
@@ -10,7 +11,9 @@ import 'View/Search.dart';
 
 import 'package:flutter/material.dart';
 
-String email = "ftrancho@ua.pt";
+import 'BlocPattern/BuildingsUAData.dart';
+
+String email = "rfmf@ua.pt";
 void main() {
   runApp(MyApp());
 }
@@ -20,6 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     brbBloc.initialize(email);
+    homeBloc.startCapturing();
     weekBloc.getWeeks();
     return MaterialApp(
       title: 'Flutter Demo',
@@ -81,6 +85,14 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Geolocator location = new Geolocator();
+
+    location.checkGeolocationPermissionStatus();
   }
 
   var _children = [Home(), Search(), Bookings()];

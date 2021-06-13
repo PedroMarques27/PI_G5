@@ -7,6 +7,7 @@ import 'Bookings.dart';
 import 'Home.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 
+//SEARCH 1
 class Search extends StatefulWidget {
   Search({Key key, this.title}) : super(key: key);
 

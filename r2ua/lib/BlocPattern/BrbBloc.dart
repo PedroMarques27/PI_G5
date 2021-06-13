@@ -9,11 +9,12 @@ import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/ClassroomGroups.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/User.dart';
-import 'package:r2ua/db/BuildingsUAData.dart';
+import 'package:r2ua/BlocPattern/BuildingsUAData.dart';
 import 'BuildingBloc.dart';
 import 'ClassroomGroupsBloc.dart';
 import 'ClassroomsBloc.dart';
 import 'EventsBloc.dart';
+import 'HomeBloc.dart';
 import 'UsersBloc.dart';
 
 String token =
@@ -78,9 +79,9 @@ class BrbBloc {
         data.add(new BuildCount(
             building: currentBuilding, classrooms: _temp, count: 1));
       }
-
-      update(data);
     }
+    update(data);
+
     //var x = getWeek();
   }
 
@@ -109,7 +110,7 @@ class BuildCount {
   BuildCount({this.building, this.count, this.classrooms});
 }
 
-final buildingsUA = new BuildingUAData();
+final buildingsUAData = new BuildingUAData();
 final weekBloc = new WeekBloc();
 final eventsBloc = new EventsBloc();
 final usersBloc = UsersBloc();
@@ -117,3 +118,4 @@ final buildingBloc = BuildingBloc();
 final classroomGroupsBloc = ClassroomGroupsBloc();
 final classroomsBloc = ClassroomsBloc();
 final brbBloc = BrbBloc();
+final homeBloc = HomeBloc();

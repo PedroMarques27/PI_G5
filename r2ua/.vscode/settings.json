@@ -1,3 +1,8 @@
 {
+<<<<<<< HEAD
     "java.configuration.updateBuildConfiguration": "automatic"
+=======
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "python.pythonPath": "C:\\Users\\Alex\\AppData\\Local\\Programs\\Python\\Python38\\python.exe"
+>>>>>>> ft/join_blocks
 }
