@@ -1,221 +1,169 @@
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:r2ua/BlocPattern/BrbBloc.dart';
-import 'package:r2ua/BlocPattern/EventsBloc.dart';
+import 'package:hive/hive.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:r2ua/BlocPattern/HomeBloc.dart';
+import 'package:r2ua/Entities/BuildingsUA.dart';
 import 'package:r2ua/Entities/Event.dart';
+import 'package:r2ua/db/BuildingsUAData.dart';
 
 import 'Bookings.dart';
 import 'Search.dart';
+import 'package:r2ua/Entities/User.dart';
+import 'package:r2ua/BlocPattern/BrbBloc.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:r2ua/db/BuildingsUAData.dart';
+import 'package:r2ua/BlocPattern/HomeBloc.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key, this.title, this.email}) : super(key: key);
+  Home({Key key, this.title}) : super(key: key);
 
   final String title;
-  final String email;
 
   @override
   _Home createState() => _Home();
 }
 
 class _Home extends State<Home> {
-  String email;
+  int _selectedIndex = 0;
+  var bUA = new List<BuildingDistance>();
 
-  List<Event> currentList = new List<Event>();
+  Future init(List<BuildCount> listOfBuildCount) async {
+    debugPrint(bUA.length.toString() + "DEBUGGGGGGGGGGGGGGGGGGGGGG");
+    var temp = await buildingsUAData.getBuildingsNearByUser(listOfBuildCount);
+    setState(() {
+      bUA = temp;
+      debugPrint(bUA.length.toString() + "TTTTTTTTTTTTTTTTTTTTTT");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    email = widget.email;
-    return Column(children: <Widget>[
-      Expanded(
-        child: Container(child: _buildList(context)),
-      )
-    ]);
+    return Scaffold(body: _buildList(context));
   }
 
   Widget _buildList(BuildContext context) {
-    eventsBloc.searchEventsByUser(email, 3);
     return StreamBuilder(
-        stream: eventsBloc.getListOfEvents,
+        stream: homeBloc.getHomeView,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
+            debugPrint("NO DATA");
             return Center(child: CircularProgressIndicator());
           }
-          currentList = (snapshot.data) as List;
+          homeViewData = snapshot.data as HomeView;
 
-          return new Scaffold(
-              body: new Column(
-            /* children: Conditional.list(
-                context: context,
-                conditionBuilder: (BuildContext context) => currentList != [],
-                widgetBuilder: (BuildContext context) => <Widget>[
-                  new Text("Next Reservations", style: TextStyle(fontSize: 24.0)),
-              new Expanded(
-                  child: new ListView.builder(
-                      itemCount: currentList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                            child: Container(
-                                margin: EdgeInsets.all(2),
-                                padding: EdgeInsets.all(6.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  border: Border.all(
-                                    color: Colors.grey[300],
-                                    width: 8,
-                                  ),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(children: [
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                              currentList[index]
-                                                  .name
-                                                  .toString(),
-                                              style: TextStyle(fontSize: 18)),
-                                          Text(currentList[index]
-                                              .weeks[0]
-                                              .beginning
-                                              .add(Duration(
-                                                  days: currentList[index].day))
-                                              .toIso8601String()
-                                              .split("T")[0]),
-                                        ]),
-                                    Row(
+
+
+          return SingleChildScrollView(
+              child: Column(
+            children: [
+              Container(
+                  height: MediaQuery.of(context).size.height / 2.3,
+                  alignment: Alignment.topCenter,
+                  margin: EdgeInsets.all(20),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                            child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            'Orders',
+                            textScaleFactor: 1.0, // disables accessibility
+                            style: TextStyle(
+                              fontSize: 30.0,
+                            ),
+                          ),
+                        )),
+                        Divider(
+                            height: 10, thickness: 2, color: Colors.red[400]),
+                        Expanded(
+                            child: ListView.builder(
+                                itemCount: homeViewData.buildingsDistance.length,
+                                itemBuilder: (context, position) {
+                                  return Expanded(
+                                      child: Container(
+                                    margin: EdgeInsets.all(10),
+                                    child: Row(
                                       children: <Widget>[
-                                        Text(currentList[index]
-                                                .startTime[0]
-                                                .toString() +
-                                            currentList[index]
-                                                .startTime[1]
-                                                .toString() +
-                                            currentList[index]
-                                                .startTime[2]
-                                                .toString() +
-                                            currentList[index]
-                                                .startTime[3]
-                                                .toString() +
-                                            currentList[index]
-                                                .startTime[4]
-                                                .toString() +
-                                            "h - " +
-                                            currentList[index]
-                                                .endTime[0]
-                                                .toString() +
-                                            currentList[index]
-                                                .endTime[1]
-                                                .toString() +
-                                            currentList[index]
-                                                .endTime[2]
-                                                .toString() +
-                                            currentList[index]
-                                                .endTime[3]
-                                                .toString() +
-                                            currentList[index]
-                                                .endTime[4]
-                                                .toString() +
-                                            "h"),
+                                        Flexible(
+                                          child: Card(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  homeViewData.buildingsDistance[position]
+                                                      .buildingsUA
+                                                      .realBuildingName
+                                                      .toString(),
+                                                ),
+                                                SizedBox(
+                                                  height: 5.0,
+                                                ),
+                                                Text(
+                                                  homeViewData.buildingsDistance[position]
+                                                          .buildingDistance
+                                                          .toString() +
+                                                      " m",
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
                                       ],
-                                    )
-                                  ]),
-                                )));
-                      }))
-
-
-
-                  Text('Widget A'),
-                  Text('Widget B'),
-                ],
-                fallbackBuilder: (BuildContext context) => <Widget>[
-                  new Text("Next Reservations", style: TextStyle(fontSize: 24.0)),
-                  Text("You don't have any reservation", style: TextStyle(fontSize: 16.0)),
-                ],
-              ), */
-
-            children: <Widget>[
-              new Text("Next Reservations", style: TextStyle(fontSize: 24.0)),
-              new Expanded(
-                  child: new ListView.builder(
-                      itemCount: currentList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                            child: Container(
-                                margin: EdgeInsets.all(2),
-                                padding: EdgeInsets.all(6.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  border: Border.all(
-                                    color: Colors.grey[300],
-                                    width: 8,
-                                  ),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(children: [
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                              currentList[index]
-                                                  .name
-                                                  .toString(),
-                                              style: TextStyle(fontSize: 18)),
-                                          Text(currentList[index]
-                                              .weeks[0]
-                                              .beginning
-                                              .add(Duration(
-                                                  days: currentList[index].day))
-                                              .toIso8601String()
-                                              .split("T")[0]),
-                                        ]),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(currentList[index]
-                                                .startTime[0]
-                                                .toString() +
-                                            currentList[index]
-                                                .startTime[1]
-                                                .toString() +
-                                            currentList[index]
-                                                .startTime[2]
-                                                .toString() +
-                                            currentList[index]
-                                                .startTime[3]
-                                                .toString() +
-                                            currentList[index]
-                                                .startTime[4]
-                                                .toString() +
-                                            "h - " +
-                                            currentList[index]
-                                                .endTime[0]
-                                                .toString() +
-                                            currentList[index]
-                                                .endTime[1]
-                                                .toString() +
-                                            currentList[index]
-                                                .endTime[2]
-                                                .toString() +
-                                            currentList[index]
-                                                .endTime[3]
-                                                .toString() +
-                                            currentList[index]
-                                                .endTime[4]
-                                                .toString() +
-                                            "h"),
-                                      ],
-                                    )
-                                  ]),
-                                )));
-                      }))
+                                    ),
+                                  ));
+                                }))
+                      ]))
             ],
           ));
         });
   }
+
+  HomeView homeViewData;
+
+  void _getCurrentLocation() async {}
+  @override
+  void initState() {
+    super.initState();
+    HomeBloc.startCapturing();
+
+    brbBloc.getBuildCount.listen((listOfBuildCount) {
+      debugPrint("VVVVVVVVVVVVVVVV");
+
+      init(listOfBuildCount);
+    });
+
+    debugPrint("(((((((((((((");
+
+    var buildingStream = brbBloc.getBuildCount;
+  }
+
+
+
+
+  //HERE
+  @override
+  void getPermissionStatus() async {
+    var permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.storage);
+    if (permission == PermissionStatus.granted) {
+    } // ideally you should specify another condition if permissions is denied
+    else if (permission == PermissionStatus.denied ||
+        permission == PermissionStatus.restricted) {
+      await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+      getPermissionStatus();
+    }
+  }
+
+
 }

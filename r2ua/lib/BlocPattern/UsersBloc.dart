@@ -34,18 +34,38 @@ class UsersBloc {
       },
     );
 
+    // final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
+    // pattern.allMatches(response.body).forEach((match) => print(match.group(0)));
+
     Iterable l = json.decode(response.body)['data'];
     List<User> users = List<User>.from(l.map((model) => User.fromJson(model)));
 
+    // Map<String, dynamic> myMap = json.decode(response.body);
+    // List<dynamic> entitlements = myMap["data"][0]["Entitlements"];
+    // entitlements.forEach((entitlement) {
+    //   (entitlement as Map<String, dynamic>).forEach((key, value) {
+    //     print(key);
+    //     (value as Map<String, dynamic>).forEach((key2, value2) {
+    //       print(key2);
+    //       print(value2);
+    //     });
+    //   });
+    // });
+    debugPrint('FINISH');
     return users;
   }
 
   void getCurrentUser(String email) async {
+    debugPrint(
+        "HERE---------------------------------------------------------------");
     List<User> users = await getData("/api/Users");
-    
+    int x = users.length;
+    debugPrint('no USERs: $x');
     for (User u in users) {
       if (u.email == email) {
         update(u);
+        String y = u.userName;
+        debugPrint('USER: $y');
         return;
       }
     }

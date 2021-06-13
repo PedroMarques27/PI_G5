@@ -19,6 +19,9 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here.
     -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -30,6 +33,7 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
+            android:requestLegacyExternalStorage="true"
             android:theme="@style/LaunchTheme"
             android:windowSoftInputMode="adjustResize" >
 
@@ -66,6 +70,21 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <service
+            android:name="com.lyokone.location.FlutterLocationService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="location" />
+
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

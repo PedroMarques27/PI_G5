@@ -1,13 +1,10 @@
 import 'dart:core';
 
-import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:r2ua/Entities/Week.dart';
 
 class Event {
   String name, startTime, endTime, duration, sectionName, observations;
   int id, day, numberPeople, eventTypeId;
-  DateFormat date = new DateFormat('yyyy-MM-dd');
   List<Week> weeks;
 
   Event(
@@ -29,7 +26,6 @@ class Event {
 
     return Event(
       id: json['id'],
-      name: json['name'],
       startTime: json['startTime'],
       endTime: json['endTime'],
       duration: json['duration'],

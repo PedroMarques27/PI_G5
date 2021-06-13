@@ -7,11 +7,11 @@ import 'Bookings.dart';
 import 'Home.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 
+//SEARCH 1
 class Search extends StatefulWidget {
-  Search({Key key, this.title, this.email}) : super(key: key);
+  Search({Key key, this.title}) : super(key: key);
 
   final String title;
-  String email;
 
   @override
   _Search createState() => _Search();
@@ -21,19 +21,19 @@ class _Search extends State<Search> {
   List<BuildCount> currentList = new List<BuildCount>();
   @override
   Widget build(BuildContext context) {
-    String email = widget.email;
     return Column(children: <Widget>[
       Expanded(
-        child: Container(child: _buildList(context, email)),
+        child: Container(child: _buildList(context)),
       )
     ]);
   }
 
-  Widget _buildList(BuildContext context, String email) {
+  Widget _buildList(BuildContext context) {
     return StreamBuilder(
         stream: brbBloc.getBuildCount,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
+            debugPrint("NO DATA");
             return Center(child: CircularProgressIndicator());
           }
           currentList = (snapshot.data) as List;
@@ -79,7 +79,7 @@ class _Search extends State<Search> {
                             },
                           ),
                           IconButton(
-                            icon: FaIcon(FontAwesomeIcons.sortNumericDown),
+                            icon: FaIcon(FontAwesomeIcons.sortNumericUp),
                             tooltip: 'Sort By Count',
                             onPressed: () {
                               setState(() {
@@ -89,7 +89,7 @@ class _Search extends State<Search> {
                             },
                           ),
                           IconButton(
-                            icon: FaIcon(FontAwesomeIcons.sortNumericUp),
+                            icon: FaIcon(FontAwesomeIcons.sortNumericDown),
                             tooltip: 'Sort By Count',
                             onPressed: () {
                               setState(() {
@@ -141,7 +141,7 @@ class _Search extends State<Search> {
                       ),
                       onTap: () {
                         goToClassroomsPerBuildingPage(
-                            context, currentList[position], email);
+                            context, currentList[position]);
                       },
                     );
                   },
@@ -152,13 +152,12 @@ class _Search extends State<Search> {
         });
   }
 
-  goToClassroomsPerBuildingPage(
-      BuildContext context, BuildCount data, String email) {
+  //navega para outra page
+  goToClassroomsPerBuildingPage(BuildContext context, BuildCount data) {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) =>
-              BuildingsClassrooms(buildCount: data, email: email)),
+          builder: (context) => BuildingsClassrooms(buildCount: data)),
     );
   }
 }

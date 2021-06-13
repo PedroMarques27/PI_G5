@@ -1,16 +1,16 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Admin\\Desktop\\PI_G5\\r2ua\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rXC\\values-en-rXC.xml",
+            "outputFile": "C:\\Users\\Alex\\Desktop\\r2ua\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rXC\\values-en-rXC.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-2\\files-2.1\\a528b13ac93e64cafa3d0480e2c93207\\core-1.1.0\\res\\values-en-rXC\\values-en-rXC.xml",
+                    "source": "C:\\Users\\Alex\\.gradle\\caches\\transforms-2\\files-2.1\\24b0c4f8b232427522471c6bc009a847\\res\\values-en-rXC\\values-en-rXC.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",
-                        "endColumns": "202",
-                        "endOffsets": "253"
+                        "endColumns": "203",
+                        "endOffsets": "254"
                     }
                 }
             ]

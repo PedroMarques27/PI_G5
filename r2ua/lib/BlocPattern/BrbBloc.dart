@@ -2,26 +2,23 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
 import 'package:http/http.dart' as http;
-import 'package:r2ua/BlocPattern/PostEventBloc.dart';
 import 'package:r2ua/BlocPattern/WeekBloc.dart';
 import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/ClassroomGroups.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/User.dart';
-
-import 'UnavailableEventsBloc.dart';
+import 'package:r2ua/db/BuildingsUAData.dart';
 import 'BuildingBloc.dart';
 import 'ClassroomGroupsBloc.dart';
 import 'ClassroomsBloc.dart';
 import 'EventsBloc.dart';
+import 'HomeBloc.dart';
 import 'UsersBloc.dart';
 
 String token =
-    "eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ4M2YzZWI0YzA3N2RjMDFmMjQ5MzIyNDk5NDM3NGJmIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2MjI1NjY1ODIsImV4cCI6MTYyNTE1ODU4MiwiaXNzIjoiaHR0cHM6Ly9idWxsZXQtaXMuZGV2LnVhLnB0IiwiYXVkIjoiYmVzdGxlZ2FjeV9hcGlfcmVzb3VyY2UiLCJjbGllbnRfaWQiOiJldmVudG9zIiwiY2xpZW50X3JlYWRfY2xhaW0iOiJ0cnVlIiwiY2xpZW50X2NyZWF0ZV9jbGFpbSI6InRydWUiLCJjbGllbnRfdXBkYXRlX2NsYWltIjoidHJ1ZSIsImNsaWVudF9kZWxldGVfY2xhaW0iOiJ0cnVlIiwic2NvcGUiOlsiYmVzdGxlZ2FjeV9hcGlfc2NvcGUiXX0.V2zRJLdTWad5h0eS5d8wRnbgTJeZVGc4u6kofC-d9HppmG1RLH1-ng28fCKQH5EQQQwqelOeQQ8oI1T52az7386VlKv9g_zRpPMjfzzOmsv0uTkbRETLSYWbmqXar_HrF7W0-9rJWxp3iJ9paUpqhchFnZhz_QocHyX4kv5X3YCRmJtYvlXKZzmCJKma9H0LO51IOqj2F5KbyhLyWUzaxcV9CsuLVjUJewfRpgL3xkYp2v-Ll_MGmusT8-MjFyI2OoI4B-B77ht2091-f4xLnzIhbWwDRitr_OlNllKeoQgSupC0wXmsfG2ARG5CUsXPy9G0ZDE-IUYU0Mpmo7KUwg";
+    "eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ4M2YzZWI0YzA3N2RjMDFmMjQ5MzIyNDk5NDM3NGJmIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2MjE4NzY0NDcsImV4cCI6MTYyNDQ2ODQ0NywiaXNzIjoiaHR0cHM6Ly9idWxsZXQtaXMuZGV2LnVhLnB0IiwiYXVkIjoiYmVzdGxlZ2FjeV9hcGlfcmVzb3VyY2UiLCJjbGllbnRfaWQiOiJyb29tX2Rpc3BsYXllciIsImNsaWVudF9jcmVhdGVfY2xhaW0iOiJ0cnVlIiwiY2xpZW50X3VwZGF0ZV9jbGFpbSI6InRydWUiLCJjbGllbnRfZGVsZXRlX2NsYWltIjoidHJ1ZSIsImNsaWVudF9yZWFkX2NsYWltIjoidHJ1ZSIsInNjb3BlIjpbImJlc3RsZWdhY3lfYXBpX3Njb3BlIl19.gV9fhL3sm88Ehgt1UbBDrsSR-guHINIdusVEdckvF15DfOd2P2ANKMuCCU4YhNcMylCnrc9WCl5qt4rYk-_-3iytJDJKLoIIsiybfWB6EfWliJyVAkwOKkmizhOX8gFR9nZ3bRq-2RKRYRPBEqu3J7A2fVii3TERn4m6U9K2I0X8krgUG2LujeCHXoiZcLTrXu7v6kXFarR4NPYsFyKiWkhclIvunUb0CuPO7Bn9Qu3xBMcX1vsQK1Dfx9Mgq9o7T98cjHMsp53lkUCkHVa4zvJdTYU20eIKk4rcXrrchUQ9cH9OYMGOo1ELBD0gPGUlrr7EmYWawk0HgWD07souJg";
 String BASE_URL = 'bullet-api.dev.ua.pt';
 
 class BrbBloc {
@@ -45,6 +42,8 @@ class BrbBloc {
       getClassroomGroupsBuildings(currentUser.classroomGroupsId);
     });
     usersBloc.getCurrentUser(email);
+    debugPrint(
+        'CurrentUser: $currentUser'); //-----------------------------------------------------
   }
 
   void getClassroomGroupsBuildings(List<int> groupsIds) async {
@@ -60,10 +59,12 @@ class BrbBloc {
     HashSet<Classroom> classes = new HashSet<Classroom>();
     HashMap<int, Building> codesBuildings = new HashMap();
     List<BuildCount> data = new List<BuildCount>();
+
     for (var classId in classroomsIds) {
       Classroom cs = (await classroomsBloc.getClassroomById(classId));
 
       Building currentBuilding;
+
       if (codesBuildings.containsKey(cs.building)) {
         currentBuilding = codesBuildings[cs.building];
         for (var d in data) {
@@ -80,8 +81,9 @@ class BrbBloc {
         data.add(new BuildCount(
             building: currentBuilding, classrooms: _temp, count: 1));
       }
-      update(data);
     }
+    update(data);
+
     //var x = getWeek();
   }
 
@@ -110,12 +112,12 @@ class BuildCount {
   BuildCount({this.building, this.count, this.classrooms});
 }
 
+final buildingsUAData = new BuildingUAData();
 final weekBloc = new WeekBloc();
 final eventsBloc = new EventsBloc();
 final usersBloc = UsersBloc();
 final buildingBloc = BuildingBloc();
 final classroomGroupsBloc = ClassroomGroupsBloc();
 final classroomsBloc = ClassroomsBloc();
-final unavailableEventsBloc = new UnavailableEventsBloc();
-final postEventsBloc = new PostEventsBloc();
 final brbBloc = BrbBloc();
+final homeBloc = HomeBloc();
