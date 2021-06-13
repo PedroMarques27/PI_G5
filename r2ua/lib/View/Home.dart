@@ -31,11 +31,11 @@ class _Home extends State<Home> {
   var bUA = new List<BuildingDistance>();
 
   Future init(List<BuildCount> listOfBuildCount) async {
-    debugPrint(bUA.length.toString() + "DEBUGGGGGGGGGGGGGGGGGGGGGG");
+    debugPrint(bUA.length.toString() + ' ---------BuildingDistance');
+
     var temp = await buildingsUAData.getBuildingsNearByUser(listOfBuildCount);
     setState(() {
       bUA = temp;
-      debugPrint(bUA.length.toString() + "TTTTTTTTTTTTTTTTTTTTTT");
     });
   }
 
@@ -49,100 +49,133 @@ class _Home extends State<Home> {
         stream: buildingsUAData.getBuildingsUA,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            debugPrint("NO DATA");
+            debugPrint('NO DATA');
             return Center(child: CircularProgressIndicator());
           }
           buildingDistances = snapshot.data as List;
 
           debugPrint(
               buildingDistances.first.buildingsUA.realBuildingName.toString() +
-                  "llllllllllllllllllllllllll");
+                  'llllllllllllllllllllllllll');
 
           return SingleChildScrollView(
-              child: Column(
-            children: [
-              Container(
-                  height: MediaQuery.of(context).size.height / 2.3,
-                  alignment: Alignment.topCenter,
-                  margin: EdgeInsets.all(20),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                            child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            'Orders',
-                            textScaleFactor: 1.0, // disables accessibility
-                            style: TextStyle(
-                              fontSize: 30.0,
-                            ),
+              child: Column(children: [
+            Container(
+                height: MediaQuery.of(context).size.height / 2.3,
+                alignment: Alignment.topCenter,
+                margin: EdgeInsets.all(20),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                          child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'Orders',
+                          textScaleFactor: 1.0, // disables accessibility
+                          style: TextStyle(
+                            fontSize: 30.0,
                           ),
-                        )),
-                        Divider(
-                            height: 10, thickness: 2, color: Colors.red[400]),
-                        Expanded(
-                            child: ListView.builder(
-                                itemCount: buildingDistances.length,
-                                itemBuilder: (context, position) {
-                                  return Expanded(
-                                      child: Container(
-                                    margin: EdgeInsets.all(10),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Flexible(
-                                          child: Card(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  buildingDistances[position]
-                                                      .buildingsUA
-                                                      .realBuildingName
-                                                      .toString(),
-                                                ),
-                                                SizedBox(
-                                                  height: 5.0,
-                                                ),
-                                                Text(
-                                                  buildingDistances[position]
-                                                          .buildingDistance
-                                                          .toString() +
-                                                      " m",
-                                                )
-                                              ],
-                                            ),
+                        ),
+                      )),
+                      Divider(height: 10, thickness: 2, color: Colors.red[400]),
+                      Expanded(
+                          child: ListView.builder(
+                              itemCount: buildingDistances.length,
+                              itemBuilder: (context, position) {
+                                return Expanded(
+                                    child: Container(
+                                  margin: EdgeInsets.all(10),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Flexible(
+                                        child: Card(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                buildingDistances[position]
+                                                    .buildingsUA
+                                                    .realBuildingName
+                                                    .toString(),
+                                              ),
+                                              SizedBox(
+                                                height: 5.0,
+                                              ),
+                                              Text(
+                                                buildingDistances[position]
+                                                        .buildingDistance
+                                                        .toString() +
+                                                    ' m',
+                                              )
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ));
-                                }))
-                      ]))
-            ],
-          ));
+                                      ),
+                                    ],
+                                  ),
+                                ));
+                              }))
+                    ])),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  '${selectedDate.toLocal()}'.split(' ')[0],
+                  style: TextStyle(fontSize: 55, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                RaisedButton(
+                  onPressed: () => _selectDate(context),
+                  color: Colors.greenAccent, // Refer step 3
+                  child: Text(
+                    'Select date',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          ]));
         });
+  }
+
+  _selectDate(BuildContext context) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate, // Refer step 1
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
   }
 
   List<BuildingDistance> buildingDistances = new List<BuildingDistance>();
 
+  DateTime selectedDate = DateTime.now();
   void _getCurrentLocation() async {}
   @override
   void initState() {
     super.initState();
+
     brbBloc.getBuildCount.listen((listOfBuildCount) {
-      debugPrint("VVVVVVVVVVVVVVVV");
+      debugPrint('VVVVVVVVVVVVVVVV');
 
       init(listOfBuildCount);
     });
 
-    debugPrint("(((((((((((((");
-    initialize();
+    debugPrint('(((((((((((((');
 
     var buildingStream = brbBloc.getBuildCount;
   }
@@ -159,14 +192,5 @@ class _Home extends State<Home> {
       await PermissionHandler().requestPermissions([PermissionGroup.storage]);
       getPermissionStatus();
     }
-  }
-
-  Future<void> initialize() async {
-    var tempDir = await getTemporaryDirectory();
-    String tempPath = tempDir.path;
-
-    Hive
-      ..init(tempPath)
-      ..registerAdapter(BuildingsUAAdapter());
   }
 }

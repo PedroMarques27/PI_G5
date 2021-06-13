@@ -26,12 +26,14 @@ class BuildingUAData {
     //var box = await Hive.openBox<BuildingsUA>('buildingsUA');
     //box values
     //var list = box.values.toList();
-    debugPrint("KKKKKKKKKKKKKKKK");
+    debugPrint("ENTROU NO getBuildingsNearByUser");
     //ADD buildings IDS
     var buildingsIds = new List<int>();
+    Map<int, BuildCount> mapIdB_BCount;
 
     for (var b in buildings) {
       buildingsIds.add(b.building.id);
+      mapIdB_BCount[b.building.id] = b;
     }
 
     var buildingsUA = <BuildingsUA>[
@@ -163,11 +165,14 @@ class BuildingUAData {
         var distanceInMeters = await g.distanceBetween(
             position.latitude, position.longitude, b.lat, b.long);
         debugPrint('!!!!!!!!!!!!!!!!!!!!!!!!!!!distanceInMeters' +
-            distanceInMeters.toString());
+            distanceInMeters.toString() +
+            "......." +
+            mapIdB_BCount[b.brbBuildingId].toString());
 
         buildingsUADistance.add(BuildingDistance(
             buildingsUA: b,
-            buildingDistance: num.parse(distanceInMeters.toStringAsFixed(2))));
+            buildingDistance: num.parse(distanceInMeters.toStringAsFixed(2)),
+            buildCount: mapIdB_BCount[b.brbBuildingId]));
       }
     }
     debugPrint(
@@ -181,6 +186,7 @@ class BuildingUAData {
 class BuildingDistance {
   BuildingsUA buildingsUA;
   double buildingDistance;
+  BuildCount buildCount;
   // ignore: sort_constructors_first
-  BuildingDistance({this.buildingsUA, this.buildingDistance});
+  BuildingDistance({this.buildingsUA, this.buildingDistance, this.buildCount});
 }

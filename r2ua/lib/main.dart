@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 
 import 'db/BuildingsUAData.dart';
 
-String email = "ftrancho@ua.pt";
+String email = "rfmf@ua.pt";
 void main() {
   runApp(MyApp());
 }

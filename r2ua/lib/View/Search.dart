@@ -107,6 +107,7 @@ class _Search extends State<Search> {
                   itemCount: currentList.length,
                   itemBuilder: (context, position) {
                     return GestureDetector(
+                      // ignore: sort_child_properties_last
                       child: Container(
                         margin: EdgeInsets.all(2),
                         padding: EdgeInsets.all(6.0),
@@ -139,6 +140,7 @@ class _Search extends State<Search> {
                                       ))
                                 ])),
                       ),
+
                       onTap: () {
                         goToClassroomsPerBuildingPage(
                             context, currentList[position]);
