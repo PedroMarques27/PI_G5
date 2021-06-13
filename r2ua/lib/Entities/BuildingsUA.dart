@@ -1,9 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
-<<<<<<< HEAD
-=======
 part 'BuildingsUA.g.dart';
->>>>>>> ft/join_blocks
 
 @HiveType(typeId: 0)
 class BuildingsUA {
