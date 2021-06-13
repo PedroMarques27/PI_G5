@@ -55,6 +55,7 @@ class _CreateEvent extends State<CreateEvent> {
         widget.email,
         widget.week.beginning.toString(),
         widget.classId);
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -69,10 +70,19 @@ class _CreateEvent extends State<CreateEvent> {
   String dropdownEndTimeValue = "08:30";
   String dropdownEventTypeValue = "Aula";
   String dropdownCapacityValue = "1";
+  String name = '';
+  List<String> weekDays = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday"
+  ];
 
   @override
   Widget build(BuildContext context) {
     List<String> numStud = numOfStudentsList(widget.numMaxStud);
+    List<String> wDays = validWeekDays(widget.week);
     List<String> hours = <String>[
       "08:00",
       "08:30",
@@ -112,13 +122,6 @@ class _CreateEvent extends State<CreateEvent> {
       "Avaliação",
       "Reservas"
     ]; //ID +1 ---------------------IMPORTANTE
-    List<String> weekDays = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday"
-    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -143,6 +146,11 @@ class _CreateEvent extends State<CreateEvent> {
               TextFormField(
                 decoration: InputDecoration(labelText: 'Name'),
                 keyboardType: TextInputType.name,
+                onChanged: (newValue) {
+                  setState(() {
+                    name = newValue;
+                  });
+                },
                 onFieldSubmitted: (value) {},
                 validator: (value) {
                   if (value.isEmpty) {
@@ -169,7 +177,7 @@ class _CreateEvent extends State<CreateEvent> {
                     dropdownWeekDayValue = value;
                   });
                 },
-                items: weekDays.map((String val) {
+                items: wDays.map((String val) {
                   return DropdownMenuItem(
                     value: val,
                     child: Text(
@@ -333,7 +341,7 @@ class _CreateEvent extends State<CreateEvent> {
                     ),
                   ),
                   onPressed: () => _submit(
-                      "testeApp",
+                      name,
                       dropdownStartTimeValue,
                       dropdownEndTimeValue,
                       weekDays.indexOf(dropdownWeekDayValue),
@@ -396,5 +404,24 @@ class _CreateEvent extends State<CreateEvent> {
         availableTimes.insert(ind1, "-");
       }
     return availableTimes;
+  }
+
+  List<String> validWeekDays(Week week) {
+    List<String> weekDays = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ];
+
+    if (week.beginning.isBefore(DateTime.now()))
+      for (int i = 0; i < DateTime.now().difference(week.beginning).inDays; i++)
+        weekDays.removeAt(0);
+
+    setState(() {
+      dropdownWeekDayValue = weekDays[0];
+    });
+    return weekDays;
   }
 }

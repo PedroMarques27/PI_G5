@@ -5,6 +5,8 @@ import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/BlocPattern/EventsBloc.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/View/EventDetails.dart';
+import 'package:r2ua/View/Home.dart';
+import 'package:r2ua/View/Search.dart';
 
 class Bookings extends StatefulWidget {
   Bookings({Key key, this.title, this.email}) : super(key: key);
@@ -168,6 +170,46 @@ class _Bookings extends State<Bookings> {
           child: Text(value),
         );
       }).toList(),
+    );
+  }
+
+  Widget appNavBar() {
+    int _selectedIndex = 0;
+    var _children = [
+      Home(email: email),
+      Search(email: email),
+      Bookings(email: email)
+    ];
+
+    return Scaffold(
+      appBar: AppBar(title: Text("R2UA"), actions: <Widget>[]),
+      body: IndexedStack(
+        children: _children,
+        index: _selectedIndex,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.book),
+            label: 'Bookings',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+      ),
     );
   }
 }
