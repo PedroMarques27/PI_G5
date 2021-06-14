@@ -20,7 +20,6 @@ class HomeBloc {
 
   Future<void> startCapturing() async {
     eventsBloc.getListOfEvents.listen((event) {
-      debugPrint(event.toString() + "ººººººººººººººººººººººººººººººº");
       events = event;
       update();
     });

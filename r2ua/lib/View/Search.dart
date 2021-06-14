@@ -3,22 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:r2ua/View/BuildingsClassrooms.dart';
 
-import 'Bookings.dart';
-import 'Home.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 
 //SEARCH 1
 class Search extends StatefulWidget {
-  Search({Key key, this.title}) : super(key: key);
+  Search({Key key, this.title, this.email}) : super(key: key);
 
   final String title;
+  final String email;
 
   @override
   _Search createState() => _Search();
 }
 
 class _Search extends State<Search> {
-  List<BuildCount> currentList = new List<BuildCount>();
+  List<BuildCount> currentList = <BuildCount>[];
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
@@ -33,7 +32,6 @@ class _Search extends State<Search> {
         stream: brbBloc.getBuildCount,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            debugPrint("NO DATA");
             return Center(child: CircularProgressIndicator());
           }
           currentList = (snapshot.data) as List;
@@ -53,7 +51,7 @@ class _Search extends State<Search> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Buildings Available",
+                      Text('Buildings Available',
                           style: TextStyle(fontSize: 22.0)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -107,6 +105,10 @@ class _Search extends State<Search> {
                   itemCount: currentList.length,
                   itemBuilder: (context, position) {
                     return GestureDetector(
+                      onTap: () {
+                        goToClassroomsPerBuildingPage(
+                            context, currentList[position]);
+                      },
                       child: Container(
                         margin: EdgeInsets.all(2),
                         padding: EdgeInsets.all(6.0),
@@ -139,10 +141,6 @@ class _Search extends State<Search> {
                                       ))
                                 ])),
                       ),
-                      onTap: () {
-                        goToClassroomsPerBuildingPage(
-                            context, currentList[position]);
-                      },
                     );
                   },
                 ),
@@ -153,7 +151,7 @@ class _Search extends State<Search> {
   }
 
   //navega para outra page
-  goToClassroomsPerBuildingPage(BuildContext context, BuildCount data) {
+  void goToClassroomsPerBuildingPage(BuildContext context, BuildCount data) {
     Navigator.push(
       context,
       MaterialPageRoute(

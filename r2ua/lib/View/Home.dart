@@ -39,7 +39,6 @@ class _Home extends State<Home> {
     var temp = await buildingsUAData.getBuildingsNearByUser(listOfBuildCount);
     setState(() {
       bUA = temp;
-      debugPrint(bUA.length.toString() + "TTTTTTTTTTTTTTTTTTTTTT");
     });
   }
 
@@ -50,6 +49,7 @@ class _Home extends State<Home> {
   }
 
   Widget _buildList(BuildContext context) {
+    eventsBloc.searchEventsByUser(email, 3);
     return StreamBuilder(
         stream: homeBloc.getHomeData,
         builder: (context, snapshot) {
@@ -73,61 +73,64 @@ class _Home extends State<Home> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Buildings Nearby", style: TextStyle(fontSize: 22.0)),
+                    Text('Buildings Nearby', style: TextStyle(fontSize: 22.0)),
                   ],
                 )),
             Expanded(
               flex: 1,
-              child: ListView.builder(
-                itemCount: buildings.length,
-                itemBuilder: (context, position) {
-                  return GestureDetector(
-                    onTap: () {
-                      goToClassroomsPerBuildingPage(
-                          context, buildings[position].buildingsClassrooms);
-                    },
-                    child: Container(
-                      margin: EdgeInsets.all(2),
-                      padding: EdgeInsets.all(6.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(
-                          color: Colors.grey[300],
-                          width: 8,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 6,
-                                  child: Text(
-                                    buildings[position]
-                                        .buildingsClassrooms
-                                        .building
-                                        .name,
-                                    style: TextStyle(fontSize: 16.0),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 2, // 60%
-                                  child: Text(
-                                    buildings[position]
-                                            .buildingsDistance
-                                            .buildingDistance
-                                            .toString() +
-                                        'km',
-                                    style: TextStyle(fontSize: 16.0),
-                                  ),
-                                ),
-                              ])),
+              child: buildings.length == 0
+                  ? LinearProgressIndicator()
+                  : ListView.builder(
+                      itemCount: buildings.length,
+                      itemBuilder: (context, position) {
+                        return GestureDetector(
+                          onTap: () {
+                            goToClassroomsPerBuildingPage(context,
+                                buildings[position].buildingsClassrooms);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(2),
+                            padding: EdgeInsets.all(6.0),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              border: Border.all(
+                                color: Colors.grey[300],
+                                width: 8,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 6,
+                                        child: Text(
+                                          buildings[position]
+                                              .buildingsClassrooms
+                                              .building
+                                              .name,
+                                          style: TextStyle(fontSize: 16.0),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 2, // 60%
+                                        child: Text(
+                                          buildings[position]
+                                                  .buildingsDistance
+                                                  .buildingDistance
+                                                  .toString() +
+                                              'km',
+                                          style: TextStyle(fontSize: 16.0),
+                                        ),
+                                      ),
+                                    ])),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
             Expanded(
                 child: Column(
@@ -192,7 +195,7 @@ class _Home extends State<Home> {
         });
   }
 
-  goToEventDetails(BuildContext context, String email, Event event) {
+  void goToEventDetails(BuildContext context, String email, Event event) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -209,7 +212,8 @@ class _Home extends State<Home> {
     });
   }
 
-  goToClassroomsPerBuildingPage(BuildContext context, BuildCount data) async {
+  void goToClassroomsPerBuildingPage(
+      BuildContext context, BuildCount data) async {
     Navigator.push(
       context,
       MaterialPageRoute(

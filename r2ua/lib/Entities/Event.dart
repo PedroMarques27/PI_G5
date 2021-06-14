@@ -32,6 +32,7 @@ class Event {
 
     return Event(
         id: json['id'],
+        name: json['name'],
         startTime: json['startTime'],
         endTime: json['endTime'],
         duration: json['duration'],
@@ -58,8 +59,8 @@ class EventType {
   });
 
   factory EventType.fromJson(Map<String, dynamic> json) {
-    var a = json['active'].toString().toLowerCase() == 'true';
-    var b = json['setToAplication'].toString().toLowerCase() == 'true';
+    bool a = json['active'].toString().toLowerCase() == 'true';
+    bool b = json['setToAplication'].toString().toLowerCase() == 'true';
     return EventType(
         id: int.parse(json['name']),
         name: json['name'],

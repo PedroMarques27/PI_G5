@@ -68,8 +68,6 @@ class EventsBloc {
     return Event.fromJson(json.decode(response.body)['data']);
   }
 
-<<<<<<< HEAD
-=======
   Future<List<Event>> searchEventsByUser(String email, int number) async {
     var uri = Uri.https(BASE_URL, ("/api/Events/search"));
     final response = await http.post(uri,
@@ -107,6 +105,33 @@ class EventsBloc {
         }));
 
     List<Event> userEvents;
+    debugPrint(jsonEncode({
+      "page": 1,
+      "pageSize": number,
+      "sorts": [
+        {"path": "Day", "ascending": true}
+      ],
+      "filters": [
+        {
+          "and": true,
+          "type": 1,
+          "not": false,
+          "value": email,
+          "path": "EventUser.User.UserName"
+        },
+        {
+          "and": true,
+          "type": 8,
+          "not": false,
+          "value": DateTime.now()
+              .subtract(Duration(days: DateTime.now().weekday))
+              .toIso8601String(),
+          "path": "EventWeek.Week.StartDate"
+        }
+      ],
+      "groups": [],
+      "aggregates": []
+    }));
 
     if (json.decode(response.body)['data']['data'] != []) {
       Iterable l = json.decode(response.body)['data']['data'];
@@ -202,7 +227,6 @@ class EventsBloc {
     return false;
   }
 
->>>>>>> origin/ft/flutter_app_bookings
   Future<List<Event>> getAllClassroomEventsByTime(
       int classId, Week week) async {
     var uri = Uri.https(
@@ -236,5 +260,11 @@ class EventsBloc {
     List<Event> events = new List<Event>();
     update(events);
   }
+}
 
+class UserEvents {
+  List<Event> futureEvents;
+  List<Event> pastEvents;
+
+  UserEvents({this.futureEvents, this.pastEvents});
 }

@@ -10,11 +10,9 @@ import 'package:r2ua/View/Home.dart';
 import 'package:r2ua/main.dart';
 
 class EventDetails extends StatefulWidget {
-  Event event;
-
-  String email;
   EventDetails({Key key, this.event, this.email}) : super(key: key);
-
+  Event event;
+  String email;
   @override
   _EventDetails createState() => _EventDetails();
 }

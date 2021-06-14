@@ -95,5 +95,9 @@ class _MyHomePageState extends State<MyHomePage> {
     location.checkGeolocationPermissionStatus();
   }
 
-  var _children = [Home(), Search(), Bookings()];
+  var _children = [
+    Home(email: email),
+    Search(email: email),
+    Bookings(email: email)
+  ];
 }
