@@ -100,26 +100,6 @@ class _Bookings extends State<Bookings> {
                                           days: currentList[index].day))
                                       .toIso8601String()
                                       .split('T')[0]),
-                                  if (dropdownValue == 'Future')
-                                    IconButton(
-                                      icon: const Icon(FontAwesomeIcons.trash),
-                                      onPressed: () {
-                                        eventsBloc.removeEvent(
-                                            currentList[index].id, email);
-                                        eventsBloc
-                                            .bookingsEvents(email, 100)
-                                            .then((value) {
-                                          setState(() {
-                                            userEvents = value;
-                                            currentEventsList =
-                                                userEvents.futureEvents;
-                                            pastEventsList =
-                                                userEvents.pastEvents;
-                                            currentList = currentEventsList;
-                                          });
-                                        });
-                                      },
-                                    )
                                 ]),
                             Row(
                               children: <Widget>[

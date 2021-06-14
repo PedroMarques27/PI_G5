@@ -104,11 +104,7 @@ class _EventDetails extends State<EventDetails> {
                       ),
                       onPressed: () {
                         eventsBloc.removeEvent(_event.id, email);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Home(email: email)),
-                        );
+                        Navigator.pop(context);
                       },
                       child: Text('Delete Event'),
                     )

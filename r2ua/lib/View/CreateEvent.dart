@@ -14,8 +14,13 @@ import 'package:r2ua/View/EventDetails.dart';
 import 'package:r2ua/View/Home.dart';
 import 'package:r2ua/main.dart';
 
-// ignore: must_be_immutable
 class CreateEvent extends StatefulWidget {
+  int classId;
+  Week week;
+  String email;
+  int numMaxStud;
+  List<Event> unavailable;
+
   CreateEvent(
       {Key key,
       this.week,
@@ -24,11 +29,6 @@ class CreateEvent extends StatefulWidget {
       this.numMaxStud,
       this.unavailable})
       : super(key: key);
-  int classId;
-  Week week;
-  String email;
-  int numMaxStud;
-  List<Event> unavailable;
 
   @override
   _CreateEvent createState() => _CreateEvent();
@@ -54,14 +54,8 @@ class _CreateEvent extends State<CreateEvent> {
         widget.email,
         widget.week.beginning.toString(),
         widget.classId);
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => Bookings(
-                email: widget.email,
-              )),
-    );
+        
+    Navigator.pop(context);
   }
 
   String dropdownWeekDayValue = 'Monday';
@@ -77,12 +71,13 @@ class _CreateEvent extends State<CreateEvent> {
     'Thursday',
     'Friday'
   ];
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
-    var numStud = numOfStudentsList(widget.numMaxStud);
-    var wDays = validWeekDays(widget.week);
-    var hours = <String>[
+    List<String> numStud = numOfStudentsList(widget.numMaxStud);
+    List<String> wDays = validWeekDays(widget.week);
+    List<String> hours = <String>[
       '08:00',
       '08:30',
       '09:00',
@@ -113,7 +108,7 @@ class _CreateEvent extends State<CreateEvent> {
       '21:30',
       '22:00'
     ];
-    var eventType = <String>[
+    List<String> eventType = <String>[
       'Aula',
       'Exame',
       'Conferência',
@@ -237,6 +232,14 @@ class _CreateEvent extends State<CreateEvent> {
                     dropdownStartTimeValue = value;
                   });
                 },
+                validator: (String value) {
+                  if (!validDayHour(weekDays.indexOf(dropdownWeekDayValue),
+                      widget.week, dropdownStartTimeValue)) {
+                    return 'That hour has passed!';
+                  } else {
+                    return null;
+                  }
+                },
                 items: hours.map((String val) {
                   return DropdownMenuItem(
                     value: val,
@@ -265,7 +268,7 @@ class _CreateEvent extends State<CreateEvent> {
                   });
                 },
                 validator: (String value) {
-                  var available = availableTimes(widget.unavailable,
+                  List<String> available = availableTimes(widget.unavailable,
                       weekDays.indexOf(dropdownWeekDayValue));
                   if (!available.contains(dropdownStartTimeValue) |
                       !available.contains(value)) {
@@ -275,9 +278,9 @@ class _CreateEvent extends State<CreateEvent> {
                     return 'The end time has to be after start time';
                   } else if (available.contains(dropdownStartTimeValue) &&
                       available.contains(value)) {
-                    var a = available.indexOf(dropdownStartTimeValue);
-                    var b = available.indexOf(value);
-                    for (var i = a; i < b; i++) {
+                    int a = available.indexOf(dropdownStartTimeValue);
+                    int b = available.indexOf(value);
+                    for (int i = a; i < b; i++) {
                       if (available[i] == '-') {
                         return 'Impossible Time! Change your start or end time.';
                       }
@@ -335,19 +338,19 @@ class _CreateEvent extends State<CreateEvent> {
                     vertical: 10.0,
                     horizontal: 15.0,
                   ),
+                  child: Text(
+                    'Submit',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                    ),
+                  ),
                   onPressed: () => _submit(
                       name,
                       dropdownStartTimeValue,
                       dropdownEndTimeValue,
                       weekDays.indexOf(dropdownWeekDayValue),
                       eventType.indexOf(dropdownEventTypeValue) + 1,
-                      numStud.indexOf(dropdownCapacityValue) + 1),
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(
-                      fontSize: 24.0,
-                    ),
-                  ))
+                      numStud.indexOf(dropdownCapacityValue) + 1))
             ],
           ),
         ),
@@ -356,15 +359,15 @@ class _CreateEvent extends State<CreateEvent> {
   }
 
   List<String> numOfStudentsList(int numMax) {
-    var numStud = <String>[];
-    for (var i = 0; i < numMax; i++) {
+    List<String> numStud = List<String>();
+    for (int i = 0; i < numMax; i++) {
       numStud.add((i + 1).toString());
     }
     return numStud;
   }
 
   List<String> availableTimes(List<Event> unavailable, int day) {
-    var availableTimes = <String>[
+    List<String> availableTimes = [
       '08:00',
       '08:30',
       '09:00',
@@ -396,12 +399,12 @@ class _CreateEvent extends State<CreateEvent> {
       '22:00'
     ];
 
-    for (var e in unavailable) {
+    for (Event e in unavailable) {
       if (e.day == day) {
-        var ind1 = availableTimes.indexOf(e.startTime.substring(0, 5));
-        var ind2 = availableTimes.indexOf(e.endTime.substring(0, 5));
+        int ind1 = availableTimes.indexOf(e.startTime.substring(0, 5));
+        int ind2 = availableTimes.indexOf(e.endTime.substring(0, 5));
 
-        for (var i = ind2 - 1; i >= ind1; i--) {
+        for (int i = ind2 - 1; i >= ind1; i--) {
           availableTimes.removeAt(i);
         }
         availableTimes.insert(ind1, '-');
@@ -411,7 +414,7 @@ class _CreateEvent extends State<CreateEvent> {
   }
 
   List<String> validWeekDays(Week week) {
-    var weekDays = <String>[
+    List<String> weekDays = [
       'Monday',
       'Tuesday',
       'Wednesday',
@@ -420,15 +423,33 @@ class _CreateEvent extends State<CreateEvent> {
     ];
 
     if (week.beginning.isBefore(DateTime.now()))
-      for (var i = 0;
+      for (int i = 0;
           i < DateTime.now().difference(week.beginning).inDays;
           i++) {
         weekDays.removeAt(0);
       }
 
     setState(() {
-      dropdownWeekDayValue = weekDays[0];
+      if (count == 0) {
+        dropdownWeekDayValue = weekDays[0];
+        count++;
+      }
     });
     return weekDays;
+  }
+
+  bool validDayHour(int day, Week week, String startTime) {
+    //if chosen day is today
+    if (week.beginning.add(Duration(days: day)).toString().split(' ')[0] ==
+        DateTime.now().toString().split(' ')[0]) {
+      if (DateTime.now().hour.toInt() > int.parse(startTime.split(':')[0])) {
+        return false;
+      } else if (DateTime.now().hour.toInt() ==
+              int.parse(startTime.split(':')[0]) &&
+          DateTime.now().minute.toInt() == int.parse(startTime.split(':')[1])) {
+        return false;
+      }
+    }
+    return true;
   }
 }

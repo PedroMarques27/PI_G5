@@ -107,7 +107,7 @@ class _Search extends State<Search> {
                     return GestureDetector(
                       onTap: () {
                         goToClassroomsPerBuildingPage(
-                            context, currentList[position]);
+                            context, currentList[position], widget.email);
                       },
                       child: Container(
                         margin: EdgeInsets.all(2),
@@ -151,11 +151,11 @@ class _Search extends State<Search> {
   }
 
   //navega para outra page
-  void goToClassroomsPerBuildingPage(BuildContext context, BuildCount data) {
+  void goToClassroomsPerBuildingPage(BuildContext context, BuildCount data, String email) {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => BuildingsClassrooms(buildCount: data)),
+          builder: (context) => BuildingsClassrooms(buildCount: data, email: email,)),
     );
   }
 }

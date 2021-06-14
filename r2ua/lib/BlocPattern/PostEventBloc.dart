@@ -13,13 +13,11 @@ class PostEventsBloc {
   Stream get getListOfEvents => unavailableEventsStreamController.stream;
 
   void update(List<Event> b) {
-    unavailableEventsStreamController.sink
-        .add(b); // add whatever data we want into the Sink
+    unavailableEventsStreamController.sink.add(b);
   }
 
   void dispose() {
-    unavailableEventsStreamController
-        .close(); // close our StreamController to emory leak
+    unavailableEventsStreamController.close();
   }
 
   void stop() {}
@@ -37,6 +35,7 @@ class PostEventsBloc {
     var weekId = await getWeekId(weekStartDate);
 
     var uri = Uri.https(BASE_URL, ('/api/ThirdPartyEvents'));
+    
     final response = await http.post(uri,
         headers: {
           HttpHeaders.authorizationHeader: 'Bearer $token',
@@ -70,31 +69,6 @@ class PostEventsBloc {
         }));
 
     debugPrint('Status code' + response.statusCode.toString());
-    /* debugPrint(jsonEncode({
-      "name": name,
-      "code": (name + "_" + email).toLowerCase().replaceAll(" ", "_"),
-      "startTime": startTime,
-      "endTime": endTime,
-      "day": day,
-      "eventTypeId": eventType,
-      "numStudents": numStudents,
-      "requestedBy": email,
-      "eventWeeks": [
-        {
-          "model": {"weekId": weekId},
-          "status": 1
-        }
-      ],
-      "eventClassrooms": [
-        {
-          "model": {"classroomId": classId},
-          "status": 1
-        }
-      ],
-      "propertyBags": [
-        {"key": "string", "value": "string"}
-      ]
-    })); */
 
     if (response.statusCode == 201) {
       return jsonDecode(response.body)['data']['id'];

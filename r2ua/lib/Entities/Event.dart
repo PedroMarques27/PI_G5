@@ -2,13 +2,12 @@ import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/Week.dart';
 
 class Event {
   String name, startTime, endTime, duration, sectionName, observations;
   int id, day, numberPeople, eventTypeId, classId;
-  DateFormat date = new DateFormat('yyyy-MM-dd');
+  DateFormat date = DateFormat('yyyy-MM-dd');
   List<Week> weeks;
 
   Event({
