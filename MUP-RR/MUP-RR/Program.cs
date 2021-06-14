@@ -61,12 +61,14 @@ namespace MUP_RR
             MupTable finalDecision = new MupTable();  
             HashSet<Profile> profiles = new HashSet<Profile>();
             HashSet<ClassroomGroup> classroomGroups = new HashSet<ClassroomGroup>();
+            Console.WriteLine(pairs);
             foreach (Tuple<UO, Vinculo> item in pairs)
             {
                 UO currentUO = item.Item1;
                 Vinculo currentVinculo = item.Item2;
                 List<MupTable> queryResult= database.SelectSpecificMup(currentUO.id, currentVinculo.id);
                
+                Console.WriteLine(queryResult);
                 foreach (var qritem in queryResult)
                 {
                     profiles.Add(database.SelectProfileById(qritem.profile));

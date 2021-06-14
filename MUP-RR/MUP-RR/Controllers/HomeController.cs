@@ -12,6 +12,7 @@ namespace MUP_RR.Controllers
 	public class HomeController : Controller
 	{
 		public DBConnector database = new DBConnector();
+		Program currentProgram = new Program();
 
 
 		public ActionResult Index()
@@ -85,7 +86,7 @@ namespace MUP_RR.Controllers
 			_temp.vinculo = vinculo.id;
 
 			database.InsertMup(_temp);
-			return RedirectToAction("interface", "home");;
+			return RedirectToAction("interface", "home");
 		}
 
 
@@ -106,6 +107,18 @@ namespace MUP_RR.Controllers
 			}
 
 			return translation;
+		}
+
+		[HttpGet]
+		public ActionResult updateAllCurrentUsers(){
+			List<BRB_RCU_ASSOC> users = database.SelectUserAssociations();
+
+			foreach (var user in users){
+				List<Tuple<UO,Vinculo>> userData = currentProgram.getUserData(user.rcu_id);
+				currentProgram.UpdateProfile(user.rcu_id, userData);
+                
+            }
+			return RedirectToAction("Interface");
 		}
 		
 	}

@@ -200,3 +200,6 @@
     </table>
 </div>
 
+@using(Html.BeginForm("updateAllCurrentUsers", "Home", FormMethod.Get)){
+    <input class="button" type="submit" value="Update All Users" style="text-align: center" onclick="return confirm('Are you sure You Want To Update all users? This might take a while...')">
+}
