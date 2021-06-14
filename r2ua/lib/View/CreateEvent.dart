@@ -78,6 +78,7 @@ class _CreateEvent extends State<CreateEvent> {
     "Thursday",
     "Friday"
   ];
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -237,6 +238,13 @@ class _CreateEvent extends State<CreateEvent> {
                   setState(() {
                     dropdownStartTimeValue = value;
                   });
+                },
+                validator: (String value) {
+                  if (!validDayHour(weekDays.indexOf(dropdownWeekDayValue),
+                      widget.week, dropdownStartTimeValue)) {
+                    return "That hour has passed!";
+                  } else
+                    return null;
                 },
                 items: hours.map((String val) {
                   return DropdownMenuItem(
@@ -420,8 +428,25 @@ class _CreateEvent extends State<CreateEvent> {
         weekDays.removeAt(0);
 
     setState(() {
-      dropdownWeekDayValue = weekDays[0];
+      if (count == 0) {
+        dropdownWeekDayValue = weekDays[0];
+        count++;
+      }
     });
     return weekDays;
+  }
+
+  bool validDayHour(int day, Week week, String startTime) {
+    //if chosen day is today
+    if (week.beginning.add(Duration(days: day)).toString().split(" ")[0] ==
+        DateTime.now().toString().split(" ")[0]) {
+      if (DateTime.now().hour.toInt() > int.parse(startTime.split(":")[0]))
+        return false;
+      else if (DateTime.now().hour.toInt() ==
+              int.parse(startTime.split(":")[0]) &&
+          DateTime.now().minute.toInt() == int.parse(startTime.split(":")[1]))
+        return false;
+    }
+    return true;
   }
 }

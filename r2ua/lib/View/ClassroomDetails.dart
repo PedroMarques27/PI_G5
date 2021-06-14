@@ -96,8 +96,8 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                             Icon(FontAwesomeIcons.users),
                           ]),
                           Text(
-                              "Exam Capacity: " +
-                                  _classroom.examCapacity.toString(),
+                              "Capacity: " +
+                                  _classroom.capacity.toString(),
                               style: TextStyle(fontSize: 14.0)),
                           Text("Id: " + _classroom.id.toString(),
                               style: TextStyle(fontSize: 14.0)),
@@ -141,9 +141,15 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                                 Text(
                                     weekDays[ind] +
                                         " - " +
-                                        formatter.format(days[ind]),
+                                        days[ind]
+                                            .toString()
+                                            .split("-")[2]
+                                            .split(" ")[0] +
+                                        "/" +
+                                        days[ind].toString().split("-")[1] +
+                                        "/" +
+                                        days[ind].toString().split("-")[0],
                                     style: TextStyle(fontSize: 18)),
-                                
                                 ListView.builder(
                                     itemCount: currentList.length,
                                     physics: ClampingScrollPhysics(),
@@ -216,21 +222,39 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                     })),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.cyan, // background
-                onPrimary: Colors.white, // foreground
+                primary: (currentWeek.beginning.isBefore(DateTime.now()) &&
+                        DateTime.now()
+                                .difference(currentWeek.beginning)
+                                .inDays >
+                            4)
+                    ? Colors.cyan.withOpacity(0.2)
+                    : Colors.cyan, // background
+                onPrimary: (currentWeek.beginning.isBefore(DateTime.now()) &&
+                        DateTime.now()
+                                .difference(currentWeek.beginning)
+                                .inDays >
+                            4)
+                    ? Colors.white.withOpacity(0.6)
+                    : Colors.white, // foreground
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CreateEvent(
-                            week: currentWeek,
-                            classId: _classroom.id,
-                            email: email,
-                            numMaxStud: _classroom.capacity,
-                            unavailable: currentList,
-                          )),
-                );
+                (currentWeek.beginning.isBefore(DateTime.now()) &&
+                        DateTime.now()
+                                .difference(currentWeek.beginning)
+                                .inDays >
+                            4)
+                    ? null
+                    : Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateEvent(
+                                  week: currentWeek,
+                                  classId: _classroom.id,
+                                  email: email,
+                                  numMaxStud: _classroom.capacity,
+                                  unavailable: currentList,
+                                )),
+                      );
               },
               child: Text('Book Classroom'),
             )
