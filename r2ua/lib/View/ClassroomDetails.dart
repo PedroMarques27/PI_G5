@@ -22,13 +22,13 @@ class ClassroomDetails extends StatefulWidget {
 }
 
 class _ClassroomDetails extends State<ClassroomDetails> {
-  List<Event> currentList = new List<Event>();
-  List<Event> events = new List<Event>();
+  List<Event> currentList = <Event>[];
+  List<Event> events = <Event>[];
   Week currentWeek;
-  List<Week> weekList = new List<Week>();
+  List<Week> weekList = <Week>[];
   Stream weekStream;
   int current = 0;
-  List<DateTime> days = new List<DateTime>();
+  List<DateTime> days = <DateTime>[];
 
   @override
   void initState() {
@@ -37,10 +37,10 @@ class _ClassroomDetails extends State<ClassroomDetails> {
 
   @override
   Widget build(BuildContext context) {
-    Classroom _classroom = widget.classroom;
-    Building _building = widget.building;
-    String email = widget.email;
-    var formatter = new DateFormat('yyyy-MM-dd');
+    var _classroom = widget.classroom;
+    var _building = widget.building;
+    var email = widget.email;
+    var formatter = DateFormat('yyyy-MM-dd');
 
     weekStream = weekBloc.getWeekList;
     weekList = weekBloc.latest;
@@ -50,12 +50,12 @@ class _ClassroomDetails extends State<ClassroomDetails> {
         currentWeek.getDaysInTheWeek()[0].toString(), _classroom.id);
 
     days = currentWeek.getDaysInTheWeek();
-    List<String> weekDays = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday"
+    var weekDays = <String>[
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday'
     ];
 
     return Scaffold(
@@ -89,48 +89,50 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text("", style: TextStyle(fontSize: 14.0)),
+                          Text('', style: TextStyle(fontSize: 14.0)),
                           Row(children: <Widget>[
                             Text(_classroom.capacity.toString(),
                                 style: TextStyle(fontSize: 14.0)),
                             Icon(FontAwesomeIcons.users),
                           ]),
                           Text(
-                              "Exam Capacity: " +
+                              'Exam Capacity: ' +
                                   _classroom.examCapacity.toString(),
                               style: TextStyle(fontSize: 14.0)),
-                          Text("Id: " + _classroom.id.toString(),
+                          Text('Id: ' + _classroom.id.toString(),
                               style: TextStyle(fontSize: 14.0)),
                         ]),
-                    Text(""),
+                    Text(''),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           GestureDetector(
-                              child: Icon(FontAwesomeIcons.arrowAltCircleLeft),
                               onTap: () {
-                                getWeek("-", _classroom);
-                              }),
+                                getWeek('-', _classroom);
+                              },
+                              child: Icon(FontAwesomeIcons.arrowAltCircleLeft)),
                           Text(
                               currentWeek.getFormattedBegin() +
-                                  " - " +
+                                  ' - ' +
                                   currentWeek.getFormattedEnding(),
                               style: TextStyle(fontSize: 14.0)),
                           GestureDetector(
-                              child: Icon(FontAwesomeIcons.arrowAltCircleRight),
                               onTap: () {
-                                getWeek("+", _classroom);
-                              }),
+                                getWeek('+', _classroom);
+                              },
+                              child:
+                                  Icon(FontAwesomeIcons.arrowAltCircleRight)),
                         ]),
-                    Text("", style: TextStyle(fontSize: 22.0)),
+                    Text('', style: TextStyle(fontSize: 22.0)),
                   ]),
                 )),
             Expanded(
                 child: StreamBuilder(
                     stream: unavailableEventsBloc.getListOfEvents,
                     builder: (context, snapshot) {
-                      if (!snapshot.hasData)
+                      if (!snapshot.hasData) {
                         return Center(child: CircularProgressIndicator());
+                      }
                       currentList = (snapshot.data) as List;
                       return ListView.builder(
                           itemCount: 5,
@@ -140,7 +142,7 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                               children: <Widget>[
                                 Text(
                                     weekDays[ind] +
-                                        " - " +
+                                        ' - ' +
                                         formatter.format(days[ind]),
                                     style: TextStyle(fontSize: 18)),
                                 ListView.builder(
@@ -176,7 +178,7 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                                                               currentList[index]
                                                                       .startTime
                                                                       .toString() +
-                                                                  "-" +
+                                                                  '-' +
                                                                   currentList[
                                                                           index]
                                                                       .endTime
@@ -238,7 +240,7 @@ class _ClassroomDetails extends State<ClassroomDetails> {
   }
 
   getWeek(String s, Classroom _classroom) {
-    if (s == "+") {
+    if (s == '+') {
       if (current < weekList.length - 1) {
         setState(() {
           current++;
@@ -247,12 +249,13 @@ class _ClassroomDetails extends State<ClassroomDetails> {
         });
       }
     } else {
-      if (current > 0)
+      if (current > 0) {
         setState(() {
           current--;
           currentWeek = weekList[current];
           days = currentWeek.getDaysInTheWeek();
         });
+      }
     }
     unavailableEventsBloc.searchUnavailableEventsByWeekByClassroom(
         currentWeek.getDaysInTheWeek()[0].toString(), _classroom.id);

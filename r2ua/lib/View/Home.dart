@@ -1,24 +1,14 @@
 import 'dart:core';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hive/hive.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:r2ua/BlocPattern/HomeBloc.dart';
-import 'package:r2ua/Entities/BuildingsUA.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/View/EventDetails.dart';
 
-import 'Bookings.dart';
 import 'BuildingsClassrooms.dart';
-import 'Search.dart';
-import 'package:r2ua/Entities/User.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:r2ua/BlocPattern/BuildingsUAData.dart';
-import 'package:r2ua/BlocPattern/HomeBloc.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.title, this.email}) : super(key: key);
@@ -31,8 +21,7 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  int _selectedIndex = 0;
-  var bUA = new List<BuildingDistance>();
+  var bUA = <BuildingDistance>[];
   var email = '';
 
   Future init(List<BuildCount> listOfBuildCount) async {
@@ -78,7 +67,7 @@ class _Home extends State<Home> {
                 )),
             Expanded(
               flex: 1,
-              child: buildings.length == 0
+              child: buildings.isEmpty
                   ? LinearProgressIndicator()
                   : ListView.builder(
                       itemCount: buildings.length,
@@ -170,7 +159,7 @@ class _Home extends State<Home> {
                                                 .add(Duration(
                                                     days: events[index].day))
                                                 .toIso8601String()
-                                                .split("T")[0]),
+                                                .split('T')[0]),
                                           ]),
                                       Row(
                                         children: <Widget>[
@@ -178,12 +167,12 @@ class _Home extends State<Home> {
                                                   .startTime
                                                   .toString()
                                                   .substring(0, 5) +
-                                              "h - " +
+                                              'h - ' +
                                               events[index]
                                                   .endTime
                                                   .toString()
                                                   .substring(0, 5) +
-                                              "h"),
+                                              'h'),
                                         ],
                                       )
                                     ]),
@@ -214,7 +203,7 @@ class _Home extends State<Home> {
 
   void goToClassroomsPerBuildingPage(
       BuildContext context, BuildCount data) async {
-    Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => BuildingsClassrooms(buildCount: data)),

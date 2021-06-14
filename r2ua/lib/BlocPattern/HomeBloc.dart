@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:r2ua/Entities/Event.dart';
 
 import 'package:r2ua/BlocPattern/BuildingsUAData.dart';
 import 'BrbBloc.dart';
 import 'dart:async';
-import 'package:http/http.dart' as http;
-import 'EventsBloc.dart';
 
 class HomeBloc {
   StreamController<HomeData> homeViewStreamController =
@@ -69,7 +66,7 @@ class BuildingsData {
 }
 
 class HomeData {
+  HomeData(this.events, this.buildings);
   List<Event> events = <Event>[];
   List<BuildingsData> buildings = <BuildingsData>[];
-  HomeData(this.events, this.buildings);
 }

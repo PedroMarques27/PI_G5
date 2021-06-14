@@ -34,42 +34,42 @@ class PostEventsBloc {
       String email,
       String weekStartDate,
       int classId) async {
-    int weekId = await this.getWeekId(weekStartDate);
+    var weekId = await getWeekId(weekStartDate);
 
-    var uri = Uri.https(BASE_URL, ("/api/ThirdPartyEvents"));
+    var uri = Uri.https(BASE_URL, ('/api/ThirdPartyEvents'));
     final response = await http.post(uri,
         headers: {
-          HttpHeaders.authorizationHeader: "Bearer $token",
-          HttpHeaders.contentTypeHeader: "application/json",
-          "Access-Control-Allow-Origin": "*"
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: 'application/json',
+          'Access-Control-Allow-Origin': '*'
         },
         body: jsonEncode({
-          "name": name,
-          "code": (name + "_" + email).toLowerCase().replaceAll(" ", "_"),
-          "startTime": startTime,
-          "endTime": endTime,
-          "day": day,
-          "eventTypeId": eventType,
-          "numStudents": numStudents,
-          "requestedBy": email,
-          "eventWeeks": [
+          'name': name,
+          'code': (name + '_' + email).toLowerCase().replaceAll(' ', '_'),
+          'startTime': startTime,
+          'endTime': endTime,
+          'day': day,
+          'eventTypeId': eventType,
+          'numStudents': numStudents,
+          'requestedBy': email,
+          'eventWeeks': [
             {
-              "model": {"weekId": weekId},
-              "status": 1
+              'model': {'weekId': weekId},
+              'status': 1
             }
           ],
-          "eventClassrooms": [
+          'eventClassrooms': [
             {
-              "model": {"classroomId": classId},
-              "status": 1
+              'model': {'classroomId': classId},
+              'status': 1
             }
           ],
-          "propertyBags": [
-            {"key": "string", "value": "string"}
+          'propertyBags': [
+            {'key': 'string', 'value': 'string'}
           ]
         }));
 
-    debugPrint("Status code" + response.statusCode.toString());
+    debugPrint('Status code' + response.statusCode.toString());
     /* debugPrint(jsonEncode({
       "name": name,
       "code": (name + "_" + email).toLowerCase().replaceAll(" ", "_"),
@@ -96,20 +96,21 @@ class PostEventsBloc {
       ]
     })); */
 
-    if (response.statusCode == 201)
-      return jsonDecode(response.body)["data"]["id"];
+    if (response.statusCode == 201) {
+      return jsonDecode(response.body)['data']['id'];
+    }
 
     return -1;
   }
 
   Future<int> getWeekId(String weekDate) async {
-    var uri = Uri.https(BASE_URL, "/api/Weeks/starting/" + weekDate);
+    var uri = Uri.https(BASE_URL, '/api/Weeks/starting/' + weekDate);
     final response = await http.get(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        HttpHeaders.contentTypeHeader: "application/json",
-        "Access-Control-Allow-Origin": "*"
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     );
     return json.decode(response.body)['data'][0]['id'];

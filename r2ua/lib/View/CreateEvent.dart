@@ -14,14 +14,8 @@ import 'package:r2ua/View/EventDetails.dart';
 import 'package:r2ua/View/Home.dart';
 import 'package:r2ua/main.dart';
 
+// ignore: must_be_immutable
 class CreateEvent extends StatefulWidget {
-  // PASSAR O EMAIL TAMBEM ----------------------------------------------------------
-  int classId;
-  Week week;
-  String email;
-  int numMaxStud;
-  List<Event> unavailable;
-
   CreateEvent(
       {Key key,
       this.week,
@@ -30,6 +24,11 @@ class CreateEvent extends StatefulWidget {
       this.numMaxStud,
       this.unavailable})
       : super(key: key);
+  int classId;
+  Week week;
+  String email;
+  int numMaxStud;
+  List<Event> unavailable;
 
   @override
   _CreateEvent createState() => _CreateEvent();
@@ -81,9 +80,9 @@ class _CreateEvent extends State<CreateEvent> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> numStud = numOfStudentsList(widget.numMaxStud);
-    List<String> wDays = validWeekDays(widget.week);
-    List<String> hours = <String>[
+    var numStud = numOfStudentsList(widget.numMaxStud);
+    var wDays = validWeekDays(widget.week);
+    var hours = <String>[
       '08:00',
       '08:30',
       '09:00',
@@ -114,7 +113,7 @@ class _CreateEvent extends State<CreateEvent> {
       '21:30',
       '22:00'
     ];
-    List<String> eventType = <String>[
+    var eventType = <String>[
       'Aula',
       'Exame',
       'Conferência',

@@ -29,26 +29,25 @@ class EventsBloc {
     final response = await http.get(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        HttpHeaders.contentTypeHeader: "application/json",
-        "Access-Control-Allow-Origin": "*"
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     );
     Iterable l = json.decode(response.body)['data'];
-    List<Event> events =
-        List<Event>.from(l.map((model) => Event.fromJson(model)));
+    var events = List<Event>.from(l.map((model) => Event.fromJson(model)));
     update(events);
     return events;
   }
 
   Future<Event> getEventById(int id) async {
-    var uri = Uri.https(BASE_URL, ("/api/ThirdPartyEvents/" + id.toString()));
+    var uri = Uri.https(BASE_URL, ('/api/ThirdPartyEvents/' + id.toString()));
     final response = await http.get(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        HttpHeaders.contentTypeHeader: "application/json",
-        "Access-Control-Allow-Origin": "*"
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     );
     return Event.fromJson(json.decode(response.body)['data']);
@@ -56,81 +55,81 @@ class EventsBloc {
 
 // ver se está a ser usado
   Future<Event> getEventByIdAndWeek(int id) async {
-    var uri = Uri.https(BASE_URL, ("/api/Events/" + id.toString()));
+    var uri = Uri.https(BASE_URL, ('/api/Events/' + id.toString()));
     final response = await http.get(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        HttpHeaders.contentTypeHeader: "application/json",
-        "Access-Control-Allow-Origin": "*"
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     );
     return Event.fromJson(json.decode(response.body)['data']);
   }
 
   Future<List<Event>> searchEventsByUser(String email, int number) async {
-    var uri = Uri.https(BASE_URL, ("/api/Events/search"));
+    var uri = Uri.https(BASE_URL, ('/api/Events/search'));
     final response = await http.post(uri,
         headers: {
-          HttpHeaders.authorizationHeader: "Bearer $token",
-          HttpHeaders.contentTypeHeader: "application/json",
-          "Access-Control-Allow-Origin": "*"
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: 'application/json',
+          'Access-Control-Allow-Origin': '*'
         },
         body: jsonEncode({
-          "page": 1,
-          "pageSize": number,
-          "sorts": [
-            {"path": "Day", "ascending": true}
+          'page': 1,
+          'pageSize': number,
+          'sorts': [
+            {'path': 'Day', 'ascending': true}
           ],
-          "filters": [
+          'filters': [
             {
-              "and": true,
-              "type": 1,
-              "not": false,
-              "value": email,
-              "path": "EventUser.User.UserName"
+              'and': true,
+              'type': 1,
+              'not': false,
+              'value': email,
+              'path': 'EventUser.User.UserName'
             },
             {
-              "and": true,
-              "type": 8,
-              "not": false,
-              "value": DateTime.now()
+              'and': true,
+              'type': 8,
+              'not': false,
+              'value': DateTime.now()
                   .subtract(Duration(days: DateTime.now().weekday))
                   .toIso8601String(),
-              "path": "EventWeek.Week.StartDate"
+              'path': 'EventWeek.Week.StartDate'
             }
           ],
-          "groups": [],
-          "aggregates": []
+          'groups': [],
+          'aggregates': []
         }));
 
     List<Event> userEvents;
     debugPrint(jsonEncode({
-      "page": 1,
-      "pageSize": number,
-      "sorts": [
-        {"path": "Day", "ascending": true}
+      'page': 1,
+      'pageSize': number,
+      'sorts': [
+        {'path': 'Day', 'ascending': true}
       ],
-      "filters": [
+      'filters': [
         {
-          "and": true,
-          "type": 1,
-          "not": false,
-          "value": email,
-          "path": "EventUser.User.UserName"
+          'and': true,
+          'type': 1,
+          'not': false,
+          'value': email,
+          'path': 'EventUser.User.UserName'
         },
         {
-          "and": true,
-          "type": 8,
-          "not": false,
-          "value": DateTime.now()
+          'and': true,
+          'type': 8,
+          'not': false,
+          'value': DateTime.now()
               .subtract(Duration(days: DateTime.now().weekday))
               .toIso8601String(),
-          "path": "EventWeek.Week.StartDate"
+          'path': 'EventWeek.Week.StartDate'
         }
       ],
-      "groups": [],
-      "aggregates": []
+      'groups': [],
+      'aggregates': []
     }));
 
     if (json.decode(response.body)['data']['data'] != []) {
@@ -143,48 +142,48 @@ class EventsBloc {
   }
 
   Future<List<Event>> searchPastEventsByUser(String email) async {
-    var uri = Uri.https(BASE_URL, ("/api/Events/search"));
+    var uri = Uri.https(BASE_URL, ('/api/Events/search'));
     final response = await http.post(uri,
         headers: {
-          HttpHeaders.authorizationHeader: "Bearer $token",
-          HttpHeaders.contentTypeHeader: "application/json",
-          "Access-Control-Allow-Origin": "*"
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: 'application/json',
+          'Access-Control-Allow-Origin': '*'
         },
         body: jsonEncode({
-          "page": 1,
-          "pageSize": 10,
-          "sorts": [
-            {"path": "Day", "ascending": true}
+          'page': 1,
+          'pageSize': 10,
+          'sorts': [
+            {'path': 'Day', 'ascending': true}
           ],
-          "filters": [
+          'filters': [
             {
-              "and": false,
-              "type": 1,
-              "not": false,
-              "value": email,
-              "path": "EventUser.User.UserName"
+              'and': false,
+              'type': 1,
+              'not': false,
+              'value': email,
+              'path': 'EventUser.User.UserName'
             },
             {
-              "and": true,
-              "type": 7,
-              "not": false,
-              "value": DateTime.now()
+              'and': true,
+              'type': 7,
+              'not': false,
+              'value': DateTime.now()
                   .subtract(Duration(days: DateTime.now().weekday))
                   .toIso8601String(),
-              "path": "EventWeek.Week.StartDate"
+              'path': 'EventWeek.Week.StartDate'
             },
             {
-              "and": true,
-              "type": 6,
-              "not": false,
-              "value": DateTime.now()
+              'and': true,
+              'type': 6,
+              'not': false,
+              'value': DateTime.now()
                   .subtract(Duration(days: 30 + DateTime.now().weekday))
                   .toIso8601String(),
-              "path": "EventWeek.Week.StartDate"
+              'path': 'EventWeek.Week.StartDate'
             }
           ],
-          "groups": [],
-          "aggregates": []
+          'groups': [],
+          'aggregates': []
         }));
 
     List<Event> userEvents;
@@ -198,30 +197,36 @@ class EventsBloc {
   }
 
   Future<UserEvents> bookingsEvents(String email, int number) async {
-    UserEvents uE = UserEvents(
-        futureEvents: await this.searchEventsByUser(email, number),
-        pastEvents: await this.searchPastEventsByUser(email));
+    var uE = UserEvents(
+        futureEvents: await searchEventsByUser(email, number),
+        pastEvents: await searchPastEventsByUser(email));
 
     return uE;
   }
 
   Future<bool> removeEvent(int eventId, String email) async {
-    var uri = Uri.https(BASE_URL, ("/api/ThirdPartyEvents/removecollection"));
+    var uri = Uri.https(BASE_URL, ('/api/ThirdPartyEvents/removecollection'));
 
     final response = await http.post(uri,
         headers: {
-          HttpHeaders.authorizationHeader: "Bearer $token",
-          HttpHeaders.contentTypeHeader: "application/json",
-          "Access-Control-Allow-Origin": "*"
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: 'application/json',
+          'Access-Control-Allow-Origin': '*'
         },
         body: jsonEncode({
-          "identifiers": [eventId],
-          "propertyBags": [
-            {"key": "string", "value": "string"}
+          'identifiers': [eventId],
+          'propertyBags': [
+            {'key': 'string', 'value': 'string'}
           ]
         }));
+    debugPrint(jsonEncode({
+      'identifiers': [eventId],
+      'propertyBags': [
+        {'key': 'string', 'value': 'string'}
+      ]
+    }));
     if (response.statusCode == 201) {
-      this.searchEventsByUser(email, 3);
+      await searchEventsByUser(email, 3);
       return true;
     }
     return false;
@@ -231,25 +236,24 @@ class EventsBloc {
       int classId, Week week) async {
     var uri = Uri.https(
         BASE_URL,
-        "all/" +
+        'all/' +
             week.beginning.toIso8601String() +
-            "/" +
+            '/' +
             week.ending.toIso8601String() +
-            "/" +
+            '/' +
             classId.toString());
     final response = await http.get(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        HttpHeaders.contentTypeHeader: "application/json",
-        "Access-Control-Allow-Origin": "*"
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     );
     if (response.body.isNotEmpty) {
       var v = json.decode(response.body)['data'];
       Iterable l = v;
-      List<Event> events =
-          List<Event>.from(l.map((model) => Event.fromJson(model)));
+      var events = List<Event>.from(l.map((model) => Event.fromJson(model)));
 
       for (var item in events) {
         debugPrint(item.name);
@@ -257,14 +261,14 @@ class EventsBloc {
       update(events);
       return events;
     }
-    List<Event> events = new List<Event>();
+    var events = new List<Event>();
     update(events);
+    return events;
   }
 }
 
 class UserEvents {
+  UserEvents({this.futureEvents, this.pastEvents});
   List<Event> futureEvents;
   List<Event> pastEvents;
-
-  UserEvents({this.futureEvents, this.pastEvents});
 }

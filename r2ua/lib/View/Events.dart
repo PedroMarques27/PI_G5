@@ -16,7 +16,7 @@ class Events extends StatefulWidget {
   _Events createState() => _Events();
 }
 
-Future<EventPost> submitData(
+void submitData(
     String name,
     String startTime,
     String endTime,
@@ -41,27 +41,19 @@ Future<EventPost> submitData(
     'classroomId': classroomId,
     'statusClassroom': statusClassroom
   });
-  var data = response.body;
-  print(data);
 
   if (response.statusCode == 201) {
     var responseString = response.body;
     eventPostFromJson(responseString);
-  } else {
-    return null;
   }
 }
 
 class _Events extends State<Events> {
-  EventPost _eventPost;
-
   TextEditingController eventNameController = TextEditingController();
   TextEditingController dayChoose_del = TextEditingController();
 
-  int _selectedIndex = 0;
-
   String dayChoose;
-  List<DateTime> days = new List<DateTime>();
+  List<DateTime> days = <DateTime>[];
 
   @override
   void initState() {
@@ -74,7 +66,7 @@ class _Events extends State<Events> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text("HELLO"),
+          title: Text('HELLO'),
         ),
         body: Container(
             padding: EdgeInsets.all(20),
@@ -89,7 +81,7 @@ class _Events extends State<Events> {
                 ),
                 //day
                 DropdownButton(
-                  hint: Text("Select day: "),
+                  hint: Text('Select day: '),
                   dropdownColor: Colors.grey,
                   iconSize: 20,
                   isExpanded: true,

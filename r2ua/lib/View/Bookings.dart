@@ -58,11 +58,21 @@ class _Bookings extends State<Bookings> {
         dropdownValue == 'Future'
             ? Text("Next Reservations", style: TextStyle(fontSize: 24.0))
             : Text("Past Reservations", style: TextStyle(fontSize: 24.0)),
-        new Expanded(
-            child: new ListView.builder(
+        Expanded(
+            child: ListView.builder(
                 itemCount: currentList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EventDetails(
+                                  event: currentList[index],
+                                  email: email,
+                                )),
+                      );
+                    },
                     child: Container(
                         margin: EdgeInsets.all(2),
                         padding: EdgeInsets.all(6.0),
@@ -89,11 +99,11 @@ class _Bookings extends State<Bookings> {
                                       .add(Duration(
                                           days: currentList[index].day))
                                       .toIso8601String()
-                                      .split("T")[0]),
-                                  if (dropdownValue == "Future")
-                                    GestureDetector(
-                                      child: Icon(FontAwesomeIcons.trash),
-                                      onTap: () {
+                                      .split('T')[0]),
+                                  if (dropdownValue == 'Future')
+                                    IconButton(
+                                      icon: const Icon(FontAwesomeIcons.trash),
+                                      onPressed: () {
                                         eventsBloc.removeEvent(
                                             currentList[index].id, email);
                                         eventsBloc
@@ -117,26 +127,16 @@ class _Bookings extends State<Bookings> {
                                         .startTime
                                         .substring(0, 5)
                                         .toString() +
-                                    "h - " +
+                                    'h - ' +
                                     currentList[index]
                                         .endTime
                                         .substring(0, 5)
                                         .toString() +
-                                    "h"),
+                                    'h'),
                               ],
                             )
                           ]),
                         )),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EventDetails(
-                                  event: currentList[index],
-                                  email: email,
-                                )),
-                      );
-                    },
                   );
                 }))
       ],
@@ -157,10 +157,11 @@ class _Bookings extends State<Bookings> {
         setState(() {
           dropdownValue = newValue;
 
-          if (newValue == "Future")
+          if (newValue == 'Future') {
             currentList = currentEventsList;
-          else
+          } else {
             currentList = pastEventsList;
+          }
         });
       },
       items: <String>['Future', 'Past']
@@ -170,46 +171,6 @@ class _Bookings extends State<Bookings> {
           child: Text(value),
         );
       }).toList(),
-    );
-  }
-
-  Widget appNavBar() {
-    int _selectedIndex = 0;
-    var _children = [
-      Home(email: email),
-      Search(email: email),
-      Bookings(email: email)
-    ];
-
-    return Scaffold(
-      appBar: AppBar(title: Text("R2UA"), actions: <Widget>[]),
-      body: IndexedStack(
-        children: _children,
-        index: _selectedIndex,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.book),
-            label: 'Bookings',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-      ),
     );
   }
 }
