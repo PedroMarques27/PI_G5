@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -8,10 +9,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:r2ua/BlocPattern/HomeBloc.dart';
 import 'package:r2ua/Entities/BuildingsUA.dart';
 import 'package:r2ua/Entities/Event.dart';
-import 'package:r2ua/BlocPattern/BuildingsUAData.dart';
-import 'package:r2ua/View/BuildingsClassrooms.dart';
+import 'package:r2ua/View/EventDetails.dart';
 
 import 'Bookings.dart';
+import 'BuildingsClassrooms.dart';
 import 'Search.dart';
 import 'package:r2ua/Entities/User.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
@@ -131,14 +132,14 @@ class _Home extends State<Home> {
             Expanded(
                 child: Column(
               children: <Widget>[
-                Text("Next Reservations", style: TextStyle(fontSize: 24.0)),
+                Text('Next Reservations', style: TextStyle(fontSize: 24.0)),
                 Expanded(
                     child: ListView.builder(
                         itemCount: events.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                               onTap: () {
-                                //goToEventDetails(context, email, events[index]);
+                                goToEventDetails(context, email, events[index]);
                               },
                               child: Container(
                                   margin: EdgeInsets.all(2),
@@ -190,7 +191,7 @@ class _Home extends State<Home> {
           ]);
         });
   }
-/*
+
   goToEventDetails(BuildContext context, String email, Event event) {
     Navigator.push(
       context,
@@ -198,7 +199,6 @@ class _Home extends State<Home> {
           builder: (context) => EventDetails(event: event, email: email)),
     );
   }
-  */
 
   @override
   void initState() {

@@ -1,41 +1,47 @@
 import 'dart:core';
 
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/Week.dart';
 
 class Event {
   String name, startTime, endTime, duration, sectionName, observations;
-  int id, day, numberPeople, eventTypeId;
+  int id, day, numberPeople, eventTypeId, classId;
+  DateFormat date = new DateFormat('yyyy-MM-dd');
   List<Week> weeks;
 
-  Event(
-      {this.id,
-      this.name,
-      this.startTime,
-      this.endTime,
-      this.duration,
-      this.sectionName,
-      this.observations,
-      this.day,
-      this.numberPeople,
-      this.eventTypeId,
-      this.weeks});
+  Event({
+    this.id,
+    this.name,
+    this.startTime,
+    this.endTime,
+    this.duration,
+    this.sectionName,
+    this.observations,
+    this.day,
+    this.numberPeople,
+    this.eventTypeId,
+    this.weeks,
+    this.classId,
+  });
 
   factory Event.fromJson(Map<String, dynamic> json) {
     Iterable l = json['weeks'];
     List<Week> _weeks = List<Week>.from(l.map((model) => Week.fromJson(model)));
 
     return Event(
-      id: json['id'],
-      startTime: json['startTime'],
-      endTime: json['endTime'],
-      duration: json['duration'],
-      sectionName: json['sectionName'],
-      observations: json['observations'],
-      day: json['day'],
-      numberPeople: json['numberPeople'],
-      eventTypeId: json['eventType']['id'],
-      weeks: _weeks,
-    );
+        id: json['id'],
+        startTime: json['startTime'],
+        endTime: json['endTime'],
+        duration: json['duration'],
+        sectionName: json['sectionName'],
+        observations: json['observations'],
+        day: json['day'],
+        numberPeople: json['numberPeople'],
+        eventTypeId: json['eventType']['id'],
+        weeks: _weeks,
+        classId: json['classrooms'][0]['id']);
   }
 }
 
@@ -52,8 +58,8 @@ class EventType {
   });
 
   factory EventType.fromJson(Map<String, dynamic> json) {
-    bool a = json['active'].toString().toLowerCase() == 'true';
-    bool b = json['setToAplication'].toString().toLowerCase() == 'true';
+    var a = json['active'].toString().toLowerCase() == 'true';
+    var b = json['setToAplication'].toString().toLowerCase() == 'true';
     return EventType(
         id: int.parse(json['name']),
         name: json['name'],
