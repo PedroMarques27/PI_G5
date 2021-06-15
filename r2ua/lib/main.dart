@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,11 +7,7 @@ import 'View/Bookings.dart';
 import 'View/Home.dart';
 import 'View/Search.dart';
 
-import 'package:flutter/material.dart';
-
-import 'BlocPattern/BuildingsUAData.dart';
-
-String email = "rfmf@ua.pt";
+String email = 'rfmf@ua.pt';
 void main() {
   runApp(MyApp());
 }
@@ -54,10 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("R2UA"), actions: <Widget>[]),
+      appBar: AppBar(title: Text('R2UA'), actions: <Widget>[]),
       body: IndexedStack(
-        children: _children,
         index: _selectedIndex,
+        children: _children,
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -90,12 +84,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    Geolocator location = new Geolocator();
+    var location = Geolocator();
 
     location.checkGeolocationPermissionStatus();
   }
 
-  var _children = [
+  final _children = [
     Home(email: email),
     Search(email: email),
     Bookings(email: email)

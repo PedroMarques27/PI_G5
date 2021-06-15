@@ -2,19 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 
-import 'Building.dart';
-import 'ClassroomGroups.dart';
-
 class Classroom {
-  int id, capacity, examCapacity;
-  int building;
-  String name, code, email;
-  bool active,
-      belongsToMyGroups,
-      canCreateAnEvent,
-      canRequestAnEvent,
-      isMyFavorite;
-  List<Characteristic> characteristics = new List<Characteristic>();
   Classroom({
     this.id,
     this.name,
@@ -32,14 +20,14 @@ class Classroom {
   });
 
   factory Classroom.fromJson(Map<String, dynamic> json) {
-    bool a = json['active'].toString().toLowerCase() == 'true';
-    bool b = json['belongsToMyGroups'].toString().toLowerCase() == 'true';
-    bool c = json['canCreateAnEvent'].toString().toLowerCase() == 'true';
-    bool d = json['canRequestAnEvent'].toString().toLowerCase() == 'true';
-    bool e = json['isMyFavorite'].toString().toLowerCase() == 'true';
+    var a = json['active'].toString().toLowerCase() == 'true';
+    var b = json['belongsToMyGroups'].toString().toLowerCase() == 'true';
+    var c = json['canCreateAnEvent'].toString().toLowerCase() == 'true';
+    var d = json['canRequestAnEvent'].toString().toLowerCase() == 'true';
+    var e = json['isMyFavorite'].toString().toLowerCase() == 'true';
 
     Iterable m = json['characteristics'];
-    List<Characteristic> _characteristics = List<Characteristic>.from(
+    var _characteristics = List<Characteristic>.from(
         m.map((model) => Characteristic.fromJson(model)));
 
     int build = json['building']['id'];
@@ -59,17 +47,25 @@ class Classroom {
         building: build,
         characteristics: _characteristics);
   }
+  List<Characteristic> characteristics = <Characteristic>[];
+  int id, capacity, examCapacity;
+  int building;
+  String name, code, email;
+  bool active,
+      belongsToMyGroups,
+      canCreateAnEvent,
+      canRequestAnEvent,
+      isMyFavorite;
 }
 
 class Characteristic {
-  int id;
-  String name;
-  bool active;
-
   Characteristic({this.id, this.name, this.active});
 
   factory Characteristic.fromJson(Map<String, dynamic> json) {
-    bool a = json['active'].toString().toLowerCase() == 'true';
+    var a = json['active'].toString().toLowerCase() == 'true';
     return Characteristic(id: json['id'], name: json['name'], active: a);
   }
+  int id;
+  String name;
+  bool active;
 }

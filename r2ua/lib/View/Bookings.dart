@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/BlocPattern/EventsBloc.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/View/EventDetails.dart';
-import 'package:r2ua/View/Home.dart';
-import 'package:r2ua/View/Search.dart';
 
 class Bookings extends StatefulWidget {
   Bookings({Key key, this.title, this.email}) : super(key: key);
@@ -20,8 +17,8 @@ class Bookings extends StatefulWidget {
 
 class _Bookings extends State<Bookings> {
   String email;
-  UserEvents userEvents = new UserEvents();
-  List<Event> currentList = new List<Event>();
+  UserEvents userEvents = UserEvents();
+  List<Event> currentList = <Event>[];
 
   @override
   Widget build(BuildContext context) {
@@ -46,18 +43,18 @@ class _Bookings extends State<Bookings> {
     });
   }
 
-  String dropdownValue = "Future";
-  List<Event> pastEventsList = new List<Event>();
-  List<Event> currentEventsList = new List<Event>();
+  String dropdownValue = 'Future';
+  List<Event> pastEventsList = <Event>[];
+  List<Event> currentEventsList = <Event>[];
 
   Widget _buildList(BuildContext context) {
     return Scaffold(
-        body: new Column(
+        body: Column(
       children: <Widget>[
         Dropdown(context),
         dropdownValue == 'Future'
-            ? Text("Next Reservations", style: TextStyle(fontSize: 24.0))
-            : Text("Past Reservations", style: TextStyle(fontSize: 24.0)),
+            ? Text('Next Reservations', style: TextStyle(fontSize: 24.0))
+            : Text('Past Reservations', style: TextStyle(fontSize: 24.0)),
         Expanded(
             child: ListView.builder(
                 itemCount: currentList.length,
@@ -80,7 +77,6 @@ class _Bookings extends State<Bookings> {
                           color: Colors.grey[200],
                           border: Border.all(
                             color: Colors.grey[300],
-                            width: 8,
                           ),
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -92,29 +88,50 @@ class _Bookings extends State<Bookings> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(currentList[index].name.toString(),
-                                      style: TextStyle(fontSize: 18)),
-                                  Text(currentList[index]
-                                      .weeks[0]
-                                      .beginning
-                                      .add(Duration(
-                                          days: currentList[index].day))
-                                      .toIso8601String()
-                                      .split('T')[0]),
+                                      style: TextStyle(fontSize: 15)),
+                                  Text(
+                                      currentList[index]
+                                              .weeks[0]
+                                              .beginning
+                                              .add(Duration(
+                                                  days: currentList[index].day))
+                                              .toIso8601String()
+                                              .split('T')[0]
+                                              .split('-')[2] +
+                                          '/' +
+                                          currentList[index]
+                                              .weeks[0]
+                                              .beginning
+                                              .add(Duration(
+                                                  days: currentList[index].day))
+                                              .toIso8601String()
+                                              .split('T')[0]
+                                              .split('-')[1] +
+                                          '/' +
+                                          currentList[index]
+                                              .weeks[0]
+                                              .beginning
+                                              .add(Duration(
+                                                  days: currentList[index].day))
+                                              .toIso8601String()
+                                              .split('T')[0]
+                                              .split('-')[0]
+                                              .substring(2) +
+                                          ' | ' +
+                                          currentList[index]
+                                              .startTime
+                                              .substring(0, 5)
+                                              .toString() +
+                                          'h - ' +
+                                          currentList[index]
+                                              .endTime
+                                              .substring(0, 5)
+                                              .toString() +
+                                          'h',
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold)),
                                 ]),
-                            Row(
-                              children: <Widget>[
-                                Text(currentList[index]
-                                        .startTime
-                                        .substring(0, 5)
-                                        .toString() +
-                                    'h - ' +
-                                    currentList[index]
-                                        .endTime
-                                        .substring(0, 5)
-                                        .toString() +
-                                    'h'),
-                              ],
-                            )
                           ]),
                         )),
                   );

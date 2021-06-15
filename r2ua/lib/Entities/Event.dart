@@ -5,11 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:r2ua/Entities/Week.dart';
 
 class Event {
-  String name, startTime, endTime, duration, sectionName, observations;
-  int id, day, numberPeople, eventTypeId, classId;
-  DateFormat date = DateFormat('yyyy-MM-dd');
-  List<Week> weeks;
-
   Event({
     this.id,
     this.name,
@@ -27,7 +22,7 @@ class Event {
 
   factory Event.fromJson(Map<String, dynamic> json) {
     Iterable l = json['weeks'];
-    List<Week> _weeks = List<Week>.from(l.map((model) => Week.fromJson(model)));
+    var _weeks = List<Week>.from(l.map((model) => Week.fromJson(model)));
 
     return Event(
         id: json['id'],
@@ -38,18 +33,19 @@ class Event {
         sectionName: json['sectionName'],
         observations: json['observations'],
         day: json['day'],
-        numberPeople: json['numberPeople'],
+        numberPeople: json['numStudents'],
         eventTypeId: json['eventType']['id'],
         weeks: _weeks,
         classId: json['classrooms'][0]['id']);
   }
+  String name, startTime, endTime, duration, sectionName, observations;
+  int id, day, numberPeople, eventTypeId, classId;
+  DateFormat date = DateFormat('yyyy-MM-dd');
+  List<Week> weeks;
+
 }
 
 class EventType {
-  int id;
-  String name;
-  bool active, setToAplication;
-
   EventType({
     this.id,
     this.name,
@@ -58,12 +54,16 @@ class EventType {
   });
 
   factory EventType.fromJson(Map<String, dynamic> json) {
-    bool a = json['active'].toString().toLowerCase() == 'true';
-    bool b = json['setToAplication'].toString().toLowerCase() == 'true';
+    var a = json['active'].toString().toLowerCase() == 'true';
+    var b = json['setToAplication'].toString().toLowerCase() == 'true';
     return EventType(
         id: int.parse(json['name']),
         name: json['name'],
         active: a,
         setToAplication: b);
   }
+  int id;
+  String name;
+  bool active, setToAplication;
+
 }

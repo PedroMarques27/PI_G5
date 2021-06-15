@@ -27,31 +27,31 @@ class BuildingBloc {
     final response = await http.get(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        HttpHeaders.contentTypeHeader: "application/json",
-        "Access-Control-Allow-Origin": "*"
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     );
     Iterable l = json.decode(response.body)['data'];
-    List<Building> buildings =
+    var buildings =
         List<Building>.from(l.map((model) => Building.fromJson(model)));
 
     return buildings;
   }
 
   void getAllBuildings() async {
-    List<Building> builds = await getData("/api/Buildings/active");
+    var builds = await getData('/api/Buildings/active');
     update(builds);
   }
 
   Future<Building> getBuildingById(int id) async {
-    var uri = Uri.https(BASE_URL, ("/api/Buildings/" + id.toString()));
+    var uri = Uri.https(BASE_URL, ('/api/Buildings/' + id.toString()));
     final response = await http.get(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        HttpHeaders.contentTypeHeader: "application/json",
-        "Access-Control-Allow-Origin": "*"
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     );
     return Building.fromJson(json.decode(response.body)['data']);

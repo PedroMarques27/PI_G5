@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/Entities/Event.dart';
-import 'package:r2ua/View/Home.dart';
 import 'package:r2ua/main.dart';
 
 // ignore: must_be_immutable
@@ -34,7 +33,6 @@ class _EventDetails extends State<EventDetails> {
       'Thursday',
       'Friday'
     ];
-
     return Scaffold(
         appBar:
             AppBar(title: Text('Event: ' + _event.name), actions: <Widget>[]),

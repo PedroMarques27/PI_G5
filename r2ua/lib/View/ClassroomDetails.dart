@@ -8,14 +8,14 @@ import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/Entities/Week.dart';
 import 'package:r2ua/View/CreateEvent.dart';
-import 'package:r2ua/main.dart';
 
 class ClassroomDetails extends StatefulWidget {
+  ClassroomDetails({Key key, this.classroom, this.building, this.email})
+      : super(key: key);
+
   Classroom classroom;
   Building building;
   String email;
-  ClassroomDetails({Key key, this.classroom, this.building, this.email})
-      : super(key: key);
 
   @override
   _ClassroomDetails createState() => _ClassroomDetails();
@@ -68,40 +68,15 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                   margin:
                       EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 10),
                   padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
                   child: Column(children: [
                     Text(_classroom.name, style: TextStyle(fontSize: 22.0)),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text('', style: TextStyle(fontSize: 14.0)),
-                          Row(children: <Widget>[
-                            Text(_classroom.capacity.toString(),
-                                style: TextStyle(fontSize: 14.0)),
-                            Icon(FontAwesomeIcons.users),
-                          ]),
-                          Text(
-                              'Exam Capacity: ' +
-                                  _classroom.examCapacity.toString(),
-                              style: TextStyle(fontSize: 14.0)),
-                          Text('Id: ' + _classroom.id.toString(),
-                              style: TextStyle(fontSize: 14.0)),
-                        ]),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Text('', style: TextStyle(fontSize: 14.0)),
+                      Row(children: <Widget>[
+                        Text('Capacity: ' + _classroom.capacity.toString(),
+                            style: TextStyle(fontSize: 14.0)),
+                      ]),
+                    ]),
                     Text(''),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -124,6 +99,10 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                                   Icon(FontAwesomeIcons.arrowAltCircleRight)),
                         ]),
                     Text('', style: TextStyle(fontSize: 22.0)),
+                    Text('Unavailable Times',
+                        style: TextStyle(
+                            fontSize: 17.0,
+                            decoration: TextDecoration.underline)),
                   ]),
                 )),
             Expanded(
@@ -137,15 +116,89 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                       return ListView.builder(
                           itemCount: 5,
                           itemBuilder: (BuildContext ctx, int ind) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                    weekDays[ind] +
-                                        ' - ' +
-                                        formatter.format(days[ind]),
-                                    style: TextStyle(fontSize: 18)),
-                                ListView.builder(
+                            return Container(
+                                margin: EdgeInsets.all(2),
+                                padding: EdgeInsets.all(2.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  border: Border.all(
+                                    color: Colors.grey[300],
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(weekDays[ind],
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        Text(formatter.format(days[ind]),
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
+                                    Container(
+                                      child: ListView.builder(
+                                          itemCount: currentList.length,
+                                          physics: ClampingScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            if (currentList[index].day == ind) {
+                                              return Container(
+                                                  child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              .0),
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: <Widget>[
+                                                            Text(
+                                                                currentList[
+                                                                                index]
+                                                                            .startTime
+                                                                            .toString()
+                                                                            .split(':')[
+                                                                        0] +
+                                                                    ':' +
+                                                                    currentList[index]
+                                                                            .startTime
+                                                                            .toString()
+                                                                            .split(':')[
+                                                                        1] +
+                                                                    'h - ' +
+                                                                    currentList[index]
+                                                                            .endTime
+                                                                            .toString()
+                                                                            .split(':')[
+                                                                        0] +
+                                                                    ':' +
+                                                                    currentList[
+                                                                            index]
+                                                                        .endTime
+                                                                        .toString()
+                                                                        .split(
+                                                                            ':')[1] +
+                                                                    'h',
+                                                                style: TextStyle(fontSize: 14)),
+                                                            Text(' ',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        22))
+                                                          ])));
+                                            }
+                                            return Container();
+                                          }),
+                                    ),
+                                    /* ListView.builder(
                                     itemCount: currentList.length,
                                     physics: ClampingScrollPhysics(),
                                     shrinkWrap: true,
@@ -155,12 +208,11 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                                         return GestureDetector(
                                             child: Container(
                                                 margin: EdgeInsets.all(2),
-                                                padding: EdgeInsets.all(6.0),
+                                                padding: EdgeInsets.all(2.0),
                                                 decoration: BoxDecoration(
                                                   color: Colors.grey[200],
                                                   border: Border.all(
                                                     color: Colors.grey[300],
-                                                    width: 8,
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.circular(12),
@@ -175,25 +227,46 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                                                                 .spaceBetween,
                                                         children: <Widget>[
                                                           Text(
-                                                              currentList[index]
-                                                                      .startTime
-                                                                      .toString() +
-                                                                  '-' +
-                                                                  currentList[
-                                                                          index]
-                                                                      .endTime
-                                                                      .toString(),
+                                                              currentList[
+                                                                              index]
+                                                                          .startTime
+                                                                          .toString()
+                                                                          .split(
+                                                                              ':')[
+                                                                      0] +
+                                                                  ':' +
+                                                                  currentList[index]
+                                                                          .startTime
+                                                                          .toString()
+                                                                          .split(
+                                                                              ':')[
+                                                                      1] +
+                                                                  'h - ' +
+                                                                  currentList[index]
+                                                                          .endTime
+                                                                          .toString()
+                                                                          .split(
+                                                                              ':')[
+                                                                      0] +
+                                                                  ':' +
+                                                                  currentList[index]
+                                                                          .endTime
+                                                                          .toString()
+                                                                          .split(
+                                                                              ':')[
+                                                                      1] +
+                                                                  'h',
                                                               style: TextStyle(
                                                                   fontSize:
-                                                                      18)),
+                                                                      14)),
                                                         ])
                                                   ]),
                                                 )));
                                       }
                                       return Container();
-                                    }),
-                              ],
-                            );
+                                    }), */
+                                  ],
+                                ));
                             // design of date space
                             /* padding: EdgeInsets.all(8),
                         children: <Widget>[

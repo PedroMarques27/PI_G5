@@ -27,35 +27,35 @@ class ClassroomsBloc {
     final response = await http.get(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        HttpHeaders.contentTypeHeader: "application/json",
-        "Access-Control-Allow-Origin": "*"
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     );
     Iterable l = json.decode(response.body)['data'];
-    List<Classroom> classroom =
+    var classroom =
         List<Classroom>.from(l.map((model) => Classroom.fromJson(model)));
 
     return classroom;
   }
 
   Future<Classroom> getClassroomById(int id) async {
-    var uri = Uri.https(BASE_URL, "/api/Classrooms/" + id.toString());
+    var uri = Uri.https(BASE_URL, '/api/Classrooms/' + id.toString());
     final response = await http.get(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        HttpHeaders.contentTypeHeader: "application/json",
-        "Access-Control-Allow-Origin": "*"
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     );
     return Classroom.fromJson(json.decode(response.body)['data']);
   }
 
   Future<List<Classroom>> getClassroomsByIdList(List<int> classIDs) async {
-    List<Classroom> classes = new List<Classroom>();
+    var classes = <Classroom>[];
     for (var id in classIDs) {
-      Classroom c = await getClassroomById(id);
+      var c = await getClassroomById(id);
       classes.add(c);
     }
     update(classes);

@@ -28,9 +28,9 @@ class UsersBloc {
     final response = await http.get(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        HttpHeaders.contentTypeHeader: "application/json",
-        "Access-Control-Allow-Origin": "*"
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     );
 
@@ -38,7 +38,7 @@ class UsersBloc {
     // pattern.allMatches(response.body).forEach((match) => print(match.group(0)));
 
     Iterable l = json.decode(response.body)['data'];
-    List<User> users = List<User>.from(l.map((model) => User.fromJson(model)));
+    var users = List<User>.from(l.map((model) => User.fromJson(model)));
 
     // Map<String, dynamic> myMap = json.decode(response.body);
     // List<dynamic> entitlements = myMap["data"][0]["Entitlements"];
@@ -57,14 +57,14 @@ class UsersBloc {
 
   void getCurrentUser(String email) async {
     debugPrint(
-        "HERE---------------------------------------------------------------");
-    List<User> users = await getData("/api/Users");
-    int x = users.length;
+        'HERE---------------------------------------------------------------');
+    var users = await getData('/api/Users');
+    var x = users.length;
     debugPrint('no USERs: $x');
-    for (User u in users) {
+    for (var u in users) {
       if (u.email == email) {
         update(u);
-        String y = u.userName;
+        var y = u.userName;
         debugPrint('USER: $y');
         return;
       }

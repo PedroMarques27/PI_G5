@@ -3,10 +3,8 @@ import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:hive/hive.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/Entities/BuildingsUA.dart';
-import 'package:geolocator/geolocator.dart';
 
 var buildingsUA = <BuildingsUA>[
   BuildingsUA(
@@ -136,7 +134,7 @@ class BuildingUAData {
     //box values
     //var list = box.values.toList();
     //ADD buildings IDS
-    var buildingsIds = new List<int>();
+    var buildingsIds = <int>[];
 
     for (var b in buildings) {
       buildingsIds.add(b.building.id);
@@ -149,10 +147,8 @@ class BuildingUAData {
         await g.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     var buildingsUADistance = <BuildingDistance>[];
-    var i = 0;
-    for (var b in buildingsUA) {
-      i++;
 
+    for (var b in buildingsUA) {
       if (buildingsIds.contains(b.brbBuildingId)) {
         var distanceInMeters = await g.distanceBetween(
             position.latitude, position.longitude, b.lat, b.long);

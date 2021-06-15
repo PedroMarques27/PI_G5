@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:r2ua/BlocPattern/PostEventBloc.dart';
 import 'package:r2ua/BlocPattern/UnavailableEventsBloc.dart';
 import 'package:r2ua/BlocPattern/WeekBloc.dart';
@@ -40,7 +37,7 @@ class BrbBloc {
   Stream<User> userSubscription = usersBloc.getUser;
   void initialize(String email) {
     userSubscription.listen((newuser) {
-      this.currentUser = newuser as User;
+      currentUser = newuser;
       getClassroomGroupsBuildings(currentUser.classroomGroupsId);
     });
     usersBloc.getCurrentUser(email);
@@ -49,20 +46,19 @@ class BrbBloc {
   }
 
   void getClassroomGroupsBuildings(List<int> groupsIds) async {
-    List<ClassroomGroup> classGroups = new List<ClassroomGroup>();
+    var classGroups = <ClassroomGroup>[];
     for (var id in groupsIds) {
       classGroups.add(await classroomGroupsBloc.getCurrentClassroomGroup(id));
     }
-    HashSet<int> classroomsIds = new HashSet<int>();
+    var classroomsIds = HashSet<int>();
     for (var classG in classGroups) {
       classroomsIds.addAll(classG.classrooms);
     }
 
-    HashSet<Classroom> classes = new HashSet<Classroom>();
-    HashMap<int, Building> codesBuildings = new HashMap();
-    List<BuildCount> data = new List<BuildCount>();
+    var codesBuildings = HashMap<int, Building>();
+    var data = <BuildCount>[];
     for (var classId in classroomsIds) {
-      Classroom cs = (await classroomsBloc.getClassroomById(classId));
+      var cs = (await classroomsBloc.getClassroomById(classId));
 
       Building currentBuilding;
       if (codesBuildings.containsKey(cs.building)) {
@@ -76,9 +72,9 @@ class BrbBloc {
       } else {
         currentBuilding = await buildingBloc.getBuildingById(cs.building);
         codesBuildings[cs.building] = currentBuilding;
-        List<Classroom> _temp = new List<Classroom>();
+        var _temp = <Classroom>[];
         _temp.add(cs);
-        data.add(new BuildCount(
+        data.add(BuildCount(
             building: currentBuilding, classrooms: _temp, count: 1));
       }
     }
@@ -106,15 +102,15 @@ class BrbBloc {
 }
 
 class BuildCount {
+  BuildCount({this.building, this.count, this.classrooms});
   Building building;
   int count;
   List<Classroom> classrooms;
-  BuildCount({this.building, this.count, this.classrooms});
 }
 
-final buildingsUAData = new BuildingUAData();
-final weekBloc = new WeekBloc();
-final eventsBloc = new EventsBloc();
+final buildingsUAData = BuildingUAData();
+final weekBloc = WeekBloc();
+final eventsBloc = EventsBloc();
 final usersBloc = UsersBloc();
 final buildingBloc = BuildingBloc();
 final classroomGroupsBloc = ClassroomGroupsBloc();

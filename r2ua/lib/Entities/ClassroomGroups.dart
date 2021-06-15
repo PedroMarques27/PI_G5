@@ -1,12 +1,6 @@
 import 'dart:core';
 
-import 'Building.dart';
-
 class ClassroomGroup {
-  String name, id;
-  bool canCreateAnEvent, canRequestAnEvent;
-  List<Owner> owners = new List<Owner>();
-  List<int> classrooms = new List<int>();
   ClassroomGroup({
     this.id,
     this.name,
@@ -17,15 +11,16 @@ class ClassroomGroup {
   });
 
   factory ClassroomGroup.fromJson(Map<String, dynamic> json) {
-    bool c = json['canCreateAnEvent'].toString().toLowerCase() == 'true';
-    bool d = json['canRequestAnEvent'].toString().toLowerCase() == 'true';
+    var c = json['canCreateAnEvent'].toString().toLowerCase() == 'true';
+    var d = json['canRequestAnEvent'].toString().toLowerCase() == 'true';
 
     Iterable l = json['classroomGroupOwners']['owners'];
-    List<Owner> _owners =
-        List<Owner>.from(l.map((model) => Owner.fromJson(model)));
+    var _owners = List<Owner>.from(l.map((model) => Owner.fromJson(model)));
 
-    List<int> classes = new List<int>();
-    for (var item in json['classrooms'] as List) classes.add(item['id']);
+    var classes = <int>[];
+    for (var item in json['classrooms'] as List) {
+      classes.add(item['id']);
+    }
 
     return ClassroomGroup(
       id: json['id'].toString(),
@@ -36,29 +31,34 @@ class ClassroomGroup {
       classrooms: classes,
     );
   }
+
+  String name, id;
+  bool canCreateAnEvent, canRequestAnEvent;
+  List<Owner> owners = <Owner>[];
+  List<int> classrooms = <int>[];
 }
 
 class Owner {
-  String name, email, phone;
-
   Owner({this.name, this.email, this.phone});
 
   factory Owner.fromJson(Map<String, dynamic> json) {
     return Owner(
         name: json['name'], email: json['email'], phone: json['phone']);
   }
+
+  String name, email, phone;
 }
 
 class Characteristic {
-  int id;
-  String name;
-  bool active;
-
   Characteristic({this.id, this.name, this.active});
 
   factory Characteristic.fromJson(Map<String, dynamic> json) {
-    bool a = json['active'].toString().toLowerCase() == 'true';
+    var a = json['active'].toString().toLowerCase() == 'true';
     return Characteristic(
         id: int.parse(json['name']), name: json['name'], active: a);
   }
+
+  int id;
+  String name;
+  bool active;
 }

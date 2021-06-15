@@ -28,14 +28,14 @@ class ClassroomGroupsBloc {
     final response = await http.get(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        HttpHeaders.contentTypeHeader: "application/json",
-        "Access-Control-Allow-Origin": "*"
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     );
 
     Iterable l = json.decode(response.body)['data'];
-    List<ClassroomGroup> classroom = List<ClassroomGroup>.from(
+    var classroom = List<ClassroomGroup>.from(
         l.map((model) => ClassroomGroup.fromJson(model)));
 
     return classroom;
@@ -43,13 +43,13 @@ class ClassroomGroupsBloc {
 
   Future<ClassroomGroup> getCurrentClassroomGroup(int id) async {
     var uri =
-        Uri.https(BASE_URL, "/api/ClassroomGroupBooking/" + id.toString());
+        Uri.https(BASE_URL, '/api/ClassroomGroupBooking/' + id.toString());
     final response = await http.get(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        HttpHeaders.contentTypeHeader: "application/json",
-        "Access-Control-Allow-Origin": "*"
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     );
     return ClassroomGroup.fromJson(json.decode(response.body)['data']);

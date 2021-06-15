@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:r2ua/BlocPattern/EventPost.dart';
-
 import 'Week.dart';
 
 EventPost eventPostFromJson(String str) => EventPost.fromJson(json.decode(str));
@@ -9,16 +7,6 @@ EventPost eventPostFromJson(String str) => EventPost.fromJson(json.decode(str));
 String eventPostToJson(EventPost data) => json.encode(data.toJson());
 
 class EventPost {
-  String name, startTime, endTime, day, sectionName, observations, requestedBy;
-  int id,
-      numStudents,
-      eventTypeId,
-      weekId,
-      statusWeek,
-      classroomId,
-      statusClassroom;
-  List<Week> weeks;
-
   EventPost({
     this.name,
     this.startTime,
@@ -34,8 +22,6 @@ class EventPost {
   });
 
   factory EventPost.fromJson(Map<String, dynamic> json) {
-    Iterable l = json['weeks'];
-    List<Week> _weeks = List<Week>.from(l.map((model) => Week.fromJson(model)));
 
     return EventPost(
       name: json['name'],
@@ -49,6 +35,16 @@ class EventPost {
       classroomId: json['classroomId'],
     );
   }
+
+  String name, startTime, endTime, day, sectionName, observations, requestedBy;
+  int id,
+      numStudents,
+      eventTypeId,
+      weekId,
+      statusWeek,
+      classroomId,
+      statusClassroom;
+  List<Week> weeks;
 
   Map<String, dynamic> toJson() => {
         'name': name,

@@ -38,6 +38,7 @@ class _Home extends State<Home> {
   }
 
   Widget _buildList(BuildContext context) {
+    var weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
     eventsBloc.searchEventsByUser(email, 3);
     return StreamBuilder(
         stream: homeBloc.getHomeData,
@@ -138,10 +139,7 @@ class _Home extends State<Home> {
                                   padding: EdgeInsets.all(6.0),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
-                                    border: Border.all(
-                                      color: Colors.grey[300],
-                                      width: 8,
-                                    ),
+                                    border: Border.all(color: Colors.grey[300]),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Padding(
@@ -162,6 +160,8 @@ class _Home extends State<Home> {
                                                 .split('T')[0]),
                                           ]),
                                       Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Text(events[index]
                                                   .startTime
@@ -173,6 +173,7 @@ class _Home extends State<Home> {
                                                   .toString()
                                                   .substring(0, 5) +
                                               'h'),
+                                          Text(weekDays[events[index].day])
                                         ],
                                       )
                                     ]),

@@ -25,38 +25,38 @@ class UnavailableEventsBloc {
 
   Future<List<Event>> searchUnavailableEventsByWeekByClassroom(
       String weekStartDate, int classId) async {
-    var uri = Uri.https(BASE_URL, ("/api/Events/search"));
+    var uri = Uri.https(BASE_URL, ('/api/Events/search'));
     final response = await http.post(uri,
         headers: {
-          HttpHeaders.authorizationHeader: "Bearer $token",
-          HttpHeaders.contentTypeHeader: "application/json",
-          "Access-Control-Allow-Origin": "*"
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: 'application/json',
+          'Access-Control-Allow-Origin': '*'
         },
         body: jsonEncode({
-          "page": 1,
-          "pageSize": 100,
-          "sorts": [
-            {"path": "Day", "ascending": true},
-            {"path": "StartTime", "ascending": true}
+          'page': 1,
+          'pageSize': 100,
+          'sorts': [
+            {'path': 'Day', 'ascending': true},
+            {'path': 'StartTime', 'ascending': true}
           ],
-          "filters": [
+          'filters': [
             {
-              "and": true,
-              "type": 0,
-              "not": false,
-              "value": weekStartDate,
-              "path": "EventWeek.Week.StartDate"
+              'and': true,
+              'type': 0,
+              'not': false,
+              'value': weekStartDate,
+              'path': 'EventWeek.Week.StartDate'
             },
             {
-              "and": true,
-              "type": 0,
-              "not": false,
-              "value": classId,
-              "path": "EventClassroom.Classroom.Id"
+              'and': true,
+              'type': 0,
+              'not': false,
+              'value': classId,
+              'path': 'EventClassroom.Classroom.Id'
             }
           ],
-          "groups": [],
-          "aggregates": []
+          'groups': [],
+          'aggregates': []
         }));
 
     List<Event> userEvents;

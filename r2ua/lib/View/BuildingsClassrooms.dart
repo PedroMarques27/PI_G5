@@ -7,16 +7,16 @@ import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/View/ClassroomDetails.dart';
 
 class BuildingsClassrooms extends StatefulWidget {
+  BuildingsClassrooms({Key key, this.buildCount, this.email}) : super(key: key);
   BuildCount buildCount;
   String email;
-  BuildingsClassrooms({Key key, this.buildCount, this.email}) : super(key: key);
 
   @override
   _BuildingsClassrooms createState() => _BuildingsClassrooms();
 }
 
 class _BuildingsClassrooms extends State<BuildingsClassrooms> {
-  String dropdownCharacteristics = "No filter";
+  String dropdownCharacteristics = 'No filter';
   List<Classroom> fullInitialList;
   List<Classroom> current;
   BuildCount bC;
@@ -33,46 +33,20 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
 
   @override
   Widget build(BuildContext context) {
-    String email = widget.email;
+    var email = widget.email;
 
     return Scaffold(
         appBar: AppBar(
-            title: Text(bC.building.name + " Classrooms "),
+            title: Text(bC.building.name + ' Classrooms '),
             actions: <Widget>[]),
         body: Column(
           children: <Widget>[
-            Container(
-                margin:
-                    EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 10),
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(bC.building.name + " Classrooms",
-                        style: TextStyle(fontSize: 22.0)),
-                  ],
-                )),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
                   icon: FaIcon(FontAwesomeIcons.sortAlphaDown),
+                  iconSize: 20,
                   tooltip: 'Sort By Alpha',
                   onPressed: () {
                     setState(() {
@@ -82,6 +56,7 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
                 ),
                 IconButton(
                   icon: FaIcon(FontAwesomeIcons.sortAlphaUp),
+                  iconSize: 20,
                   tooltip: 'Sort By Alpha',
                   onPressed: () {
                     setState(() {
@@ -91,6 +66,7 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
                 ),
                 IconButton(
                   icon: FaIcon(FontAwesomeIcons.sortNumericDown),
+                  iconSize: 20,
                   tooltip: 'Sort By Capacity',
                   onPressed: () {
                     setState(() {
@@ -100,6 +76,7 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
                 ),
                 IconButton(
                   icon: FaIcon(FontAwesomeIcons.sortNumericUp),
+                  iconSize: 20,
                   tooltip: 'Sort By Capacity',
                   onPressed: () {
                     setState(() {
@@ -120,6 +97,10 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
               itemCount: current.length,
               itemBuilder: (context, position) {
                 return GestureDetector(
+                  onTap: () {
+                    goToClassroomDetailsPage(
+                        context, current[position], bC.building, email);
+                  },
                   child: Container(
                     margin: EdgeInsets.all(2),
                     padding: EdgeInsets.all(6.0),
@@ -127,7 +108,6 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
                       color: Colors.grey[200],
                       border: Border.all(
                         color: Colors.grey[300],
-                        width: 8,
                       ),
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -157,10 +137,6 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
                               )
                             ])),
                   ),
-                  onTap: () {
-                    goToClassroomDetailsPage(
-                        context, current[position], bC.building, email);
-                  },
                 );
               },
             ))
@@ -197,8 +173,7 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
           current = filterClassroomsByCharacteristic(newValue);
         });
       },
-      items: this
-          .getClassroomsCharacteristics(bC.classrooms)
+      items: getClassroomsCharacteristics(bC.classrooms)
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
@@ -209,23 +184,28 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
   }
 
   Set<String> getClassroomsCharacteristics(List<Classroom> classes) {
-    Set<String> characteristics = Set<String>();
-    characteristics.add("No filter");
-    for (Classroom c in classes)
-      for (Characteristic charac in c.characteristics)
+    var characteristics = <String>{};
+    characteristics.add('No filter');
+    for (var c in classes) {
+      for (var charac in c.characteristics) {
         characteristics.add(charac.name);
+      }
+    }
 
     return characteristics;
   }
 
   List<Classroom> filterClassroomsByCharacteristic(String characteristic) {
-    List<Classroom> rightClasses = List<Classroom>();
-    if (characteristic == "No filter")
+    var rightClasses = <Classroom>[];
+    if (characteristic == 'No filter') {
       rightClasses = fullInitialList;
-    else
-      for (Classroom c in fullInitialList)
-        for (Characteristic charac in c.characteristics)
+    } else {
+      for (var c in fullInitialList) {
+        for (var charac in c.characteristics) {
           if (charac.name == characteristic) rightClasses.add(c);
+        }
+      }
+    }
 
     return rightClasses;
   }

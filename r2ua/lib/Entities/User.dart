@@ -3,11 +3,6 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 
 class User {
-  String id, userName, email;
-  int profileId;
-  bool isActive, isAdmin;
-  List<int> classroomGroupsId;
-  List<int> events;
   User(
       {this.id,
       this.userName,
@@ -19,20 +14,23 @@ class User {
       this.events});
 
   factory User.fromJson(Map<String, dynamic> json) {
-    bool a = json['isActive'].toString().toLowerCase() == 'true';
-    bool b = json['isAdmin'].toString().toLowerCase() == 'true';
-    List<int> classes = new List<int>();
-    List<int> evs = new List<int>();
+    var a = json['isActive'].toString().toLowerCase() == 'true';
+    var b = json['isAdmin'].toString().toLowerCase() == 'true';
+    var classes = <int>[];
+    var evs = <int>[];
 
-    int _profileId = null;
+    int _profileId;
 
-    if (json['userClassroomGroupBookings'] as List != [])
-      for (var item in json['userClassroomGroupBookings'] as List)
+    if (json['userClassroomGroupBookings'] as List != []) {
+      for (var item in json['userClassroomGroupBookings'] as List) {
         classes.add(item['id']);
-
-    if (json['eventUsers'] as List != [])
-      for (var item in json['eventUsers'] as List) evs.add(item['id']);
-
+      }
+    }
+    if (json['eventUsers'] as List != []) {
+      for (var item in json['eventUsers'] as List) {
+        evs.add(item['id']);
+      }
+    }
     if (json['profile'] != null) {
       _profileId = json['profile']['id'];
     }
@@ -47,4 +45,9 @@ class User {
         events: evs,
         classroomGroupsId: classes);
   }
+  String id, userName, email;
+  int profileId;
+  bool isActive, isAdmin;
+  List<int> classroomGroupsId;
+  List<int> events;
 }

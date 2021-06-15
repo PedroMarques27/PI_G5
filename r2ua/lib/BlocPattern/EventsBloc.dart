@@ -68,6 +68,7 @@ class EventsBloc {
   }
 
   Future<List<Event>> searchEventsByUser(String email, int number) async {
+    var weekDay = DateTime.now().weekday;
     var uri = Uri.https(BASE_URL, ('/api/Events/search'));
     final response = await http.post(uri,
         headers: {
@@ -94,10 +95,11 @@ class EventsBloc {
               'type': 8,
               'not': false,
               'value': DateTime.now()
-                  .subtract(Duration(days: DateTime.now().weekday))
-                  .toIso8601String(),
+                  .subtract(Duration(days: DateTime.now().weekday - 1))
+                  .toIso8601String()
+                  .split('T')[0],
               'path': 'EventWeek.Week.StartDate'
-            }
+            },
           ],
           'groups': [],
           'aggregates': []
@@ -123,8 +125,9 @@ class EventsBloc {
           'type': 8,
           'not': false,
           'value': DateTime.now()
-              .subtract(Duration(days: DateTime.now().weekday))
-              .toIso8601String(),
+              .subtract(Duration(days: DateTime.now().weekday - 1))
+              .toIso8601String()
+              .split('T')[0],
           'path': 'EventWeek.Week.StartDate'
         }
       ],
@@ -135,6 +138,24 @@ class EventsBloc {
     if (json.decode(response.body)['data']['data'] != []) {
       Iterable l = json.decode(response.body)['data']['data'];
       userEvents = List<Event>.from(l.map((model) => Event.fromJson(model)));
+      /* debugPrint('before remove');
+      for (var e in userEvents) {
+        
+        if (e.weeks.length == 1 &&
+            e.weeks[0].beginning.toString().split(' ')[0] ==
+                DateTime.now()
+                    .subtract(Duration(days: DateTime.now().weekday - 1))
+                    .toIso8601String()
+                    .split('T')[0]) {
+          if (e.day < DateTime.now().weekday - 1) {
+            userEvents.remove(e);
+          }
+        }
+      }
+      debugPrint('After remove');
+      for (var e in userEvents) {
+        debugPrint(e.name);
+      } */
     }
     update(userEvents);
 
@@ -142,6 +163,9 @@ class EventsBloc {
   }
 
   Future<List<Event>> searchPastEventsByUser(String email) async {
+    
+    var weekDay = DateTime.now().weekday;
+    
     var uri = Uri.https(BASE_URL, ('/api/Events/search'));
     final response = await http.post(uri,
         headers: {
@@ -157,7 +181,7 @@ class EventsBloc {
           ],
           'filters': [
             {
-              'and': false,
+              'and': true,
               'type': 1,
               'not': false,
               'value': email,
@@ -168,23 +192,55 @@ class EventsBloc {
               'type': 7,
               'not': false,
               'value': DateTime.now()
-                  .subtract(Duration(days: DateTime.now().weekday))
+                  .add(Duration(days: 8 - DateTime.now().weekday))
                   .toIso8601String(),
               'path': 'EventWeek.Week.StartDate'
             },
             {
               'and': true,
-              'type': 6,
+              'type': 9,
               'not': false,
-              'value': DateTime.now()
-                  .subtract(Duration(days: 30 + DateTime.now().weekday))
-                  .toIso8601String(),
-              'path': 'EventWeek.Week.StartDate'
+              'value': weekDay,
+              'path': 'Day'
             }
           ],
           'groups': [],
           'aggregates': []
         }));
+    debugPrint(jsonEncode({
+      'page': 1,
+      'pageSize': 10,
+      'sorts': [
+        {'path': 'Day', 'ascending': true}
+      ],
+      'filters': [
+        {
+          'and': true,
+          'type': 1,
+          'not': false,
+          'value': email,
+          'path': 'EventUser.User.UserName'
+        },
+        {
+          'and': true,
+          'type': 7,
+          'not': false,
+          'value': DateTime.now()
+              .add(Duration(days: 8 - DateTime.now().weekday))
+              .toIso8601String(),
+          'path': 'EventWeek.Week.StartDate'
+        },
+        {
+          'and': true,
+          'type': 9,
+          'not': false,
+          'value': weekDay - 1,
+          'path': 'Day'
+        }
+      ],
+      'groups': [],
+      'aggregates': []
+    }));
 
     List<Event> userEvents;
 
@@ -219,12 +275,7 @@ class EventsBloc {
             {'key': 'string', 'value': 'string'}
           ]
         }));
-    debugPrint(jsonEncode({
-      'identifiers': [eventId],
-      'propertyBags': [
-        {'key': 'string', 'value': 'string'}
-      ]
-    }));
+    
     if (response.statusCode == 201) {
       await searchEventsByUser(email, 3);
       return true;
@@ -261,7 +312,7 @@ class EventsBloc {
       update(events);
       return events;
     }
-    var events = new List<Event>();
+    var events = <Event>[];
     update(events);
     return events;
   }

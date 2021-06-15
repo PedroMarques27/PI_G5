@@ -4,6 +4,13 @@ part 'BuildingsUA.g.dart';
 
 @HiveType(typeId: 0)
 class BuildingsUA {
+  BuildingsUA(
+      {@required this.brbBuildingName,
+      this.brbBuildingId,
+      this.realBuildingName,
+      this.lat,
+      this.long});
+
   @HiveField(0)
   final String brbBuildingName;
 
@@ -18,11 +25,4 @@ class BuildingsUA {
 
   @HiveField(4)
   final double long;
-
-  BuildingsUA(
-      {@required this.brbBuildingName,
-      this.brbBuildingId,
-      this.realBuildingName,
-      this.lat,
-      this.long});
 }

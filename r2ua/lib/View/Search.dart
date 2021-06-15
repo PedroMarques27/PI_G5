@@ -41,13 +41,6 @@ class _Search extends State<Search> {
               Container(
                   margin: EdgeInsets.all(2),
                   padding: EdgeInsets.all(6.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    border: Border.all(
-                      color: Colors.grey[300],
-                      width: 2,
-                    ),
-                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -59,6 +52,7 @@ class _Search extends State<Search> {
                           IconButton(
                             icon: FaIcon(FontAwesomeIcons.sortAlphaDown),
                             tooltip: 'Sort By Alpha',
+                            iconSize: 20,
                             onPressed: () {
                               setState(() {
                                 currentList.sort((a, b) =>
@@ -68,6 +62,7 @@ class _Search extends State<Search> {
                           ),
                           IconButton(
                             icon: FaIcon(FontAwesomeIcons.sortAlphaUp),
+                            iconSize: 20,
                             tooltip: 'Sort By Alpha',
                             onPressed: () {
                               setState(() {
@@ -78,6 +73,7 @@ class _Search extends State<Search> {
                           ),
                           IconButton(
                             icon: FaIcon(FontAwesomeIcons.sortNumericUp),
+                            iconSize: 20,
                             tooltip: 'Sort By Count',
                             onPressed: () {
                               setState(() {
@@ -88,6 +84,7 @@ class _Search extends State<Search> {
                           ),
                           IconButton(
                             icon: FaIcon(FontAwesomeIcons.sortNumericDown),
+                            iconSize: 20,
                             tooltip: 'Sort By Count',
                             onPressed: () {
                               setState(() {
@@ -116,7 +113,6 @@ class _Search extends State<Search> {
                           color: Colors.grey[200],
                           border: Border.all(
                             color: Colors.grey[300],
-                            width: 8,
                           ),
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -151,11 +147,15 @@ class _Search extends State<Search> {
   }
 
   //navega para outra page
-  void goToClassroomsPerBuildingPage(BuildContext context, BuildCount data, String email) {
+  void goToClassroomsPerBuildingPage(
+      BuildContext context, BuildCount data, String email) {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => BuildingsClassrooms(buildCount: data, email: email,)),
+          builder: (context) => BuildingsClassrooms(
+                buildCount: data,
+                email: email,
+              )),
     );
   }
 }
