@@ -26,6 +26,7 @@ class _Home extends State<Home> {
 
   Future init(List<BuildCount> listOfBuildCount) async {
     var temp = await buildingsUAData.getBuildingsNearByUser(listOfBuildCount);
+    if (!mounted) return;
     setState(() {
       bUA = temp;
     });

@@ -9,6 +9,7 @@ import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/Entities/Week.dart';
 import 'package:r2ua/View/CreateEvent.dart';
 
+// ignore: must_be_immutable
 class ClassroomDetails extends StatefulWidget {
   ClassroomDetails({Key key, this.classroom, this.building, this.email})
       : super(key: key);
@@ -198,94 +199,8 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                                             return Container();
                                           }),
                                     ),
-                                    /* ListView.builder(
-                                    itemCount: currentList.length,
-                                    physics: ClampingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      if (currentList[index].day == ind) {
-                                        return GestureDetector(
-                                            child: Container(
-                                                margin: EdgeInsets.all(2),
-                                                padding: EdgeInsets.all(2.0),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.grey[200],
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      16.0),
-                                                  child: Column(children: [
-                                                    Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: <Widget>[
-                                                          Text(
-                                                              currentList[
-                                                                              index]
-                                                                          .startTime
-                                                                          .toString()
-                                                                          .split(
-                                                                              ':')[
-                                                                      0] +
-                                                                  ':' +
-                                                                  currentList[index]
-                                                                          .startTime
-                                                                          .toString()
-                                                                          .split(
-                                                                              ':')[
-                                                                      1] +
-                                                                  'h - ' +
-                                                                  currentList[index]
-                                                                          .endTime
-                                                                          .toString()
-                                                                          .split(
-                                                                              ':')[
-                                                                      0] +
-                                                                  ':' +
-                                                                  currentList[index]
-                                                                          .endTime
-                                                                          .toString()
-                                                                          .split(
-                                                                              ':')[
-                                                                      1] +
-                                                                  'h',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      14)),
-                                                        ])
-                                                  ]),
-                                                )));
-                                      }
-                                      return Container();
-                                    }), */
                                   ],
                                 ));
-                            // design of date space
-                            /* padding: EdgeInsets.all(8),
-                        children: <Widget>[
-                          GestureDetector(
-                              child: Padding(
-                                  padding: EdgeInsets.all(2),
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        border: Border.all(
-                                          color: Colors.amber[300],
-                                          width: 2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      height: 50,
-                                      child: Center(
-                                        child: Text(formatter.format(days[0])),
-                                      )))), */
                           });
                     })),
             ElevatedButton(
@@ -312,7 +227,7 @@ class _ClassroomDetails extends State<ClassroomDetails> {
         ));
   }
 
-  getWeek(String s, Classroom _classroom) {
+  void getWeek(String s, Classroom _classroom) {
     if (s == '+') {
       if (current < weekList.length - 1) {
         setState(() {

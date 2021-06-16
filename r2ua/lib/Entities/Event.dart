@@ -1,6 +1,5 @@
 import 'dart:core';
 
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:r2ua/Entities/Week.dart';
 
@@ -42,7 +41,6 @@ class Event {
   int id, day, numberPeople, eventTypeId, classId;
   DateFormat date = DateFormat('yyyy-MM-dd');
   List<Week> weeks;
-
 }
 
 class EventType {
@@ -65,5 +63,4 @@ class EventType {
   int id;
   String name;
   bool active, setToAplication;
-
 }

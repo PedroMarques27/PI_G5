@@ -4,6 +4,7 @@ import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/Entities/Week.dart';
 
+// ignore: must_be_immutable
 class CreateEvent extends StatefulWidget {
   CreateEvent(
       {Key key,
@@ -108,249 +109,252 @@ class _CreateEvent extends State<CreateEvent> {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Book Classroom'),
-      ),
-      //body
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        //form
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              Text(
-                'Create Reservation ',
-                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-              ),
-              //styling
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.1,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Name'),
-                keyboardType: TextInputType.name,
-                onChanged: (newValue) {
-                  setState(() {
-                    name = newValue;
-                  });
-                },
-                onFieldSubmitted: (value) {},
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Enter a valid name!';
-                  }
-                  return null;
-                },
-              ),
-// Weekday
-              DropdownButtonFormField(
-                value: dropdownWeekDayValue,
-                decoration: InputDecoration(labelText: 'Weekday'),
-                hint: Text(
-                  'choose one',
-                ),
-                isExpanded: true,
-                onChanged: (value) {
-                  setState(() {
-                    dropdownWeekDayValue = value;
-                  });
-                },
-                onSaved: (value) {
-                  setState(() {
-                    dropdownWeekDayValue = value;
-                  });
-                },
-                items: wDays.map((String val) {
-                  return DropdownMenuItem(
-                    value: val,
-                    child: Text(
-                      val,
-                    ),
-                  );
-                }).toList(),
-              ),
-// NumStudents
-              DropdownButtonFormField(
-                value: dropdownCapacityValue,
-                decoration: InputDecoration(labelText: 'Number of Students'),
-                hint: Text(
-                  'choose one',
-                ),
-                isExpanded: true,
-                onChanged: (value) {
-                  setState(() {
-                    dropdownCapacityValue = value;
-                  });
-                },
-                onSaved: (value) {
-                  setState(() {
-                    dropdownCapacityValue = value;
-                  });
-                },
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return "can't empty";
-                  } else {
-                    return null;
-                  }
-                },
-                items: numStud.map((String val) {
-                  return DropdownMenuItem(
-                    value: val,
-                    child: Text(
-                      val,
-                    ),
-                  );
-                }).toList(),
-              ),
-// Start Time
-              DropdownButtonFormField(
-                value: dropdownStartTimeValue,
-                decoration: InputDecoration(labelText: 'Start Time'),
-                hint: Text(
-                  'choose one',
-                ),
-                isExpanded: true,
-                onChanged: (value) {
-                  setState(() {
-                    dropdownStartTimeValue = value;
-                  });
-                },
-                onSaved: (value) {
-                  setState(() {
-                    dropdownStartTimeValue = value;
-                  });
-                },
-                validator: (String value) {
-                  if (!validDayHour(weekDays.indexOf(dropdownWeekDayValue),
-                      widget.week, dropdownStartTimeValue)) {
-                    return 'That hour has passed!';
-                  } else {
-                    return null;
-                  }
-                },
-                items: hours.map((String val) {
-                  return DropdownMenuItem(
-                    value: val,
-                    child: Text(
-                      val,
-                    ),
-                  );
-                }).toList(),
-              ),
-// End Time
-              DropdownButtonFormField(
-                value: dropdownEndTimeValue,
-                decoration: InputDecoration(labelText: 'End Time'),
-                hint: Text(
-                  'choose one',
-                ),
-                isExpanded: true,
-                onChanged: (value) {
-                  setState(() {
-                    dropdownEndTimeValue = value;
-                  });
-                },
-                onSaved: (value) {
-                  setState(() {
-                    dropdownEndTimeValue = value;
-                  });
-                },
-                validator: (String value) {
-                  var available = availableTimes(widget.unavailable,
-                      weekDays.indexOf(dropdownWeekDayValue));
-                  if (!available.contains(dropdownStartTimeValue) |
-                      !available.contains(value)) {
-                    return 'Impossible Time! Change your start or end time.';
-                  } else if (hours.indexOf(value) <=
-                      hours.indexOf(dropdownStartTimeValue)) {
-                    return 'The end time has to be after start time';
-                  } else if (available.contains(dropdownStartTimeValue) &&
-                      available.contains(value)) {
-                    var a = available.indexOf(dropdownStartTimeValue);
-                    var b = available.indexOf(value);
-                    for (var i = a; i < b; i++) {
-                      if (available[i] == '-') {
-                        return 'Impossible Time! Change your start or end time.';
-                      }
-                    }
-                    return null;
-                  } else {
-                    return null;
-                  }
-                },
-                items: hours.map((String val) {
-                  return DropdownMenuItem(
-                    value: val,
-                    child: Text(
-                      val,
-                    ),
-                  );
-                }).toList(),
-              ),
-// Event Type
-              DropdownButtonFormField(
-                value: dropdownEventTypeValue,
-                decoration: InputDecoration(labelText: 'Type of Event'),
-                hint: Text(
-                  'choose one',
-                ),
-                isExpanded: true,
-                onChanged: (value) {
-                  setState(() {
-                    dropdownEventTypeValue = value;
-                  });
-                },
-                onSaved: (value) {},
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return "can't empty";
-                  } else {
-                    return null;
-                  }
-                },
-                items: eventType.map((String val) {
-                  return DropdownMenuItem(
-                    value: val,
-                    child: Text(
-                      val,
-                    ),
-                  );
-                }).toList(),
-              ),
-
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.1,
-              ),
-              RaisedButton(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 15.0,
-                ),
-                onPressed: () => _submit(
-                    name,
-                    dropdownStartTimeValue,
-                    dropdownEndTimeValue,
-                    weekDays.indexOf(dropdownWeekDayValue),
-                    eventType.indexOf(dropdownEventTypeValue) + 1,
-                    numStud.indexOf(dropdownCapacityValue) + 1),
-                child: Text(
-                  'Submit',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                  ),
-                ),
-              ),
-            ],
-          ),
+        appBar: AppBar(
+          title: Text('Book Classroom'),
         ),
-      ),
-    );
+        //body
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            //form
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    'Create Reservation ',
+                    style:
+                        TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  ),
+                  //styling
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.05,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Name'),
+                    keyboardType: TextInputType.name,
+                    onChanged: (newValue) {
+                      setState(() {
+                        name = newValue;
+                      });
+                    },
+                    onFieldSubmitted: (value) {},
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Enter a valid name!';
+                      }
+                      return null;
+                    },
+                  ),
+// Weekday
+                  DropdownButtonFormField(
+                    value: dropdownWeekDayValue,
+                    decoration: InputDecoration(labelText: 'Weekday'),
+                    hint: Text(
+                      'choose one',
+                    ),
+                    isExpanded: true,
+                    onChanged: (value) {
+                      setState(() {
+                        dropdownWeekDayValue = value;
+                      });
+                    },
+                    onSaved: (value) {
+                      setState(() {
+                        dropdownWeekDayValue = value;
+                      });
+                    },
+                    items: wDays.map((String val) {
+                      return DropdownMenuItem(
+                        value: val,
+                        child: Text(
+                          val,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+// NumStudents
+                  DropdownButtonFormField(
+                    value: dropdownCapacityValue,
+                    decoration:
+                        InputDecoration(labelText: 'Number of Students'),
+                    hint: Text(
+                      'choose one',
+                    ),
+                    isExpanded: true,
+                    onChanged: (value) {
+                      setState(() {
+                        dropdownCapacityValue = value;
+                      });
+                    },
+                    onSaved: (value) {
+                      setState(() {
+                        dropdownCapacityValue = value;
+                      });
+                    },
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return "can't empty";
+                      } else {
+                        return null;
+                      }
+                    },
+                    items: numStud.map((String val) {
+                      return DropdownMenuItem(
+                        value: val,
+                        child: Text(
+                          val,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+// Start Time
+                  DropdownButtonFormField(
+                    value: dropdownStartTimeValue,
+                    decoration: InputDecoration(labelText: 'Start Time'),
+                    hint: Text(
+                      'choose one',
+                    ),
+                    isExpanded: true,
+                    onChanged: (value) {
+                      setState(() {
+                        dropdownStartTimeValue = value;
+                      });
+                    },
+                    onSaved: (value) {
+                      setState(() {
+                        dropdownStartTimeValue = value;
+                      });
+                    },
+                    validator: (String value) {
+                      if (!validDayHour(weekDays.indexOf(dropdownWeekDayValue),
+                          widget.week, dropdownStartTimeValue)) {
+                        return 'That hour has passed!';
+                      } else {
+                        return null;
+                      }
+                    },
+                    items: hours.map((String val) {
+                      return DropdownMenuItem(
+                        value: val,
+                        child: Text(
+                          val,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+// End Time
+                  DropdownButtonFormField(
+                    value: dropdownEndTimeValue,
+                    decoration: InputDecoration(labelText: 'End Time'),
+                    hint: Text(
+                      'choose one',
+                    ),
+                    isExpanded: true,
+                    onChanged: (value) {
+                      setState(() {
+                        dropdownEndTimeValue = value;
+                      });
+                    },
+                    onSaved: (value) {
+                      setState(() {
+                        dropdownEndTimeValue = value;
+                      });
+                    },
+                    validator: (String value) {
+                      var available = availableTimes(widget.unavailable,
+                          weekDays.indexOf(dropdownWeekDayValue));
+                      if (!available.contains(dropdownStartTimeValue) |
+                          !available.contains(value)) {
+                        return 'Impossible Time! Change your start or end time.';
+                      } else if (hours.indexOf(value) <=
+                          hours.indexOf(dropdownStartTimeValue)) {
+                        return 'The end time has to be after start time';
+                      } else if (available.contains(dropdownStartTimeValue) &&
+                          available.contains(value)) {
+                        var a = available.indexOf(dropdownStartTimeValue);
+                        var b = available.indexOf(value);
+                        for (var i = a; i < b; i++) {
+                          if (available[i] == '-') {
+                            return 'Impossible Time! Change your start or end time.';
+                          }
+                        }
+                        return null;
+                      } else {
+                        return null;
+                      }
+                    },
+                    items: hours.map((String val) {
+                      return DropdownMenuItem(
+                        value: val,
+                        child: Text(
+                          val,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+// Event Type
+                  DropdownButtonFormField(
+                    value: dropdownEventTypeValue,
+                    decoration: InputDecoration(labelText: 'Type of Event'),
+                    hint: Text(
+                      'choose one',
+                    ),
+                    isExpanded: true,
+                    onChanged: (value) {
+                      setState(() {
+                        dropdownEventTypeValue = value;
+                      });
+                    },
+                    onSaved: (value) {},
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return "can't empty";
+                      } else {
+                        return null;
+                      }
+                    },
+                    items: eventType.map((String val) {
+                      return DropdownMenuItem(
+                        value: val,
+                        child: Text(
+                          val,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.1,
+                  ),
+                  RaisedButton(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 15.0,
+                    ),
+                    onPressed: () => _submit(
+                        name,
+                        dropdownStartTimeValue,
+                        dropdownEndTimeValue,
+                        weekDays.indexOf(dropdownWeekDayValue),
+                        eventType.indexOf(dropdownEventTypeValue) + 1,
+                        numStud.indexOf(dropdownCapacityValue) + 1),
+                    child: Text(
+                      'Submit',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 
   List<String> numOfStudentsList(int numMax) {
-    var numStud;
+    var numStud = List<String>();
     for (var i = 0; i < numMax; i++) {
       numStud.add((i + 1).toString());
     }
@@ -407,12 +411,13 @@ class _CreateEvent extends State<CreateEvent> {
   List<String> validWeekDays(Week week) {
     var weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
-    if (week.beginning.isBefore(DateTime.now())){
+    if (week.beginning.isBefore(DateTime.now())) {
       for (var i = 0;
           i < DateTime.now().difference(week.beginning).inDays;
           i++) {
         weekDays.removeAt(0);
-      }}
+      }
+    }
 
     setState(() {
       if (count == 0) {

@@ -15,10 +15,11 @@ class EventDetails extends StatefulWidget {
 
 class _EventDetails extends State<EventDetails> {
   Stream classroomStream;
-
+  var email;
   @override
   void initState() {
     super.initState();
+    email = widget.email;
   }
 
   @override

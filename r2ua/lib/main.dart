@@ -1,78 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:r2ua/BlocPattern/AuthenticationBloc.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'View/Authentication.dart';
 import 'View/Bookings.dart';
 import 'View/Home.dart';
 import 'View/Search.dart';
 
-String email = 'rfmf@ua.pt';
 void main() {
-  runApp(MyApp());
+  runApp(Phoenix(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    brbBloc.initialize(email);
-    homeBloc.startCapturing();
-    weekBloc.getWeeks();
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.cyan[600],
-        accentColor: Colors.cyan[600],
-        fontFamily: 'Georgia',
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return MaterialApp(title: 'R2UA', home: LoginPage(title: 'R2UA'));
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, this.email}) : super(key: key);
 
   final String title;
+
+  final String email;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  SharedPreferences prefs;
   int _selectedIndex = 0;
+  var email;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('R2UA'), actions: <Widget>[]),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _children,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.home),
-            label: 'Home',
+    return MaterialApp(
+        title: 'R2UA',
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: Colors.cyan[600],
+          accentColor: Colors.cyan[600],
+          fontFamily: 'Georgia',
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: Scaffold(
+          appBar: AppBar(title: Text('R2UA'), actions: <Widget>[
+            ElevatedButton.icon(
+                onPressed: () {
+                  prefs.clear();
+                  Phoenix.rebirth(context);
+                },
+                icon: Icon(Icons.logout),
+                label: Text(''))
+          ]),
+          body: IndexedStack(
+            index: _selectedIndex,
+            children: _children,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+          bottomNavigationBar: BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Search',
+              ),
+              BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.book),
+                label: 'Bookings',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.amber[800],
+            onTap: _onItemTapped,
           ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.book),
-            label: 'Bookings',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ),
-    );
+        ));
   }
 
   void _onItemTapped(int index) {
@@ -84,14 +94,23 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    init();
+    email = widget.email;
+    _children = [
+      Home(email: email),
+      Search(email: email),
+      Bookings(email: email)
+    ];
     var location = Geolocator();
-
     location.checkGeolocationPermissionStatus();
+    brbBloc.initialize(email);
+    homeBloc.startCapturing();
+    weekBloc.getWeeks();
   }
 
-  final _children = [
-    Home(email: email),
-    Search(email: email),
-    Bookings(email: email)
-  ];
+  void init() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  var _children;
 }

@@ -6,6 +6,7 @@ import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/Entities/Classrooms.dart';
 import 'package:r2ua/View/ClassroomDetails.dart';
 
+// ignore: must_be_immutable
 class BuildingsClassrooms extends StatefulWidget {
   BuildingsClassrooms({Key key, this.buildCount, this.email}) : super(key: key);
   BuildCount buildCount;
@@ -144,7 +145,7 @@ class _BuildingsClassrooms extends State<BuildingsClassrooms> {
         ));
   }
 
-  goToClassroomDetailsPage(
+  void goToClassroomDetailsPage(
       BuildContext context, Classroom data, Building building, String email) {
     Navigator.push(
       context,

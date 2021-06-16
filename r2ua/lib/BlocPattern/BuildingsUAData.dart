@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:core';
 
-import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/Entities/BuildingsUA.dart';

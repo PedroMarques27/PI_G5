@@ -1,7 +1,5 @@
 import 'dart:core';
 
-import 'package:flutter/cupertino.dart';
-
 class User {
   User(
       {this.id,

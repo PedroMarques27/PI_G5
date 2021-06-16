@@ -68,7 +68,6 @@ class EventsBloc {
   }
 
   Future<List<Event>> searchEventsByUser(String email, int number) async {
-    var weekDay = DateTime.now().weekday;
     var uri = Uri.https(BASE_URL, ('/api/Events/search'));
     final response = await http.post(uri,
         headers: {
@@ -163,9 +162,8 @@ class EventsBloc {
   }
 
   Future<List<Event>> searchPastEventsByUser(String email) async {
-    
     var weekDay = DateTime.now().weekday;
-    
+
     var uri = Uri.https(BASE_URL, ('/api/Events/search'));
     final response = await http.post(uri,
         headers: {
@@ -275,7 +273,7 @@ class EventsBloc {
             {'key': 'string', 'value': 'string'}
           ]
         }));
-    
+
     if (response.statusCode == 201) {
       await searchEventsByUser(email, 3);
       return true;

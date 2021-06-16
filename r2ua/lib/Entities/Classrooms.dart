@@ -1,7 +1,5 @@
 import 'dart:core';
 
-import 'package:flutter/cupertino.dart';
-
 class Classroom {
   Classroom({
     this.id,
