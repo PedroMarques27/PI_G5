@@ -40,7 +40,7 @@ class _Home extends State<Home> {
 
   Widget _buildList(BuildContext context) {
     var weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    eventsBloc.searchEventsByUser(email, 3);
+    eventsBloc.searchEventsByUser(email);
     return StreamBuilder(
         stream: homeBloc.getHomeData,
         builder: (context, snapshot) {
@@ -51,16 +51,90 @@ class _Home extends State<Home> {
           var buildings = current.buildings;
           var events = current.events;
           return Column(children: <Widget>[
+            Expanded(
+                child: Column(
+              children: <Widget>[
+                Text('Next Reservations', style: TextStyle(fontSize: 24.0)),
+                Expanded(
+                    child: ListView.builder(
+                        itemCount: events.length > 3 ? 3 : events.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                              onTap: () {
+                                goToEventDetails(context, email, events[index]);
+                              },
+                              child: Container(
+                                  margin: EdgeInsets.all(2),
+                                  padding: EdgeInsets.all(6.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    border: Border.all(color: Colors.grey[300]),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(children: [
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Text(events[index].name.toString(),
+                                                style: TextStyle(fontSize: 18)),
+                                            Text(events[index]
+                                                    .weeks[0]
+                                                    .beginning
+                                                    .add(Duration(
+                                                        days:
+                                                            events[index].day))
+                                                    .toIso8601String()
+                                                    .split('T')[0]
+                                                    .split('-')[2] +
+                                                '/' +
+                                                events[index]
+                                                    .weeks[0]
+                                                    .beginning
+                                                    .add(Duration(
+                                                        days:
+                                                            events[index].day))
+                                                    .toIso8601String()
+                                                    .split('T')[0]
+                                                    .split('-')[1] +
+                                                '/' +
+                                                events[index]
+                                                    .weeks[0]
+                                                    .beginning
+                                                    .add(Duration(
+                                                        days:
+                                                            events[index].day))
+                                                    .toIso8601String()
+                                                    .split('T')[0]
+                                                    .split('-')[0]),
+                                          ]),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(events[index]
+                                                  .startTime
+                                                  .toString()
+                                                  .substring(0, 5) +
+                                              'h - ' +
+                                              events[index]
+                                                  .endTime
+                                                  .toString()
+                                                  .substring(0, 5) +
+                                              'h'),
+                                          Text(weekDays[events[index].day])
+                                        ],
+                                      )
+                                    ]),
+                                  )));
+                        }))
+              ],
+            )),
             Container(
                 margin: EdgeInsets.all(2),
                 padding: EdgeInsets.all(6.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  border: Border.all(
-                    color: Colors.grey[300],
-                    width: 2,
-                  ),
-                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -86,7 +160,6 @@ class _Home extends State<Home> {
                               color: Colors.grey[200],
                               border: Border.all(
                                 color: Colors.grey[300],
-                                width: 8,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -122,66 +195,7 @@ class _Home extends State<Home> {
                         );
                       },
                     ),
-            ),
-            Expanded(
-                child: Column(
-              children: <Widget>[
-                Text('Next Reservations', style: TextStyle(fontSize: 24.0)),
-                Expanded(
-                    child: ListView.builder(
-                        itemCount: events.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                              onTap: () {
-                                goToEventDetails(context, email, events[index]);
-                              },
-                              child: Container(
-                                  margin: EdgeInsets.all(2),
-                                  padding: EdgeInsets.all(6.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    border: Border.all(color: Colors.grey[300]),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Column(children: [
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Text(events[index].name.toString(),
-                                                style: TextStyle(fontSize: 18)),
-                                            Text(events[index]
-                                                .weeks[0]
-                                                .beginning
-                                                .add(Duration(
-                                                    days: events[index].day))
-                                                .toIso8601String()
-                                                .split('T')[0]),
-                                          ]),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(events[index]
-                                                  .startTime
-                                                  .toString()
-                                                  .substring(0, 5) +
-                                              'h - ' +
-                                              events[index]
-                                                  .endTime
-                                                  .toString()
-                                                  .substring(0, 5) +
-                                              'h'),
-                                          Text(weekDays[events[index].day])
-                                        ],
-                                      )
-                                    ]),
-                                  )));
-                        }))
-              ],
-            ))
+            )
           ]);
         });
   }
@@ -190,7 +204,7 @@ class _Home extends State<Home> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => EventDetails(event: event, email: email)),
+          builder: (context) => EventDetails(event: event, email: email, canDelete: true)),
     );
   }
 

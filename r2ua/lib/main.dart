@@ -52,6 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
         home: Scaffold(
           appBar: AppBar(title: Text('R2UA'), actions: <Widget>[
             ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.cyan[600], // background
+
+                    side: BorderSide(color: Colors.cyan[600])),
                 onPressed: () {
                   prefs.clear();
                   Phoenix.rebirth(context);
@@ -105,6 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
     location.checkGeolocationPermissionStatus();
     brbBloc.initialize(email);
     homeBloc.startCapturing();
+    bookingsBloc.startCapturing();
     weekBloc.getWeeks();
   }
 

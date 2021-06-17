@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:r2ua/BlocPattern/BookingsBloc.dart';
 import 'package:r2ua/BlocPattern/PostEventBloc.dart';
 import 'package:r2ua/BlocPattern/UnavailableEventsBloc.dart';
 import 'package:r2ua/BlocPattern/WeekBloc.dart';
@@ -17,7 +18,7 @@ import 'HomeBloc.dart';
 import 'UsersBloc.dart';
 
 String token =
-     'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ4M2YzZWI0YzA3N2RjMDFmMjQ5MzIyNDk5NDM3NGJmIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2MjI1NjY1ODIsImV4cCI6MTYyNTE1ODU4MiwiaXNzIjoiaHR0cHM6Ly9idWxsZXQtaXMuZGV2LnVhLnB0IiwiYXVkIjoiYmVzdGxlZ2FjeV9hcGlfcmVzb3VyY2UiLCJjbGllbnRfaWQiOiJldmVudG9zIiwiY2xpZW50X3JlYWRfY2xhaW0iOiJ0cnVlIiwiY2xpZW50X2NyZWF0ZV9jbGFpbSI6InRydWUiLCJjbGllbnRfdXBkYXRlX2NsYWltIjoidHJ1ZSIsImNsaWVudF9kZWxldGVfY2xhaW0iOiJ0cnVlIiwic2NvcGUiOlsiYmVzdGxlZ2FjeV9hcGlfc2NvcGUiXX0.V2zRJLdTWad5h0eS5d8wRnbgTJeZVGc4u6kofC-d9HppmG1RLH1-ng28fCKQH5EQQQwqelOeQQ8oI1T52az7386VlKv9g_zRpPMjfzzOmsv0uTkbRETLSYWbmqXar_HrF7W0-9rJWxp3iJ9paUpqhchFnZhz_QocHyX4kv5X3YCRmJtYvlXKZzmCJKma9H0LO51IOqj2F5KbyhLyWUzaxcV9CsuLVjUJewfRpgL3xkYp2v-Ll_MGmusT8-MjFyI2OoI4B-B77ht2091-f4xLnzIhbWwDRitr_OlNllKeoQgSupC0wXmsfG2ARG5CUsXPy9G0ZDE-IUYU0Mpmo7KUwg';
+    'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ4M2YzZWI0YzA3N2RjMDFmMjQ5MzIyNDk5NDM3NGJmIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2MjI1NjY1ODIsImV4cCI6MTYyNTE1ODU4MiwiaXNzIjoiaHR0cHM6Ly9idWxsZXQtaXMuZGV2LnVhLnB0IiwiYXVkIjoiYmVzdGxlZ2FjeV9hcGlfcmVzb3VyY2UiLCJjbGllbnRfaWQiOiJldmVudG9zIiwiY2xpZW50X3JlYWRfY2xhaW0iOiJ0cnVlIiwiY2xpZW50X2NyZWF0ZV9jbGFpbSI6InRydWUiLCJjbGllbnRfdXBkYXRlX2NsYWltIjoidHJ1ZSIsImNsaWVudF9kZWxldGVfY2xhaW0iOiJ0cnVlIiwic2NvcGUiOlsiYmVzdGxlZ2FjeV9hcGlfc2NvcGUiXX0.V2zRJLdTWad5h0eS5d8wRnbgTJeZVGc4u6kofC-d9HppmG1RLH1-ng28fCKQH5EQQQwqelOeQQ8oI1T52az7386VlKv9g_zRpPMjfzzOmsv0uTkbRETLSYWbmqXar_HrF7W0-9rJWxp3iJ9paUpqhchFnZhz_QocHyX4kv5X3YCRmJtYvlXKZzmCJKma9H0LO51IOqj2F5KbyhLyWUzaxcV9CsuLVjUJewfRpgL3xkYp2v-Ll_MGmusT8-MjFyI2OoI4B-B77ht2091-f4xLnzIhbWwDRitr_OlNllKeoQgSupC0wXmsfG2ARG5CUsXPy9G0ZDE-IUYU0Mpmo7KUwg';
 String BASE_URL = 'bullet-api.dev.ua.pt';
 
 class BrbBloc {
@@ -74,8 +75,8 @@ class BrbBloc {
         codesBuildings[cs.building] = currentBuilding;
         var _temp = <Classroom>[];
         _temp.add(cs);
-        data.add(BuildCount(
-            building: currentBuilding, classrooms: _temp, count: 1));
+        data.add(
+            BuildCount(building: currentBuilding, classrooms: _temp, count: 1));
       }
     }
     update(data);
@@ -117,5 +118,6 @@ final classroomGroupsBloc = ClassroomGroupsBloc();
 final classroomsBloc = ClassroomsBloc();
 final brbBloc = BrbBloc();
 final homeBloc = HomeBloc();
+final bookingsBloc = BookingsBloc();
 final unavailableEventsBloc = UnavailableEventsBloc();
 final postEventsBloc = PostEventsBloc();

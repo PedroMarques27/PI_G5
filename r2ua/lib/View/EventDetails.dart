@@ -6,9 +6,11 @@ import 'package:r2ua/main.dart';
 
 // ignore: must_be_immutable
 class EventDetails extends StatefulWidget {
-  EventDetails({Key key, this.event, this.email}) : super(key: key);
+  EventDetails({Key key, this.event, this.email, this.canDelete})
+      : super(key: key);
   Event event;
   String email;
+  bool canDelete;
   @override
   _EventDetails createState() => _EventDetails();
 }
@@ -96,17 +98,18 @@ class _EventDetails extends State<EventDetails> {
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.cyan, // background
-                        onPrimary: Colors.white, // foreground
-                      ),
-                      onPressed: () {
-                        eventsBloc.removeEvent(_event.id, email);
-                        Navigator.pop(context);
-                      },
-                      child: Text('Delete Event'),
-                    )
+                    if (widget.canDelete)
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.cyan, // background
+                          onPrimary: Colors.white, // foreground
+                        ),
+                        onPressed: () {
+                          eventsBloc.removeEvent(_event.id, email);
+                          Navigator.pop(context);
+                        },
+                        child: Text('Delete Event'),
+                      )
                   ],
                 ))
           ],

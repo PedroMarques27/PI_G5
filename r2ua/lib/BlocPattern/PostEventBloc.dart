@@ -35,7 +35,7 @@ class PostEventsBloc {
     var weekId = await getWeekId(weekStartDate);
 
     var uri = Uri.https(BASE_URL, ('/api/ThirdPartyEvents'));
-    
+
     final response = await http.post(uri,
         headers: {
           HttpHeaders.authorizationHeader: 'Bearer $token',
@@ -71,6 +71,7 @@ class PostEventsBloc {
     debugPrint('Status code' + response.statusCode.toString());
 
     if (response.statusCode == 201) {
+      await eventsBloc.searchEventsByUser(email);
       return jsonDecode(response.body)['data']['id'];
     }
 
