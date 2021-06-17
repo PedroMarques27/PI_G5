@@ -238,6 +238,18 @@ class EventsBloc {
       }
     }
 
+    // 1o ciclo for
+      // se o lenght de weeks >1
+        // ver se alguma dessas semanas é antes de hoje -  eliminar week
+        // se for a semana de hoje - ignorar
+        // se for semana futura - criar evento (entity Event) com todos os parametros iguais e essa week e adicionar ao userEvents
+
+    // 2o ciclo for 
+      // se data = today
+        // vês se a start time é inferior à hora atual
+          // se sim eliminar evento
+    
+    
     update(userEvents);
 
     return userEvents;
@@ -396,6 +408,11 @@ class EventsBloc {
         userEvents.add(e);
       }
     }
+
+    // 2o ciclo for 
+      // se data = today
+        // vês se a start time é superior à hora atual
+          // se sim eliminar evento
 
     updatePast(userEvents);
 
