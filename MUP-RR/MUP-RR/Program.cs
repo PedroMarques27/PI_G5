@@ -18,43 +18,36 @@ using System.Text;
 using System.Runtime.Serialization.Json;
 using System.IO;
 using System.Threading;
-
-
+using Microsoft.Extensions.DependencyInjection;
+using MUP_RR.Services;
 namespace MUP_RR
 {
     class Program
     {
 
         public DBConnector database = new DBConnector();
-        private int NEW_USERS_PERIOD = 7200000;
-        private bool INITIALIZING = true;
+        public static int NEW_USERS_PERIOD = 7200000;
+        public static bool INITIALIZING = true;
         static void Main(string[] args)
         {
             BRBConnector.OpenConnection();
             Program obj = new Program();
             obj.database.addLog(LOG.INFO, "Initializing MUP-RR");
             
-            Task.Factory.StartNew(obj.startPeriodicTasks);
+            obj.database.addLog(LOG.INFO, "Starting Database Update");
+
             CreateHostBuilder(args).Build().Run();
         }
-
-        public void startPeriodicTasks(){
-            while(true){
-                database.addLog(LOG.INFO, "Starting Database Update");
-                updateDatabaseWithNewBrbData();
-                updateNewBRBUsers();
-                INITIALIZING = false;
-                Thread.Sleep(NEW_USERS_PERIOD); 
-            }
-            
-
-        }
+        
+       
+   
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                }).ConfigureServices(services => 
+                    services.AddHostedService<UpdateService>());
         
         public async void UpdateProfile(string iupi, List<Tuple<UO,Vinculo>> pairs){
             database.addLog(LOG.INFO, "Determining new User Permissions");

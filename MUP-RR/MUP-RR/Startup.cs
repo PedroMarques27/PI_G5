@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MUP_RR.Services;
 
 namespace MUP_RR
 {
@@ -19,7 +20,9 @@ namespace MUP_RR
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddControllersWithViews();
+             services.AddSingleton<IWorker, Worker>();
         }
  
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
