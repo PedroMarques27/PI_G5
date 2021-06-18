@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:r2ua/Entities/Building.dart';
+import 'package:r2ua/View/BookNearby.dart';
 import 'package:r2ua/View/BuildingsClassrooms.dart';
 
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
@@ -140,6 +142,16 @@ class _Search extends State<Search> {
                     );
                   },
                 ),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.cyan, // background
+                  onPrimary: Colors.white, // foreground
+                ),
+                onPressed: () {
+                  goToBookNearbyPage(context, currentList[0], widget.email);
+                },
+                child: Text('book nearby'),
               )
             ],
           );
@@ -155,6 +167,22 @@ class _Search extends State<Search> {
           builder: (context) => BuildingsClassrooms(
                 buildCount: data,
                 email: email,
+              )),
+    );
+  }
+
+  //navega para outra page
+  void goToBookNearbyPage(BuildContext context, BuildCount data, String email) {
+    var x = <Building>[];
+    x.add(data.building);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => BookNearby(
+                buildings: x,
+                email: email,
+                date: DateTime(2021, 06, 21),
+                startTime: '10:00',
               )),
     );
   }

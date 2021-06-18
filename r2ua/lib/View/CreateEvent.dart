@@ -266,7 +266,7 @@ class _CreateEvent extends State<CreateEvent> {
                           weekDays.indexOf(dropdownWeekDayValue));
                       if (!available.contains(dropdownStartTimeValue) |
                           !available.contains(value)) {
-                        return 'Impossible Time! Change your start or end time.';
+                        return 'There is already a reservation in that time! Change your start or end time.';
                       } else if (hours.indexOf(value) <=
                           hours.indexOf(dropdownStartTimeValue)) {
                         return 'The end time has to be after start time';
@@ -276,7 +276,7 @@ class _CreateEvent extends State<CreateEvent> {
                         var b = available.indexOf(value);
                         for (var i = a; i < b; i++) {
                           if (available[i] == '-') {
-                            return 'Impossible Time! Change your start or end time.';
+                            return 'There is already a reservation in that time! Change your start or end time.';
                           }
                         }
                         return null;

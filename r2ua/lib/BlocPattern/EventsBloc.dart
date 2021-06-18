@@ -97,9 +97,7 @@ class EventsBloc {
         body: jsonEncode({
           'page': 1,
           'pageSize': 10,
-          'sorts': [
-            {'path': 'Day', 'ascending': true}
-          ],
+          'sorts': [],
           'filters': [
             {
               'and': true,
@@ -268,9 +266,7 @@ class EventsBloc {
         body: jsonEncode({
           'page': 1,
           'pageSize': 10,
-          'sorts': [
-            {'path': 'Day', 'ascending': true}
-          ],
+          'sorts': [],
           'filters': [
             {
               'and': true,

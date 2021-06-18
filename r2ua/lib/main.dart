@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:r2ua/BlocPattern/AuthenticationBloc.dart';
+
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

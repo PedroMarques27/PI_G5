@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:r2ua/BlocPattern/BookNearbyEventsBloc.dart';
 import 'package:r2ua/BlocPattern/BookingsBloc.dart';
 import 'package:r2ua/BlocPattern/PostEventBloc.dart';
 import 'package:r2ua/BlocPattern/UnavailableEventsBloc.dart';
@@ -121,3 +122,4 @@ final homeBloc = HomeBloc();
 final bookingsBloc = BookingsBloc();
 final unavailableEventsBloc = UnavailableEventsBloc();
 final postEventsBloc = PostEventsBloc();
+final bookNearbyEventsBloc = BookNearbyEventsBloc();

@@ -3,7 +3,10 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:r2ua/BlocPattern/HomeBloc.dart';
+import 'package:r2ua/Entities/Building.dart';
+import 'package:r2ua/Entities/BuildingsUA.dart';
 import 'package:r2ua/Entities/Event.dart';
+import 'package:r2ua/View/BookNearby.dart';
 import 'package:r2ua/View/EventDetails.dart';
 
 import 'BuildingsClassrooms.dart';
@@ -21,6 +24,95 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+  final _formKey = GlobalKey<FormState>();
+
+  void _submit(DateTime date, String startTime, List<Building> buildings) {
+    final isValid = _formKey.currentState.validate();
+    if (!isValid) {
+      return;
+    }
+    _formKey.currentState.save();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => BookNearby(
+                buildings: buildings,
+                email: email,
+                date: date,
+                startTime: startTime,
+              )),
+    );
+  }
+
+  String dropdownStartTimeValue = '08:00';
+  var hours = <String>[
+    '08:00',
+    '08:30',
+    '09:00',
+    '09:30',
+    '10:00',
+    '10:30',
+    '11:00',
+    '11:30',
+    '12:00',
+    '12:30',
+    '13:00',
+    '13:30',
+    '14:00',
+    '14:30',
+    '15:00',
+    '15:30',
+    '16:00',
+    '16:30',
+    '17:00',
+    '17:30',
+    '18:00',
+    '18:30',
+    '19:00',
+    '19:30',
+    '20:00',
+    '20:30',
+    '21:00',
+    '21:30',
+    '22:00'
+  ];
+  var days = <int>[
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ];
+  var months = <int>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  var selectedDate = DateTime.now();
+
   var bUA = <BuildingDistance>[];
   var email = '';
 
@@ -49,6 +141,11 @@ class _Home extends State<Home> {
           }
           var current = (snapshot.data) as HomeData;
           var buildings = current.buildings;
+          var buildingsList = <Building>[];
+          for (var b in buildings) {
+            debugPrint(b.buildingsClassrooms.building.id.toString());
+            buildingsList.add(b.buildingsClassrooms.building);
+          }
           var events = current.events;
           return Column(children: <Widget>[
             Expanded(
@@ -133,6 +230,121 @@ class _Home extends State<Home> {
               ],
             )),
             Container(
+              margin: EdgeInsets.all(2),
+              padding: EdgeInsets.all(6.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      'Create Reservation ',
+                      style: TextStyle(fontSize: 24.0),
+                    ),
+                    //styling
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text('Date: ', style: TextStyle(fontSize: 14)),
+                        Text(
+                            selectedDate == null
+                                ? 'Nothing has been picked yet'
+                                : selectedDate.toString().substring(0, 10),
+                            style: TextStyle(fontSize: 14)),
+                        ElevatedButton(
+                            onPressed: () {
+                              showDatePicker(
+                                context: context,
+                                initialDate: selectedDate,
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(DateTime.now().year, 12, 31),
+                              ).then((date) {
+                                setState(() {
+                                  selectedDate = date;
+                                });
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white, // background
+                            ),
+                            child: Icon(
+                              Icons.calendar_today_rounded,
+                              color: Colors.cyan[600],
+                            )),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text('Start Time: ', style: TextStyle(fontSize: 14)),
+                        SizedBox(
+                          width: 200,
+                          child: DropdownButtonFormField(
+                            value: dropdownStartTimeValue,
+                            hint: Text('choose one',
+                                style: TextStyle(fontSize: 14)),
+                            isExpanded: true,
+                            onChanged: (value) {
+                              setState(() {
+                                dropdownStartTimeValue = value;
+                              });
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                dropdownStartTimeValue = value;
+                              });
+                            },
+                            items: hours.map((String val) {
+                              return DropdownMenuItem(
+                                value: val,
+                                child: Text(
+                                  val,
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        )
+                      ],
+                    ),
+                    Text(' '),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Icon(
+                          Icons.location_pin,
+                          color: Colors.cyan[600],
+                        ),
+                        Text('Buildings nearby you ',
+                            style: TextStyle(fontSize: 14)),
+                        Text('Please, turn on your location',
+                            style: TextStyle(fontSize: 9)),
+                      ],
+                    ),
+                    Text(' '),
+
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: buildings.isNotEmpty
+                              ? Colors.cyan[600]
+                              : Colors.cyan[600].withOpacity(0.2), // background
+                          onPrimary: buildings.isNotEmpty
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.2), // foreground
+                        ),
+                        onPressed: () {
+                          buildings.isNotEmpty
+                              ? _submit(selectedDate, dropdownStartTimeValue,
+                                  buildingsList)
+                              : null;
+                          ;
+                        },
+                        child: Text('Find Classrooms Nearby')),
+                  ],
+                ),
+              ),
+            ),
+            /*  Container(
                 margin: EdgeInsets.all(2),
                 padding: EdgeInsets.all(6.0),
                 child: Column(
@@ -195,7 +407,7 @@ class _Home extends State<Home> {
                         );
                       },
                     ),
-            )
+            ) */
           ]);
         });
   }
@@ -204,7 +416,8 @@ class _Home extends State<Home> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => EventDetails(event: event, email: email, canDelete: true)),
+          builder: (context) =>
+              EventDetails(event: event, email: email, canDelete: true)),
     );
   }
 

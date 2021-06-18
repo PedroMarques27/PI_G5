@@ -1,6 +1,5 @@
 import 'dart:core';
 
-import 'package:intl/intl.dart';
 import 'package:r2ua/Entities/Week.dart';
 
 class Event {
@@ -39,7 +38,6 @@ class Event {
   }
   String name, startTime, endTime, duration, sectionName, observations;
   int id, day, numberPeople, eventTypeId, classId;
-  DateFormat date = DateFormat('yyyy-MM-dd');
   List<Week> weeks;
 }
 

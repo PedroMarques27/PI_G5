@@ -158,6 +158,55 @@ class BuildingUAData {
                 num.parse((distanceInMeters / 1000).toStringAsFixed(2))));
       }
     }
+    buildingsUADistance
+        .sort((a, b) => a.buildingDistance.compareTo(b.buildingDistance));
+
+    update(buildingsUADistance);
+    return buildingsUADistance;
+  }
+
+  Future<List<BuildingDistance>> getBuildingsNearByDepartment(
+      List<BuildCount> buildings, int buildingId) async {
+    BuildingsUA departmentChosen;
+    for (var b in buildingsUA) {
+      if (b.brbBuildingId == buildingId) {
+        departmentChosen = b;
+        break;
+      }
+    }
+
+    //var box = await Hive.openBox<BuildingsUA>('buildingsUA');
+    //box values
+    //var list = box.values.toList();
+    //ADD buildings IDS
+    var buildingsIds = <int>[];
+
+    for (var b in buildings) {
+      buildingsIds.add(b.building.id);
+    }
+
+    var g = Geolocator();
+
+    //user position
+    var position = Position(
+        latitude: departmentChosen.lat, longitude: departmentChosen.long);
+
+    var buildingsUADistance = <BuildingDistance>[];
+
+    for (var b in buildingsUA) {
+      if (buildingsIds.contains(b.brbBuildingId)) {
+        var distanceInMeters = await g.distanceBetween(
+            position.latitude, position.longitude, b.lat, b.long);
+
+        buildingsUADistance.add(BuildingDistance(
+            buildingsUA: b,
+            buildingDistance:
+                num.parse((distanceInMeters / 1000).toStringAsFixed(2))));
+      }
+    }
+    
+    buildingsUADistance
+        .sort((a, b) => a.buildingDistance.compareTo(b.buildingDistance));
 
     update(buildingsUADistance);
     return buildingsUADistance;

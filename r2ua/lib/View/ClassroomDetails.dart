@@ -205,21 +205,39 @@ class _ClassroomDetails extends State<ClassroomDetails> {
                     })),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.cyan, // background
-                onPrimary: Colors.white, // foreground
+                primary: (currentWeek.beginning.isBefore(DateTime.now()) &&
+                        DateTime.now()
+                                .difference(currentWeek.beginning)
+                                .inDays >
+                            4)
+                    ? Colors.cyan.withOpacity(0.2)
+                    : Colors.cyan, // background
+                onPrimary: (currentWeek.beginning.isBefore(DateTime.now()) &&
+                        DateTime.now()
+                                .difference(currentWeek.beginning)
+                                .inDays >
+                            4)
+                    ? Colors.white.withOpacity(0.6)
+                    : Colors.white, // foreground
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CreateEvent(
-                            week: currentWeek,
-                            classId: _classroom.id,
-                            email: email,
-                            numMaxStud: _classroom.capacity,
-                            unavailable: currentList,
-                          )),
-                );
+               onPressed: () {
+                (currentWeek.beginning.isBefore(DateTime.now()) &&
+                        DateTime.now()
+                                .difference(currentWeek.beginning)
+                                .inDays >
+                            4)
+                    ? null
+                    : Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateEvent(
+                                  week: currentWeek,
+                                  classId: _classroom.id,
+                                  email: email,
+                                  numMaxStud: _classroom.capacity,
+                                  unavailable: currentList,
+                                )),
+                      );
               },
               child: Text('Book Classroom'),
             )
