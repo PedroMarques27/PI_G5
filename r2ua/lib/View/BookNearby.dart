@@ -6,6 +6,8 @@ import 'package:r2ua/Entities/Building.dart';
 import 'package:r2ua/View/BuildingsClassrooms.dart';
 
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
+import 'package:r2ua/View/CreateEvent.dart';
+import 'package:r2ua/View/CreateEventNearby.dart';
 
 class BookNearby extends StatefulWidget {
   BookNearby(
@@ -42,7 +44,7 @@ class _BookNearby extends State<BookNearby> {
     return Scaffold(
       appBar: AppBar(title: Text('Classrooms Nearby')),
       body: Container(child: _buildList(context)),
-    );     
+    );
   }
 
   Widget _buildList(BuildContext context) {
@@ -63,73 +65,103 @@ class _BookNearby extends State<BookNearby> {
             children: <Widget>[
               Container(
                   margin: EdgeInsets.all(2),
-                  padding: EdgeInsets.all(6.0),
+                  padding: EdgeInsets.all(16.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Book nearby', style: TextStyle(fontSize: 22.0)),
+                      Text(
+                          'Date: ' +
+                              widget.date
+                                  .toString()
+                                  .substring(0, 10)
+                                  .split('-')[2] +
+                              '/' +
+                              widget.date
+                                  .toString()
+                                  .substring(0, 10)
+                                  .split('-')[1] +
+                              '/' +
+                              widget.date
+                                  .toString()
+                                  .substring(0, 10)
+                                  .split('-')[0],
+                          style: TextStyle(fontSize: 18.0)),
+                      Text('Start Time: ' + widget.startTime + 'h',
+                          style: TextStyle(fontSize: 18.0)),
                     ],
                   )),
               Expanded(
                 child: ListView.builder(
                   itemCount: buildings.length,
                   itemBuilder: (context, position) {
-                    return GestureDetector(
-                      child: Container(
-                        margin: EdgeInsets.all(2),
-                        padding: EdgeInsets.all(6.0),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(
-                            color: Colors.grey[300],
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height,
-                                        child: ListView.builder(
-                                            itemCount:
-                                                currentList[buildings[position]]
-                                                    .length,
-                                            itemBuilder: (context, index) {
-                                              return Container(
-                                                child: Column(
-                                                  children: [
-                                                    Text(
+                    return Container(
+                      child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: ListView.builder(
+                                      itemCount:
+                                          currentList[buildings[position]]
+                                              .length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          margin: EdgeInsets.all(2),
+                                          padding: EdgeInsets.all(6.0),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            border: Border.all(
+                                                color: Colors.grey[300]),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                  currentList[buildings[
+                                                          position]][index]
+                                                      .classroom
+                                                      .name,
+                                                  style:
+                                                      TextStyle(fontSize: 17)),
+                                              Text(
+                                                  currentList[buildings[
+                                                              position]][index]
+                                                          .startTime +
+                                                      'h - ' +
                                                       currentList[buildings[
+                                                              position]][index]
+                                                          .endTime,
+                                                  style: TextStyle(
+                                                      color: currentList[buildings[
                                                                       position]]
                                                                   [index]
-                                                              .startTime +
-                                                          ' - ET ' +
-                                                          currentList[buildings[
-                                                                      position]]
-                                                                  [index]
-                                                              .endTime +
-                                                          ' - ClassID' +
-                                                          currentList[buildings[
-                                                                      position]]
-                                                                  [index]
-                                                              .classroom
-                                                              .id
-                                                              .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 17),
-                                                    )
-                                                  ],
-                                                ),
-                                              );
-                                            })),
-                                  )
-                                ])),
-                      ),
+                                                              .thirtyMinAfter
+                                                          ? Colors.red
+                                                          : Colors.black)),
+                                              Text('Building: ' +
+                                                  buildings[position].name),
+                                              Text('Capacity: ' +
+                                                  currentList[buildings[
+                                                          position]][index]
+                                                      .classroom
+                                                      .capacity
+                                                      .toString()),
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    goToCreateEvent(
+                                                        context,
+                                                        currentList[buildings[
+                                                            position]][index],
+                                                        widget.email);
+                                                  },
+                                                  child: Text('Book'))
+                                            ],
+                                          ),
+                                        );
+                                      })),
+                            )
+                          ])),
                     );
                   },
                 ),
@@ -140,13 +172,13 @@ class _BookNearby extends State<BookNearby> {
   }
 
   //navega para outra page
-  void goToClassroomsPerBuildingPage(
-      BuildContext context, BuildCount data, String email) {
+  void goToCreateEvent(
+      BuildContext context, AvailableClassroomOnTime avail, String email) {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => BuildingsClassrooms(
-                buildCount: data,
+          builder: (context) => CreateEventNearby(
+                availClass: avail,
                 email: email,
               )),
     );

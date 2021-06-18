@@ -89,7 +89,7 @@ class BookNearbyEventsBloc {
       }
       var availableClassesperBuilding =
           await unavailableTimes(classes, date, startTime, buildings[i].id);
-          
+
       if (availableClassesperBuilding != null) {
         map[buildings[i]] = availableClassesperBuilding;
       }
@@ -115,7 +115,7 @@ class BookNearbyEventsBloc {
           await unavailableEventsBloc.searchUnavailableEventsByWeekByClassroom(
               weekBeginning.toString(), c.id);
       var availableClass =
-          getAvailableClass(unavEvents, weekday, startTime, buildingId, c);
+          getAvailableClass(unavEvents, weekday, startTime, buildingId, c, date);
       if (availableClass != null) {
         availableClasses.add(availableClass);
       }
@@ -125,7 +125,7 @@ class BookNearbyEventsBloc {
   }
 
   AvailableClassroomOnTime getAvailableClass(List<Event> unavailable, int day,
-      String startTime, int buildingId, Classroom classroom) {
+      String startTime, int buildingId, Classroom classroom, DateTime date) {
     var availableTimes = [
       '08:00',
       '08:30',
@@ -162,7 +162,7 @@ class BookNearbyEventsBloc {
         availableTimes[availableTimes.indexOf(startTime) + 1];
 
     var used = false;
-  
+
     for (var e in unavailable) {
       if (e.day == day) {
         var ind1 = availableTimes.indexOf(e.startTime.substring(0, 5));
@@ -209,7 +209,8 @@ class BookNearbyEventsBloc {
           classroom: classroom,
           startTime: used ? thirtyMinAfterStartTime : startTime,
           endTime: endTime,
-          thirtyMinAfter: used);
+          thirtyMinAfter: used,
+          date:date);
       return availableClass;
     }
 
@@ -223,11 +224,13 @@ class AvailableClassroomOnTime {
       this.classroom,
       this.startTime,
       this.endTime,
-      this.thirtyMinAfter});
+      this.thirtyMinAfter,
+      this.date});
 
   int buildingId;
   Classroom classroom;
   String startTime;
   String endTime;
   bool thirtyMinAfter;
+  DateTime date;
 }

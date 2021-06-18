@@ -308,6 +308,7 @@ class _Home extends State<Home> {
                       ],
                     ),
                     Text(' '),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
