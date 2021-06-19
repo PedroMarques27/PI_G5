@@ -234,7 +234,7 @@ Administrator - Responsible for maintaining MUP-RR operational, they have direct
 
 #### 2.7.1. Architecture Diagram
 
-![architecture-diagram](./images/architecture-diagram.png)
+![architecture-diagram](./images/architecture-diagram.jpg)
 
 #### 2.7.2. Deployment Diagram
 

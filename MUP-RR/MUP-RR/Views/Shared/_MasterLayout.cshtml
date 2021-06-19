@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Projetos UA</title>
+    <link rel="shortcut icon" href="//static.ua.pt/favicon.ico" />
+    <link rel="stylesheet" href="//static.ua.pt/css/semanticua/2.1/semantic.min.css" />
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    <script src="//static.ua.pt/js/jquery/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div class="service area">
+            <div class="limiter">
+                <div class="common">
+                    <a href="https://www.ua.pt/pt/noticias">Notícias</a>
+                    <a href="https://www.ua.pt/pt/agenda">Agenda</a>
+                    <a href="https://twitter.com/univaveiro"><i class="twitter icon"></i></a>
+                    <a href="https://www.instagram.com/universidadedeaveiro/"><i class="instagram icon"></i></a>
+                </div>
+                <div class="shortcuts">
+                    @*<a href="#">Link 1</a>
+                        <a href="#">Link 2</a>*@
+                </div>
+                <div class="session">
+                    @{ var session = new MUP_RR.Helpers.Session(Context.Session);
+
+                        @if (session.SessionActive)
+                        {
+                            <span class="username">@session.ShortName</span>
+                            <a asp-controller="Home" asp-action="Logout">Sair <i class="user icon"></i></a>
+
+                        }
+                        else
+                        {
+                            <a asp-controller="Secure" asp-action="Index">Entrar <i class="user icon"></i></a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="system area">
+            <div class="limiter">
+                <div class="logo">
+                    <a href="https://www.ua.pt/">
+                        <img src="https://static.ua.pt/images/ua/logo-compact-white.svg" alt="logo UA">
+                    </a>
+                    <a class="js-fluid-menu-toggle" href="#">
+                        <i class="bars icon"></i>
+                    </a>
+                </div>
+                <div class="identity">
+                    <h1>Projetos UA</h1>
+                </div>
+                <div class="tools">
+                    <div class="menu">
+                        <a class="js-mobile-menu-toggle" href="#">
+                            <i class="bars icon"></i>
+                        </a>
+                    </div>
+                </div>
+                <nav class="ua"></nav>
+            </div>
+        </div>
+
+        <div class="main area">
+            <div class="limiter">
+                <nav class="ua menu">
+                    <ul>
+                        <li>
+                            <a asp-area="" asp-controller="Home" asp-action="Index">Início</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Project" asp-action="Index">Projetos</a>
+                        </li>
+                        @*<li>
+                                <a asp-area="" asp-controller="Home" asp-action="About">Sobre este sistema</a>
+                            </li>
+                            @if (session.IsAdmin)
+                            {
+                                <li>
+                                    <a asp-area="" asp-controller="Admin" asp-action="Index">Administração</a>
+                                </li>
+                            }*@
+                    </ul>
+                </nav>
+                @RenderBody()
+            </div>
+        </div>
+
+        <footer>
+            <section class="top">
+                <div class="limiter">
+                    <div class="row">
+                        <div class="column one">
+                            <h5>segue-nos</h5>
+                            <ul>
+                                <li>
+                                    <a href="https://www.facebook.com/universidadedeaveiro/" aria-label="Logótipo facebook" target="_blank">
+                                        <i class="facebook f icon"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/universidadedeaveiro/" aria-label="Logótipo do instagram" target="_blank">
+                                        <i class="instagram icon"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com/univaveiro" aria-label="Logótipo do twitter" target="_blank">
+                                        <i class="twitter icon"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.linkedin.com/school/universidade-de-aveiro/?originalSubdomain=pt" aria-label="Logótipo do LinkedIn" target="_blank">
+                                        <i class="linkedin in icon"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.youtube.com/channel/UCJnxPIxMHdxcYhRIIw_ztEg" aria-label="Logótipo do YouTube" target="_blank">
+                                        <i class="youtube icon"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="column two">
+                        </div>
+                        <div class="column three">
+                            <h5>Links Rápidos</h5>
+                            <ul>
+                                <li>
+                                    <a aria-label="sobre a ua" href="https://www.ua.pt/pt/universidade">sobre a UA</a>
+                                </li>
+                                <li>
+                                    <a aria-label="Cursos" href="https://www.ua.pt/pt/tipo-curso">cursos</a>
+                                </li>
+                                <li>
+                                    <a aria-label="candidaturas" href="https://www.ua.pt/pt/candidaturas">candidaturas</a>
+                                </li>
+                                <li>
+                                    <a aria-label="Departamentos/Escolas" href="https://www.ua.pt/pt/departamentos-escolas">departamentos/escolas</a>
+                                </li>
+                                <li>
+                                    <a aria-label="Serviços" href="https://www.ua.pt/pt/administracao-servicos">serviços</a>
+                                </li>
+                                <li>
+                                    <a aria-label="unidades de investigação" href="https://www.ua.pt/pt/unidades-investigacao">unidades de investigação</a>
+                                </li>
+                                <li>
+                                    <a aria-label="Biblioteca" href="https://www.ua.pt/pt/sbidm">biblioteca</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="column four">
+                            <h5>públicos</h5>
+                            <ul>
+                                <li>
+                                    <a aria-label="futuros estudantes" href="https://www.ua.pt/pt/publico-futuros-estudantes">futuros estudantes</a>
+                                </li>
+                                <li>
+                                    <a aria-label="estudantes da ua" href="https://www.ua.pt/pt/publico-estudantes">estudantes UA</a>
+                                </li>
+                                <li>
+                                    <a aria-label="estudantes internacionais" href="https://www.ua.pt/pt/publico-estudantes-internacionais">estudantes internacionais</a>
+                                </li>
+                                <li>
+                                    <a aria-label="alumni" href="https://www.ua.pt/pt/publico-alumni">alumni</a>
+                                </li>
+                                <li>
+                                    <a aria-label="pessoas ua" href="https://www.ua.pt/pt/publico-pessoas">pessoas UA</a>
+                                </li>
+                                <li>
+                                    <a aria-label="sociedade" href="https://www.ua.pt/pt/publico-sociedade">sociedade</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="column five">
+                            <h5>Contactos</h5>
+                            <p>
+                                Campus Universitário de Santiago
+                                <br>
+                                3810-193 Aveiro
+                                <br>
+                                Portugal
+                            </p>
+                            <p>
+                                <a href="mailto:geral@ua.pt">geral@ua.pt</a>
+                                <br>
+                                <a href="tel:+351234370200">+351 234 370 200</a>
+                            </p>
+                            <p><a aria-label="contactos gerais" href="https://www.ua.pt/pt/contactos-gerais">contactos gerais</a></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="bottom">
+                <div class="limiter">
+                    <div class="row">
+                        <div class="column one">
+                            <a aria-label="Proteção de dados" href="https://www.ua.pt/pt/protecao-dados">Proteção de dados</a>
+                            <a aria-label="Acessibilidade" href="https://www.ua.pt/pt/acessibilidade">Acessibilidade</a>
+                            <a aria-label="Mapa do site" href="https://www.ua.pt/pt/mapa-site">Site map</a>
+                            <div>Universidade de Aveiro 2021</div>
+                        </div>
+                        <div class="column two">
+                            <a href="https://www.ua.pt/stic/page/22825">
+                                <img src="https://www.ua.pt/imgs/logos/logo_compete.jpg" alt="Logótipo Compete 2020" class="sc-gzVnrw kqBWqZ" height="30px">
+                            </a>
+                            <a href="https://www.w3.org/WAI/WCAG2AAA-Conformance.html" target="_blank"><img src="https://www.ua.pt/imgs/logos/logo_ta.jpg" alt="Em conformidade com o nível 'triplo-A' das WCAG 2.0 do W3C" height="25px"></a>
+                            <a href="http://www.eciu.org/" target="_blank">
+                                <img src="https://www.ua.pt/imgs/logos/eciu_01.svg" alt="Logótipo do Consórcio Europeu de Universidades Inovadoras" height="30px">
+                            </a>
+                            <a href="https://www.ua.pt/file/42005" target="_blank">
+                                <img src="https://www.ua.pt/imgs/logos/eche.jpg" alt="Logótipo do ERASMUS charter for higher education 2014-2020" height="30px">
+                            </a>
+                            <a href="https://www.ua.pt/file/33409" target="_blank">
+                                <img src="https://www.ua.pt/imgs/logos/eps.jpg" alt="Logótipo do ERASMUS policy statement" height="30px">
+                            </a>
+                            <a href="http://www.acessibilidade.gov.pt/simbolo" target="_blank">
+                                <img src="https://www.ua.pt/imgs/logos/logo_acessibilidade.jpg" alt="Símbolo de Acessibilidade à Web" height="15px">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </footer>
+    </div>
+    <script src="//static.ua.pt/css/semanticua/2.1/semantic.min.js"></script>
+
+    <environment include="Development">
+        <script src="~/js/site.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
