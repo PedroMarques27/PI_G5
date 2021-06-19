@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/Entities/Week.dart';
 import 'BrbBloc.dart';
@@ -125,8 +126,14 @@ class EventsBloc {
       userEvents1 = List<Event>.from(l.map((model) => Event.fromJson(model)));
     }
 
+
+    var array = <int>[];
+    for (var e in userEvents) {
+      array.add(e.id);
+    }
+
     for (var e in userEvents1) {
-      if (!userEvents.contains(e)) {
+      if (!array.contains(e.id)) {
         userEvents.add(e);
       }
     }
@@ -135,7 +142,6 @@ class EventsBloc {
       var event = userEvents[j];
       if (event.weeks.length > 1) {
         for (var w = 0; w < event.weeks.length; w++) {
-          debugPrint("WEEK  " + event.weeks[w].getFormattedBegin().toString());
           if (initWeekDay_before(event.weeks[w].getFormattedBegin())) {
             event.weeks.remove(event.weeks[w]);
           }
@@ -200,20 +206,12 @@ class EventsBloc {
       return true;
     }
 
-    debugPrint("event day " + parseDt.toString());
-
     return false;
   }
 
   bool eventDateBeforeDateNow(int day, String week, String startTime) {
     var date = convertToDateTime(day, week, startTime);
     if (date.isBefore(DateTime.now())) {
-      var formatter = DateFormat('yyyy-MM-dd – kk:mm');
-      var formatted = formatter.format(date);
-      debugPrint('BEFORE ->  Today: ' +
-          DateTime.now().toString() +
-          '   Event date: ' +
-          formatted);
       return true;
     }
     return false;
@@ -222,12 +220,6 @@ class EventsBloc {
   bool eventDateAfterDateNow(int day, String week, String startTime) {
     var date = convertToDateTime(day, week, startTime);
     if (date.isAfter(DateTime.now())) {
-      var formatter = DateFormat('yyyy-MM-dd – kk:mm');
-      var formatted = formatter.format(date);
-      debugPrint('AFTER ->  Today: ' +
-          DateTime.now().toString() +
-          '   Event date: ' +
-          formatted);
       return true;
     }
     return false;
@@ -320,14 +312,16 @@ class EventsBloc {
       userEvents1 = List<Event>.from(l.map((model) => Event.fromJson(model)));
     }
 
+    var array = <int>[];
+    for (var e in userEvents) {
+      array.add(e.id);
+    }
+
     for (var e in userEvents1) {
-      if (!userEvents.contains(e)) {
+      if (!array.contains(e.id)) {
         userEvents.add(e);
       }
     }
-
-    var now = DateTime.now();
-    var dateNow = DateTime(now.year, now.month, now.day);
 
     for (var j = 0; j < userEvents.length; j++) {
       var e = userEvents[j];
@@ -363,7 +357,6 @@ class EventsBloc {
         }));
 
     if (response.statusCode == 204) {
-      //await bookingsEvents(email, 3);
       return true;
     }
     return false;

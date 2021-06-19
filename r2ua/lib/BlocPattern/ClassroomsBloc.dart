@@ -12,6 +12,10 @@ class ClassroomsBloc {
       StreamController<List<Classroom>>.broadcast();
   Stream get getClassrooms => classroomStreamController.stream;
 
+  StreamController<Classroom> classStreamController =
+      StreamController<Classroom>.broadcast();
+  Stream get getSingleClassroom => classStreamController.stream;
+
   void update(List<Classroom> b) {
     classroomStreamController.sink
         .add(b); // add whatever data we want into the Sink
@@ -20,6 +24,15 @@ class ClassroomsBloc {
   void dispose() {
     classroomStreamController
         .close(); // close our StreamController to emory leak
+  }
+
+  void update1(Classroom b) {
+    classStreamController.sink
+        .add(b); // add whatever data we want into the Sink
+  }
+
+  void dispose1() {
+    classStreamController.close(); // close our StreamController to emory leak
   }
 
   Future<List<Classroom>> getData(String url) async {
@@ -61,5 +74,12 @@ class ClassroomsBloc {
     update(classes);
 
     return classes;
+  }
+
+  Future<Classroom> getEventClassroom(int classID) async {
+    var c = await getClassroomById(classID);
+    update1(c);
+
+    return c;
   }
 }

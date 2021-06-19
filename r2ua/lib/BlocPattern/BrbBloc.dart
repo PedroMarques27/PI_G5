@@ -120,3 +120,4 @@ final bookingsBloc = BookingsBloc();
 final unavailableEventsBloc = UnavailableEventsBloc();
 final postEventsBloc = PostEventsBloc();
 final bookNearbyEventsBloc = BookNearbyEventsBloc();
+

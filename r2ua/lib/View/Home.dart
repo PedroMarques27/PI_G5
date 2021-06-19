@@ -377,70 +377,7 @@ class _Home extends State<Home> {
                     ),
                   ),
                 ),
-                /*  Container(
-                margin: EdgeInsets.all(2),
-                padding: EdgeInsets.all(6.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Buildings Nearby', style: TextStyle(fontSize: 22.0)),
-                  ],
-                )),
-            Expanded(
-              flex: 1,
-              child: buildings.isEmpty
-                  ? LinearProgressIndicator()
-                  : ListView.builder(
-                      itemCount: buildings.length,
-                      itemBuilder: (context, position) {
-                        return GestureDetector(
-                          onTap: () {
-                            goToClassroomsPerBuildingPage(context,
-                                buildings[position].buildingsClassrooms);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(2),
-                            padding: EdgeInsets.all(6.0),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              border: Border.all(
-                                color: Colors.grey[300],
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Expanded(
-                                        flex: 6,
-                                        child: Text(
-                                          buildings[position]
-                                              .buildingsClassrooms
-                                              .building
-                                              .name,
-                                          style: TextStyle(fontSize: 16.0),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 2, // 60%
-                                        child: Text(
-                                          buildings[position]
-                                                  .buildingsDistance
-                                                  .buildingDistance
-                                                  .toString() +
-                                              'km',
-                                          style: TextStyle(fontSize: 16.0),
-                                        ),
-                                      ),
-                                    ])),
-                          ),
-                        );
-                      },
-                    ),
-            ) */
+                
               ]);
         });
   }
