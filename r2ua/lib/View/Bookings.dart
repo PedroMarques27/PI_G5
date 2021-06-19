@@ -25,20 +25,6 @@ class _Bookings extends State<Bookings> {
     return Scaffold(body: _buildList(context));
   }
 
-/*   @override
-  void initState() {
-    super.initState();
-    email = widget.email;
-    eventsBloc.bookingsEvents(email, 100).then((value) {
-      setState(() {
-        userEvents = value;
-        currentEventsList = userEvents.futureEvents;
-        pastEventsList = userEvents.pastEvents;
-        currentList = currentEventsList;
-      });
-    });
-  } */
-
   String dropdownValue = 'Future';
   List<Event> pastEventsList = <Event>[];
   List<Event> futureEventsList = <Event>[];
@@ -56,6 +42,11 @@ class _Bookings extends State<Bookings> {
           var current = (snapshot.data) as BookingsData;
           pastEventsList = current.pastEvents;
           futureEventsList = current.futureEvents;
+          if (dropdownValue == 'Future') {
+            currentList = futureEventsList;
+          } else {
+            currentList = pastEventsList;
+          }
           return Column(
             children: <Widget>[
               Dropdown(context),

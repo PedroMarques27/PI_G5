@@ -35,7 +35,6 @@ class UsersBloc {
     );
     Iterable l = json.decode(response.body)['data'];
     var users = List<User>.from(l.map((model) => User.fromJson(model)));
-    debugPrint('FINISH');
     return users;
   }
 

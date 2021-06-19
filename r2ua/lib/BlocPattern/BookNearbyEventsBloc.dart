@@ -110,12 +110,11 @@ class BookNearbyEventsBloc {
     var availableClasses = <AvailableClassroomOnTime>[];
 
     for (var c in classes) {
-      debugPrint('FOR CLASSES ' + c.id.toString());
       var unavEvents =
           await unavailableEventsBloc.searchUnavailableEventsByWeekByClassroom(
               weekBeginning.toString(), c.id);
-      var availableClass =
-          getAvailableClass(unavEvents, weekday, startTime, buildingId, c, date);
+      var availableClass = getAvailableClass(
+          unavEvents, weekday, startTime, buildingId, c, date);
       if (availableClass != null) {
         availableClasses.add(availableClass);
       }
@@ -210,7 +209,7 @@ class BookNearbyEventsBloc {
           startTime: used ? thirtyMinAfterStartTime : startTime,
           endTime: endTime,
           thirtyMinAfter: used,
-          date:date);
+          date: date);
       return availableClass;
     }
 

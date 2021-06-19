@@ -68,34 +68,6 @@ class PostEventsBloc {
           ]
         }));
 
-        debugPrint(jsonEncode({
-          'name': name,
-          'code': (name + '_' + email).toLowerCase().replaceAll(' ', '_'),
-          'startTime': startTime,
-          'endTime': endTime,
-          'day': day,
-          'eventTypeId': eventType,
-          'numStudents': numStudents,
-          'requestedBy': email,
-          'eventWeeks': [
-            {
-              'model': {'weekId': weekId},
-              'status': 1
-            }
-          ],
-          'eventClassrooms': [
-            {
-              'model': {'classroomId': classId},
-              'status': 1
-            }
-          ],
-          'propertyBags': [
-            {'key': 'string', 'value': 'string'}
-          ]
-        }));
-
-    debugPrint('Status code' + response.statusCode.toString());
-
     if (response.statusCode == 201) {
       await eventsBloc.searchEventsByUser(email);
       return jsonDecode(response.body)['data']['id'];

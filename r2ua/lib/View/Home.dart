@@ -142,7 +142,6 @@ class _Home extends State<Home> {
           var buildings = current.buildings;
           var buildingsList = <Building>[];
           for (var b in buildings) {
-            debugPrint(b.buildingsClassrooms.building.id.toString());
             buildingsList.add(b.buildingsClassrooms.building);
           }
           var events = current.events;

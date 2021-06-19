@@ -57,7 +57,6 @@ class _BookNearby extends State<BookNearby> {
           }
           currentList = (snapshot.data) as Map;
           buildings = currentList.keys.toList();
-          debugPrint(currentList[buildings[0]].toString());
 
           return Column(
             children: <Widget>[
