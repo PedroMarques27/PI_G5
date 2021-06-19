@@ -189,13 +189,12 @@ class BookNearbyEventsBloc {
         }
       }
     }
-
     if (endTime == '' && availableTimes.contains(thirtyMinAfterStartTime)) {
       used = true;
       for (var i = availableTimes.indexOf(thirtyMinAfterStartTime) + 1;
           i < availableTimes.length;
           i++) {
-        if (availableTimes[i] != '-') {
+        if (availableTimes[i] == '-') {
           break;
         } else {
           endTime = availableTimes[i];

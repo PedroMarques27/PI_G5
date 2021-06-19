@@ -35,7 +35,7 @@ class _CreateEventNearby extends State<CreateEventNearby> {
   }
 
   String dropdownEndTimeValue = '08:30';
-  String dropdownEventTypeValue = 'Aula';
+  String dropdownEventTypeValue = 'Meeting';
   String dropdownCapacityValue = '1';
   String name = '';
   String firstHour = '';
@@ -49,14 +49,7 @@ class _CreateEventNearby extends State<CreateEventNearby> {
     var hours =
         availableTimes(avail.startTime, avail.endTime, avail.thirtyMinAfter);
 
-    var eventType = <String>[
-      'Aula',
-      'Exame',
-      'Conferência',
-      'Reunião',
-      'Avaliação',
-      'Reservas'
-    ];
+    var eventType = <String>['Meeting'];
 
     return Scaffold(
         appBar: AppBar(
@@ -213,7 +206,7 @@ class _CreateEventNearby extends State<CreateEventNearby> {
                         firstHour,
                         dropdownEndTimeValue,
                         avail.date.weekday - 1,
-                        eventType.indexOf(dropdownEventTypeValue) + 1,
+                        4,
                         numStud.indexOf(dropdownCapacityValue) + 1,
                         avail.date
                             .subtract(Duration(days: avail.date.weekday - 1))
@@ -288,7 +281,6 @@ class _CreateEventNearby extends State<CreateEventNearby> {
     }
 
     setState(() {
-      dropdownEndTimeValue = availableTimes[1];
       firstHour = availableTimes[0];
     });
     availableTimes.removeAt(0);

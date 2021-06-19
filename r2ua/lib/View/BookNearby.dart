@@ -114,45 +114,75 @@ class _BookNearby extends State<BookNearby> {
                                           ),
                                           child: Column(
                                             children: [
-                                              Text(
-                                                  currentList[buildings[
-                                                          position]][index]
-                                                      .classroom
-                                                      .name,
-                                                  style:
-                                                      TextStyle(fontSize: 17)),
-                                              Text(
-                                                  currentList[buildings[
-                                                              position]][index]
-                                                          .startTime +
-                                                      'h - ' +
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
                                                       currentList[buildings[
                                                               position]][index]
-                                                          .endTime,
-                                                  style: TextStyle(
-                                                      color: currentList[buildings[
-                                                                      position]]
-                                                                  [index]
-                                                              .thirtyMinAfter
-                                                          ? Colors.red
-                                                          : Colors.black)),
-                                              Text('Building: ' +
-                                                  buildings[position].name),
-                                              Text('Capacity: ' +
-                                                  currentList[buildings[
-                                                          position]][index]
-                                                      .classroom
-                                                      .capacity
-                                                      .toString()),
-                                              ElevatedButton(
-                                                  onPressed: () {
-                                                    goToCreateEvent(
-                                                        context,
-                                                        currentList[buildings[
-                                                            position]][index],
-                                                        widget.email);
-                                                  },
-                                                  child: Text('Book'))
+                                                          .classroom
+                                                          .name,
+                                                      style: TextStyle(
+                                                          fontSize: 17)),
+                                                  Text('Capacity: ' +
+                                                      currentList[buildings[
+                                                              position]][index]
+                                                          .classroom
+                                                          .capacity
+                                                          .toString()),
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    children: [
+                                                      Text('Building: ' +
+                                                          buildings[position]
+                                                              .name),
+                                                      Text(
+                                                          ' ' +
+                                                              currentList[buildings[
+                                                                          position]]
+                                                                      [index]
+                                                                  .startTime +
+                                                              'h - ' +
+                                                              currentList[buildings[
+                                                                          position]]
+                                                                      [index]
+                                                                  .endTime +
+                                                              'h',
+                                                          style: TextStyle(
+                                                              color: currentList[
+                                                                              buildings[position]]
+                                                                          [
+                                                                          index]
+                                                                      .thirtyMinAfter
+                                                                  ? Colors.red
+                                                                  : Colors
+                                                                      .black)),
+                                                    ],
+                                                  ),
+                                                  ElevatedButton(
+                                                      onPressed: () {
+                                                        goToCreateEvent(
+                                                            context,
+                                                            currentList[buildings[
+                                                                    position]]
+                                                                [index],
+                                                            widget.email);
+                                                      },
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                              primary: Colors
+                                                                  .cyan[600]),
+                                                      child: Text('Book'))
+                                                ],
+                                              ),
                                             ],
                                           ),
                                         );
@@ -162,7 +192,7 @@ class _BookNearby extends State<BookNearby> {
                     );
                   },
                 ),
-              )
+              ),
             ],
           );
         });

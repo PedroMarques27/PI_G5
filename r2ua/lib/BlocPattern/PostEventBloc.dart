@@ -68,6 +68,7 @@ class PostEventsBloc {
           ]
         }));
 
+    debugPrint('Status Code' + response.statusCode.toString());
     if (response.statusCode == 201) {
       await eventsBloc.searchEventsByUser(email);
       return jsonDecode(response.body)['data']['id'];

@@ -52,7 +52,7 @@ class _CreateEvent extends State<CreateEvent> {
   String dropdownWeekDayValue = 'Monday';
   String dropdownStartTimeValue = '08:00';
   String dropdownEndTimeValue = '08:30';
-  String dropdownEventTypeValue = 'Aula';
+  String dropdownEventTypeValue = 'Meeting';
   String dropdownCapacityValue = '1';
   String name = '';
   List<String> weekDays = [
@@ -100,12 +100,7 @@ class _CreateEvent extends State<CreateEvent> {
       '22:00'
     ];
     var eventType = <String>[
-      'Aula',
-      'Exame',
-      'Conferência',
-      'Reunião',
-      'Avaliação',
-      'Reservas'
+      'Meeting',
     ];
 
     return Scaffold(
@@ -338,7 +333,7 @@ class _CreateEvent extends State<CreateEvent> {
                         dropdownStartTimeValue,
                         dropdownEndTimeValue,
                         weekDays.indexOf(dropdownWeekDayValue),
-                        eventType.indexOf(dropdownEventTypeValue) + 1,
+                        4,
                         numStud.indexOf(dropdownCapacityValue) + 1),
                     child: Text(
                       'Submit',

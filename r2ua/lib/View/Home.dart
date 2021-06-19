@@ -145,205 +145,239 @@ class _Home extends State<Home> {
             buildingsList.add(b.buildingsClassrooms.building);
           }
           var events = current.events;
-          return Column(children: <Widget>[
-            Expanded(
-                child: Column(
+          return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text('Next Reservations', style: TextStyle(fontSize: 24.0)),
                 Expanded(
-                    child: ListView.builder(
-                        itemCount: events.length > 3 ? 3 : events.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                              onTap: () {
-                                goToEventDetails(context, email, events[index]);
-                              },
-                              child: Container(
-                                  margin: EdgeInsets.all(2),
-                                  padding: EdgeInsets.all(6.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    border: Border.all(color: Colors.grey[300]),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Column(children: [
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Text(events[index].name.toString(),
-                                                style: TextStyle(fontSize: 18)),
-                                            Text(events[index]
-                                                    .weeks[0]
-                                                    .beginning
-                                                    .add(Duration(
-                                                        days:
-                                                            events[index].day))
-                                                    .toIso8601String()
-                                                    .split('T')[0]
-                                                    .split('-')[2] +
-                                                '/' +
-                                                events[index]
-                                                    .weeks[0]
-                                                    .beginning
-                                                    .add(Duration(
-                                                        days:
-                                                            events[index].day))
-                                                    .toIso8601String()
-                                                    .split('T')[0]
-                                                    .split('-')[1] +
-                                                '/' +
-                                                events[index]
-                                                    .weeks[0]
-                                                    .beginning
-                                                    .add(Duration(
-                                                        days:
-                                                            events[index].day))
-                                                    .toIso8601String()
-                                                    .split('T')[0]
-                                                    .split('-')[0]),
-                                          ]),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(events[index]
-                                                  .startTime
-                                                  .toString()
-                                                  .substring(0, 5) +
-                                              'h - ' +
-                                              events[index]
-                                                  .endTime
-                                                  .toString()
-                                                  .substring(0, 5) +
-                                              'h'),
-                                          Text(weekDays[events[index].day])
-                                        ],
-                                      )
-                                    ]),
-                                  )));
-                        }))
-              ],
-            )),
-            Container(
-              margin: EdgeInsets.all(2),
-              padding: EdgeInsets.all(6.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
+                    child: Column(
                   children: <Widget>[
-                    Text(
-                      'Create Reservation ',
-                      style: TextStyle(fontSize: 24.0),
-                    ),
-                    //styling
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text('Date: ', style: TextStyle(fontSize: 14)),
-                        Text(
-                            selectedDate == null
-                                ? 'Nothing has been picked yet'
-                                : selectedDate.toString().substring(0, 10),
-                            style: TextStyle(fontSize: 14)),
-                        ElevatedButton(
-                            onPressed: () {
-                              showDatePicker(
-                                context: context,
-                                initialDate: selectedDate,
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime(DateTime.now().year, 12, 31),
-                              ).then((date) {
-                                setState(() {
-                                  selectedDate = date;
-                                });
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white, // background
-                            ),
-                            child: Icon(
-                              Icons.calendar_today_rounded,
-                              color: Colors.cyan[600],
-                            )),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text('Start Time: ', style: TextStyle(fontSize: 14)),
-                        SizedBox(
-                          width: 200,
-                          child: DropdownButtonFormField(
-                            value: dropdownStartTimeValue,
-                            hint: Text('choose one',
-                                style: TextStyle(fontSize: 14)),
-                            isExpanded: true,
-                            onChanged: (value) {
-                              setState(() {
-                                dropdownStartTimeValue = value;
-                              });
-                            },
-                            onSaved: (value) {
-                              setState(() {
-                                dropdownStartTimeValue = value;
-                              });
-                            },
-                            items: hours.map((String val) {
-                              return DropdownMenuItem(
-                                value: val,
-                                child: Text(
-                                  val,
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        )
-                      ],
-                    ),
-                    Text(' '),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Icon(
-                          Icons.location_pin,
-                          color: Colors.cyan[600],
-                        ),
-                        Text('Buildings nearby you ',
-                            style: TextStyle(fontSize: 14)),
-                        Text('Please, turn on your location',
-                            style: TextStyle(fontSize: 9)),
-                      ],
-                    ),
-                    Text(' '),
-
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: buildings.isNotEmpty
-                              ? Colors.cyan[600]
-                              : Colors.cyan[600].withOpacity(0.2), // background
-                          onPrimary: buildings.isNotEmpty
-                              ? Colors.white
-                              : Colors.white.withOpacity(0.2), // foreground
-                        ),
-                        onPressed: () {
-                          buildings.isNotEmpty
-                              ? _submit(selectedDate, dropdownStartTimeValue,
-                                  buildingsList)
-                              : null;
-                          ;
-                        },
-                        child: Text('Find Classrooms Nearby')),
+                    Text('Next Reservations', style: TextStyle(fontSize: 24.0)),
+                    Expanded(
+                        child: ListView.builder(
+                            itemCount: events.length > 4 ? 4 : events.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                  onTap: () {
+                                    goToEventDetails(
+                                        context, email, events[index]);
+                                  },
+                                  child: Container(
+                                      margin: EdgeInsets.all(2),
+                                      padding: EdgeInsets.all(6.0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        border:
+                                            Border.all(color: Colors.grey[300]),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Column(children: [
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text(
+                                                    events[index]
+                                                        .name
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 18)),
+                                                Text(events[index]
+                                                        .weeks[0]
+                                                        .beginning
+                                                        .add(Duration(
+                                                            days: events[index]
+                                                                .day))
+                                                        .toIso8601String()
+                                                        .split('T')[0]
+                                                        .split('-')[2] +
+                                                    '/' +
+                                                    events[index]
+                                                        .weeks[0]
+                                                        .beginning
+                                                        .add(Duration(
+                                                            days: events[index]
+                                                                .day))
+                                                        .toIso8601String()
+                                                        .split('T')[0]
+                                                        .split('-')[1] +
+                                                    '/' +
+                                                    events[index]
+                                                        .weeks[0]
+                                                        .beginning
+                                                        .add(Duration(
+                                                            days: events[index]
+                                                                .day))
+                                                        .toIso8601String()
+                                                        .split('T')[0]
+                                                        .split('-')[0]),
+                                              ]),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text(events[index]
+                                                      .startTime
+                                                      .toString()
+                                                      .substring(0, 5) +
+                                                  'h - ' +
+                                                  events[index]
+                                                      .endTime
+                                                      .toString()
+                                                      .substring(0, 5) +
+                                                  'h'),
+                                              Text(weekDays[events[index].day])
+                                            ],
+                                          )
+                                        ]),
+                                      )));
+                            }))
                   ],
+                )),
+                Divider(
+                  height: 2,
+                  thickness: 2.0,
                 ),
-              ),
-            ),
-            /*  Container(
+                Container(
+                  height: MediaQuery.of(context).size.height / 3,
+                  margin: EdgeInsets.all(2),
+                  padding: EdgeInsets.all(6.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          'Create Reservation ',
+                          style: TextStyle(fontSize: 24.0),
+                        ),
+                        //styling
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text('Date: ', style: TextStyle(fontSize: 14)),
+                            Text(
+                                selectedDate == null
+                                    ? 'Nothing has been picked yet'
+                                    : selectedDate.toString().substring(0, 10),
+                                style: TextStyle(fontSize: 14)),
+                            ElevatedButton(
+                                onPressed: () {
+                                  showDatePicker(
+                                    context: context,
+                                    initialDate: selectedDate ?? DateTime.now(),
+                                    firstDate: DateTime.now(),
+                                    lastDate:
+                                        DateTime(DateTime.now().year, 12, 31),
+                                  ).then((date) {
+                                    setState(() {
+                                      selectedDate = date;
+                                    });
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.white, // background
+                                ),
+                                child: Icon(
+                                  Icons.calendar_today_rounded,
+                                  color: Colors.cyan[600],
+                                )),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text('Start Time: ',
+                                style: TextStyle(fontSize: 14)),
+                            SizedBox(
+                              width: 200,
+                              child: DropdownButtonFormField(
+                                value: dropdownStartTimeValue,
+                                hint: Text('choose one',
+                                    style: TextStyle(fontSize: 14)),
+                                isExpanded: true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    dropdownStartTimeValue = value;
+                                  });
+                                },
+                                onSaved: (value) {
+                                  setState(() {
+                                    dropdownStartTimeValue = value;
+                                  });
+                                },
+                                items: hours.map((String val) {
+                                  return DropdownMenuItem(
+                                    value: val,
+                                    child: Text(
+                                      val,
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            )
+                          ],
+                        ),
+                        Text(' '),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Icon(
+                              Icons.location_pin,
+                              color: Colors.cyan[600],
+                            ),
+                            Text('Buildings nearby you ',
+                                style: TextStyle(fontSize: 14)),
+                            Text('Please, turn on your location',
+                                style: TextStyle(fontSize: 9)),
+                          ],
+                        ),
+                        if (selectedDate != null &&
+                            (selectedDate.weekday == 7 ||
+                                selectedDate.weekday == 6))
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('You can only choose Weekdays (Mon-Fri)',
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.red)),
+                            ],
+                          ),
+                        Text(''),
+
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: buildings.isNotEmpty &&
+                                      (selectedDate.weekday != 6 &&
+                                          selectedDate.weekday != 7)
+                                  ? Colors.cyan[600]
+                                  : Colors.cyan[600]
+                                      .withOpacity(0.2), // background
+                              onPrimary: buildings.isNotEmpty &&
+                                      (selectedDate.weekday != 6 &&
+                                          selectedDate.weekday != 7)
+                                  ? Colors.white
+                                  : Colors.white.withOpacity(0.2), // foreground
+                            ),
+                            onPressed: () {
+                              buildings.isNotEmpty &&
+                                      (selectedDate.weekday != 6 &&
+                                          selectedDate.weekday != 7)
+                                  ? _submit(selectedDate,
+                                      dropdownStartTimeValue, buildingsList)
+                                  : null;
+                              ;
+                            },
+                            child: Text('Find Classrooms Nearby')),
+                      ],
+                    ),
+                  ),
+                ),
+                /*  Container(
                 margin: EdgeInsets.all(2),
                 padding: EdgeInsets.all(6.0),
                 child: Column(
@@ -407,7 +441,7 @@ class _Home extends State<Home> {
                       },
                     ),
             ) */
-          ]);
+              ]);
         });
   }
 
