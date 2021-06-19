@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
     var location = Geolocator();
     location.checkGeolocationPermissionStatus();
-    brbBloc.initialize(email);
+
     homeBloc.startCapturing();
     bookingsBloc.startCapturing();
     weekBloc.getWeeks();

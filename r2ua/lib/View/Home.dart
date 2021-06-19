@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:r2ua/BlocPattern/HomeBloc.dart';
 import 'package:r2ua/Entities/Building.dart';
-import 'package:r2ua/Entities/BuildingsUA.dart';
 import 'package:r2ua/Entities/Event.dart';
 import 'package:r2ua/View/BookNearby.dart';
 import 'package:r2ua/View/EventDetails.dart';

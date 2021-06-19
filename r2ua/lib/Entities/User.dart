@@ -10,7 +10,7 @@ class User {
       this.isActive,
       this.isAdmin,
       this.events});
-
+  User.empty();
   factory User.fromJson(Map<String, dynamic> json) {
     var a = json['isActive'].toString().toLowerCase() == 'true';
     var b = json['isAdmin'].toString().toLowerCase() == 'true';

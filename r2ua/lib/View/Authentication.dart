@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
-import 'Home.dart';
 
+// ignore: must_be_immutable
 class LoginPage extends StatefulWidget {
   LoginPage({this.title});
   String title;
@@ -28,10 +29,22 @@ class _LoginPageState extends State<LoginPage> {
 
     if (prefs.containsKey('LOGIN')) {
       var email = prefs.getString('LOGIN');
-      await Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-              builder: (context) => MyHomePage(email: email, title: title)),
-          (Route<dynamic> route) => false);
+      var currentUser = await brbBloc.initialize(email);
+      if (currentUser.id == null) {
+        await Fluttertoast.showToast(
+            msg: 'Please Provide a Valid Email',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.grey,
+            textColor: Colors.black,
+            fontSize: 16.0);
+      } else {
+        await Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => MyHomePage(email: email, title: title)),
+            (Route<dynamic> route) => false);
+      }
     }
   }
 
@@ -43,23 +56,25 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    init(context);
     return MaterialApp(home: Login());
   }
 
   Widget Login() {
+    // ignore: deprecated_member_use
     final forgotLabel = FlatButton(
+      onPressed: () {},
       child: Text(
         'Forgot password?',
         style: TextStyle(color: Colors.black54),
       ),
-      onPressed: () {},
     );
     final logo = Hero(
       tag: 'hero',
       child: CircleAvatar(
         backgroundColor: Colors.transparent,
         radius: 48.0,
-        //child: Image.asset('assets/logo.png'),
+        child: Image.asset('assets/images/R2UA.png'),
       ),
     );
 
@@ -87,12 +102,25 @@ class _LoginPageState extends State<LoginPage> {
 
     final loginButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
+      // ignore: deprecated_member_use
       child: RaisedButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          login(context, emailController.text);
+          if (emailController.text.isEmpty ||
+              !emailController.text.contains('@ua.pt')) {
+            Fluttertoast.showToast(
+                msg: 'Please Provide a Valid Email',
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.grey,
+                textColor: Colors.black,
+                fontSize: 16.0);
+          } else {
+            login(context, emailController.text);
+          }
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,

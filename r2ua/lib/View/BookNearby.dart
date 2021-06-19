@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:r2ua/BlocPattern/BookNearbyEventsBloc.dart';
 import 'package:r2ua/Entities/Building.dart';
-import 'package:r2ua/View/BuildingsClassrooms.dart';
 
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
-import 'package:r2ua/View/CreateEvent.dart';
 import 'package:r2ua/View/CreateEventNearby.dart';
 
+// ignore: must_be_immutable
 class BookNearby extends StatefulWidget {
   BookNearby(
       {Key key,

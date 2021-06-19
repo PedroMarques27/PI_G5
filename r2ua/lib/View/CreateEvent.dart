@@ -327,6 +327,7 @@ class _CreateEvent extends State<CreateEvent> {
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.1,
                   ),
+                  // ignore: deprecated_member_use
                   RaisedButton(
                     padding: EdgeInsets.symmetric(
                       vertical: 10.0,
@@ -354,7 +355,7 @@ class _CreateEvent extends State<CreateEvent> {
   }
 
   List<String> numOfStudentsList(int numMax) {
-    var numStud = List<String>();
+    var numStud = <String>[];
     for (var i = 0; i < numMax; i++) {
       numStud.add((i + 1).toString());
     }

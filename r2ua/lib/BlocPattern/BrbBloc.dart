@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:collection';
-import 'package:flutter/material.dart';
 import 'package:r2ua/BlocPattern/BookNearbyEventsBloc.dart';
 import 'package:r2ua/BlocPattern/BookingsBloc.dart';
 import 'package:r2ua/BlocPattern/PostEventBloc.dart';
@@ -37,14 +36,12 @@ class BrbBloc {
 
   User currentUser;
   Stream<User> userSubscription = usersBloc.getUser;
-  void initialize(String email) {
+  Future<User> initialize(String email) async {
     userSubscription.listen((newuser) {
       currentUser = newuser;
       getClassroomGroupsBuildings(currentUser.classroomGroupsId);
     });
-    usersBloc.getCurrentUser(email);
-    debugPrint(
-        'CurrentUser: $currentUser'); //-----------------------------------------------------
+    return await usersBloc.getCurrentUser(email);
   }
 
   void getClassroomGroupsBuildings(List<int> groupsIds) async {

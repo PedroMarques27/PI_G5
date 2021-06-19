@@ -202,6 +202,7 @@ class _CreateEventNearby extends State<CreateEventNearby> {
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.1,
                   ),
+                  // ignore: deprecated_member_use
                   RaisedButton(
                     padding: EdgeInsets.symmetric(
                       vertical: 10.0,

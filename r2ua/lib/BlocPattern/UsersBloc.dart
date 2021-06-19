@@ -39,17 +39,14 @@ class UsersBloc {
     return users;
   }
 
-  Future<String> getCurrentUser(String email) async {
+  Future<User> getCurrentUser(String email) async {
     var users = await getData('/api/Users');
     for (var u in users) {
       if (u.email == email) {
         update(u);
-        var y = u.userName;
-        debugPrint('USER: $y');
-        return 'SUCCESS';
+        return u;
       }
     }
-    debugPrint('HELLO');
-    return 'NO USER FOUND';
+    return User.empty();
   }
 }

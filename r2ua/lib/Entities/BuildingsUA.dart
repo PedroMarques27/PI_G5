@@ -1,8 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
-part 'BuildingsUA.g.dart';
 
-@HiveType(typeId: 0)
 class BuildingsUA {
   BuildingsUA(
       {@required this.brbBuildingName,
@@ -11,18 +8,13 @@ class BuildingsUA {
       this.lat,
       this.long});
 
-  @HiveField(0)
   final String brbBuildingName;
 
-  @HiveField(1)
   final int brbBuildingId;
 
-  @HiveField(2)
   final String realBuildingName;
 
-  @HiveField(3)
   final double lat;
 
-  @HiveField(4)
   final double long;
 }

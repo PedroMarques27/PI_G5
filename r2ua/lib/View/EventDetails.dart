@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:r2ua/BlocPattern/BrbBloc.dart';
 import 'package:r2ua/Entities/Event.dart';
-import 'package:r2ua/main.dart';
 
 // ignore: must_be_immutable
 class EventDetails extends StatefulWidget {
