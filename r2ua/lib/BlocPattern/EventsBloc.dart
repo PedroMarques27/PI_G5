@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:r2ua/Entities/Event.dart';
@@ -131,9 +131,106 @@ class EventsBloc {
       }
     }
 
+    for (var j = 0; j < userEvents.length; j++) {
+      var event = userEvents[j];
+      if (event.weeks.length > 1) {
+        for (var w = 0; w < event.weeks.length; w++) {
+          debugPrint("WEEK  " + event.weeks[w].getFormattedBegin().toString());
+          if (initWeekDay_before(event.weeks[w].getFormattedBegin())) {
+            event.weeks.remove(event.weeks[w]);
+          }
+        }
+      }
+    }
+
+    for (var j = 0; j < userEvents.length; j++) {
+      var e = userEvents[j];
+      for (var w = 0; w < e.weeks.length; w++) {
+        if (sameDate(e.day, e.weeks[w].getFormattedBegin())) {
+          if (eventDateBeforeDateNow(
+              e.day, e.weeks[w].getFormattedBegin(), e.startTime)) {
+            userEvents.removeAt(j);
+          }
+        }
+      }
+    }
+
     update(userEvents);
 
     return userEvents;
+  }
+
+  DateTime convertToDateTime(int day, String week, String startTime) {
+    var weekDate = week.split('/');
+    var hourMin = startTime.split(':');
+    var parseDt = DateTime(
+        int.parse(weekDate[2]),
+        int.parse(weekDate[1]),
+        int.parse(weekDate[0]) + day,
+        int.parse(hourMin[0]),
+        int.parse(hourMin[1]));
+    return parseDt;
+  }
+
+  bool initWeekDay_before(String week) {
+    var now = DateTime.now();
+    var currentDay = now.weekday;
+    var firstDayOfPresentWeek = now.subtract(Duration(days: currentDay - 1));
+    var weekDate = week.split('/');
+    var parseDt = DateTime(
+        int.parse(weekDate[2]), int.parse(weekDate[1]), int.parse(weekDate[0]));
+    if (DateTime.parse(DateFormat('yyyy-MM-dd').format(parseDt)).isBefore(
+        DateTime.parse(
+            DateFormat('yyyy-MM-dd').format(firstDayOfPresentWeek)))) {
+      return true;
+    }
+    return false;
+  }
+
+  bool sameDate(int day, String week) {
+    var now = DateTime.now();
+    var dateNow = DateTime(now.year, now.month, now.day);
+
+    var weekDate = week.split('/');
+    var parseDt = DateTime(int.parse(weekDate[2]), int.parse(weekDate[1]),
+        int.parse(weekDate[0]) + day);
+    if (DateTime.parse(DateFormat('yyyy-MM-dd').format(dateNow)).compareTo(
+            DateTime.parse(DateFormat('yyyy-MM-dd').format(parseDt))) ==
+        0) {
+      return true;
+    }
+
+    debugPrint("event day " + parseDt.toString());
+
+    return false;
+  }
+
+  bool eventDateBeforeDateNow(int day, String week, String startTime) {
+    var date = convertToDateTime(day, week, startTime);
+    if (date.isBefore(DateTime.now())) {
+      var formatter = DateFormat('yyyy-MM-dd – kk:mm');
+      var formatted = formatter.format(date);
+      debugPrint('BEFORE ->  Today: ' +
+          DateTime.now().toString() +
+          '   Event date: ' +
+          formatted);
+      return true;
+    }
+    return false;
+  }
+
+  bool eventDateAfterDateNow(int day, String week, String startTime) {
+    var date = convertToDateTime(day, week, startTime);
+    if (date.isAfter(DateTime.now())) {
+      var formatter = DateFormat('yyyy-MM-dd – kk:mm');
+      var formatted = formatter.format(date);
+      debugPrint('AFTER ->  Today: ' +
+          DateTime.now().toString() +
+          '   Event date: ' +
+          formatted);
+      return true;
+    }
+    return false;
   }
 
   Future<List<Event>> searchPastEventsByUser(String email) async {
@@ -226,6 +323,21 @@ class EventsBloc {
     for (var e in userEvents1) {
       if (!userEvents.contains(e)) {
         userEvents.add(e);
+      }
+    }
+
+    var now = DateTime.now();
+    var dateNow = DateTime(now.year, now.month, now.day);
+
+    for (var j = 0; j < userEvents.length; j++) {
+      var e = userEvents[j];
+      for (var w = 0; w < e.weeks.length; w++) {
+        if (sameDate(e.day, e.weeks[w].getFormattedBegin())) {
+          if (eventDateAfterDateNow(
+              e.day, e.weeks[w].getFormattedBegin(), e.startTime)) {
+            userEvents.removeAt(j);
+          }
+        }
       }
     }
 
