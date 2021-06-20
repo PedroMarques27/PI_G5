@@ -72,7 +72,7 @@ def notify(iupi, UU):
         "pairs": pairs
         }
 
-    r = requests.post('https://localhost:5001/api/v1/notify', json=payload, verify=False)
+    r = requests.post('https://mup-rr.dev.ua.pt/api/v1/notify', json=payload, verify=False)
 
     if(r.status_code==200):
         print("User "+UU+" successfully updated")
