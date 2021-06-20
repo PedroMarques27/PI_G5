@@ -11,6 +11,23 @@
   - [1.8. Communication Plan](#18-communication-plan)
   - [1.9. Team Roles](#19-team-roles)
   - [1.10. Project calendar](#110-project-calendar)
+- [2. Elaboration Phase](#2-elaboration-phase)
+  - [2.1. Requirements gathering](#21-requirements-gathering)
+  - [2.2. State of The Art (SOA)](#22-state-of-the-art)
+  - [2.3. Functional requirements](#23-functional-requirements)
+    - [2.3.1. MUP-RR](#231-mup--rr)
+    - [2.3.2. Mobile App R2UA](#232-mobile-app-r2ua)
+  - [2.4. Non-functional requirements](#24-non-functional-requirements)
+    - [2.4.1. MUP-RR](#241-mup--rr)
+    - [2.4.2. Mobile App R2UA](#242-mobile-app-r2ua)
+  - [2.5. Actors](#25-actors)
+  - [2.6. Use Cases](#26-use-cases)
+    - [2.6.1. Use Cases diagram](#261-use-cases-diagram)
+  - [2.7. System Architecture](#27-system-architecture)
+    - [2.7.1. Architecture Diagram](#271-architecture-diagram)
+    - [2.7.2. Deployment Diagram](#272-deployment-diagram)
+  - [2.8. Domain Model](#28-domain-model)
+  - [2.9. Mockup - Low fidelity prototype](#29-mockup---low-fidelity-prototype)
 
 ## 1. Inception Phase
 
@@ -117,3 +134,117 @@ This is our project calendar:
 
 <img src="https://user-images.githubusercontent.com/57456770/113570284-f2f6cf80-960b-11eb-9eed-575f63489fce.png" width="500">
 
+
+## 2. Elaboration Phase
+
+### 2.1. Requirements gathering
+
+To truly accomplish our goals with this project, we needed to establish solid requirements for both parts of it, the backend mediator MUP-RR and the mobile app R2UA (Room Reservation UA).
+With this in mind we resorted to three methods, in increasing order of importance and impact:
+
+We researched for other similar projects and systems for inspiration, to understand what had been done right and wrong and how we can do it differently. Despite being a generally useful method, we had difficulty finding similar systems that we could actually take ideas from.
+
+Secondly, we *brainstormed* together in many sessions as to ascertain and decide things like wanted and essential features, systems boundaries and user types and interaction.
+
+Finally, and most importantly, the weekly meetings we held with our advisor and co-advisors, in those meetings they brought to the table what was truly essential and gave us many suggestions for features, solidifying our ideas.
+
+
+An important note is that inquiries and interviews could be useful on the mobile app front, to discern what end-users would want in an application for room reservation at the university, however because of time constraints we left this out of the equation.
+
+
+### 2.2. State of The Art
+
+In regards to **MUPP-RR** it was quite hard to find anything relevant, and what was found would never be of much use since it wasn't open source and mostly did not fit within the same context as our project.
+Regardless the findings were:
+
+- **[Manage Engine - NTFS Permissions](https://www.manageengine.com/products/ad-manager/ntfs-share-permissions-management-tool.html)**
+- **[Helge Klein - SetACL Studio](https://helgeklein.com/setacl-studio/)**
+- **[Visual Guard Winconsole](https://www.visual-guard.com/EN/net-powerbuilder-application-security-authentication-permission-access-control-rbac/vg-winconsole-create-declare-manage-user-role.html)**
+
+
+### 2.3. Functional requirements
+
+#### 2.3.1. MUP-RR
+
+The Manager of User Permissions for Room Reservation should be capable of:
+
+- Constantly listening to RCU for changes in user bonds and discern if the user that was altered is registered in BRB and, if thats the case, update their permissions.
+- Automatically giving BRB users the corresponding permissions based on the information gathered from RCU.
+- Periodically calling on BRB for new users and consequently asking RCU for their bonds so they can be given their permissions.
+- In case of an error where MUP-RR goes down, it should be possible to backtrack and get all the changes to the bonds in RCU in that timeframe.
+
+
+#### 2.3.2. Mobile App R2UA
+
+As for our mobile app, R2UA should primarily be capable of:
+
+- Logging in and out with University’s account through idp ua.
+- Search classrooms with filtering capabilities, for example by department, capacity, availability and room type.
+- Booking classrooms or canceling reservations
+- Checking current and past reservations
+- Finding and booking nearby classrooms
+
+
+### 2.4. Non-functional requirements
+
+Our systems must also meet certain non-functional requirements, as in, not directly related to the functionality of the system but instead with quality aspects important in software systems.
+
+#### 2.4.1. MUP-RR
+
+The Manager of User Permissions should respect the following non-functional requirements::
+
+- **Security**: Since the system will deal with private data, it's important that security is tight. Given this, MUP should follow the principles of Privacy by Design and Security by Design, in accordance with the demands of RGPD - *"Regulamento Geral de Proteção de Dados"*. 
+- **Reliability** - In case of failure, when the system is rebooted, it should update all information reggarding alterations during down time.
+- **Efficiency**: Given the vast amount of members of the academic community, the platform should be able to process a high traffic of requests and responses quickly.
+
+
+#### 2.4.2. Mobile App R2UA
+
+The mobile app should respect the following non-functional requirements:
+
+- **Security**: Since the app's use is restricted to a certain group of users, it should only allow access to users with authorization.
+- **Usability**: The mobile app should be intuitive so it provides an easy and quick usage experience, aiming to waste little time for the user to understand how to use the app.
+- **Compatibility**: The application should work on any Operating system, namely Android OS and iOS.
+- **Reusability**: The components that are developed and tested should be able to be reused.
+- **Efficiency**: Given the vast amount of potential users of the academic community, the platform should be able to process a high traffic of requests and responses quickly.
+
+
+### 2.5. Non-functional requirements
+
+Regarding the mobile app, the actors at play are the members of the academic community, which can be divided as follows:
+
+Student - Any student enrolled at University of Aveiro, has the most limited permissions, for almost all rooms they are restricted to making a request for reservation, having to wait for approval from the corresponding department's secretary.
+
+Teacher/Staff - A part of the academic staff of UA, be they a teacher, researcher or staff, tem have wider permissions for immediate reservation of rooms in the room group they are assigned to.
+
+Owner of Room Group - Member of staff responsible for delegation of reservations, besides having access to reserve any room in their group, they can also delete other's reservations.
+
+When it comes to MUP-RR the only active actor is the:
+
+Administrator - Responsible for maintaining MUP-RR operational, they have direct access to it and can stop or restart it if necessary.
+
+
+#### 2.6. Use Cases
+
+#### 2.6.1. Use Case Diagram
+
+![use-case-diagram](./images/use-case-diagram.png)
+
+### 2.7. System Architecture
+
+#### 2.7.1. Architecture Diagram
+
+![architecture-diagram](./images/architecture-diagram.png)
+
+#### 2.7.2. Deployment Diagram
+
+![deployment-diagram](./images/deployment-diagram.jpg)
+
+### 2.8. Domain Model
+
+![domain-model](./images/DomainModel.png)
+
+
+### 2.9. Mockup - Low fidelity prototype
+
+A low fidelity prototype of our mobile app R2UA is available at http://shorturl.at/uxTV6 .

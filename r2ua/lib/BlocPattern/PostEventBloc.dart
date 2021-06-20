@@ -1,0 +1,92 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+import 'package:r2ua/Entities/Event.dart';
+import 'BrbBloc.dart';
+
+class PostEventsBloc {
+  StreamController<List<Event>> unavailableEventsStreamController =
+      StreamController<List<Event>>.broadcast();
+  Stream get getListOfEvents => unavailableEventsStreamController.stream;
+
+  void update(List<Event> b) {
+    unavailableEventsStreamController.sink.add(b);
+  }
+
+  void dispose() {
+    unavailableEventsStreamController.close();
+  }
+
+  void stop() {}
+
+  Future<int> postEvent(
+      String name,
+      String startTime,
+      String endTime,
+      int day,
+      int eventType,
+      int numStudents,
+      String email,
+      String weekStartDate,
+      int classId) async {
+    var weekId = await getWeekId(weekStartDate);
+
+    var uri = Uri.https(BASE_URL, ('/api/ThirdPartyEvents'));
+
+    final response = await http.post(uri,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: jsonEncode({
+          'name': name,
+          'code': (name + '_' + email).toLowerCase().replaceAll(' ', '_'),
+          'startTime': startTime,
+          'endTime': endTime,
+          'day': day,
+          'eventTypeId': eventType,
+          'numStudents': numStudents,
+          'requestedBy': email,
+          'eventWeeks': [
+            {
+              'model': {'weekId': weekId},
+              'status': 1
+            }
+          ],
+          'eventClassrooms': [
+            {
+              'model': {'classroomId': classId},
+              'status': 1
+            }
+          ],
+          'propertyBags': [
+            {'key': 'string', 'value': 'string'}
+          ]
+        }));
+
+    debugPrint('Status Code' + response.statusCode.toString());
+    if (response.statusCode == 201) {
+      await eventsBloc.searchEventsByUser(email);
+      return jsonDecode(response.body)['data']['id'];
+    }
+
+    return -1;
+  }
+
+  Future<int> getWeekId(String weekDate) async {
+    var uri = Uri.https(BASE_URL, '/api/Weeks/starting/' + weekDate);
+    final response = await http.get(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+    );
+    return json.decode(response.body)['data'][0]['id'];
+  }
+}
