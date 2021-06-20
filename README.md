@@ -58,7 +58,7 @@ Completing this and therefore having a usable and manageable system for room boo
 
 ### 1.5. Task List
 
-**Module: Mobile App (Inês Leite, Pedro Marques and Alexandre Rodrigues)**
+**Module: Mobile App (Inês Leite and Alexandre Rodrigues)**
 
 - **Task 1:** Create use cases.
 - **Task 2:** Create prototype.
@@ -113,4 +113,7 @@ We researched for similar systems and applications, some of which were:
 
 ### 1.10. Project calendar
 
-This is our project calendar....
+This is our project calendar:
+
+<img src="https://user-images.githubusercontent.com/57456770/113570284-f2f6cf80-960b-11eb-9eed-575f63489fce.png" width="500">
+
