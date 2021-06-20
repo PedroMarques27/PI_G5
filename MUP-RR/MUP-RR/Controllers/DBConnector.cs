@@ -522,8 +522,6 @@ namespace MUP_RR.Controllers
         SqlCommand cmd = new SqlCommand("SELECT * FROM MUPRR.Profile WHERE name = @NAME", connection);
         cmd.Parameters.Clear();
         cmd.Parameters.AddWithValue("@NAME", name);
-        Console.WriteLine(cmd.CommandText.ToString());
-
         
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())

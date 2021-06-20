@@ -9,7 +9,6 @@ namespace MUP_RR.Services
     public class Worker: IWorker
     {
         private readonly ILogger<Worker> logger;
-        private int number = 0;
         private Program obj = new Program();
         public Worker(ILogger<Worker> logger)
         {

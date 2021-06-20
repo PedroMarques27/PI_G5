@@ -26,7 +26,7 @@ namespace MUP_RR
     {
 
         public DBConnector database = new DBConnector();
-        public static int NEW_USERS_PERIOD = 7200000;
+        public static int NEW_USERS_PERIOD = 1800000;
         public static bool INITIALIZING = true;
         static void Main(string[] args)
         {
@@ -54,14 +54,13 @@ namespace MUP_RR
             MupTable finalDecision = new MupTable();  
             HashSet<Profile> profiles = new HashSet<Profile>();
             HashSet<ClassroomGroup> classroomGroups = new HashSet<ClassroomGroup>();
-            Console.WriteLine(pairs);
+
             foreach (Tuple<UO, Vinculo> item in pairs)
             {
                 UO currentUO = item.Item1;
                 Vinculo currentVinculo = item.Item2;
                 List<MupTable> queryResult= database.SelectSpecificMup(currentUO.id, currentVinculo.id);
                
-                Console.WriteLine(queryResult);
                 foreach (var qritem in queryResult)
                 {
                     profiles.Add(database.SelectProfileById(qritem.profile));
@@ -194,6 +193,7 @@ namespace MUP_RR
             }else{
                 time = DateTime.Now.AddDays(-1);
             }
+            database.addLog(LOG.INFO, "Retrieving Users since "+ time.ToString()+"hours");
             String data;
             if (time == null)
                 data = await BRBConnector.getUserList();

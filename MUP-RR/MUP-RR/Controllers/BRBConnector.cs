@@ -75,7 +75,6 @@ namespace MUP_RR.Controllers
 
         public static async Task<string> getUserById(string id){
             var stringTask = client.GetStringAsync(BASE_URL+"Users/"+id);
-            Console.WriteLine(BASE_URL+"Users/"+id);
             var msg = await stringTask;
             return msg;
         }
@@ -85,7 +84,6 @@ namespace MUP_RR.Controllers
             //Update profile
 
             var httpContent2 = new StringContent(profile, Encoding.UTF8, "application/json");
-            Console.WriteLine(profile);
             var httpClient2 = new HttpClient();
             httpClient2.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
             httpClient2.DefaultRequestHeaders.Add("Authorization",AUTH_TOKEN);
@@ -101,7 +99,7 @@ namespace MUP_RR.Controllers
             httpClient.DefaultRequestHeaders.Add("Authorization",AUTH_TOKEN);
 
             var httpResponse = await httpClient.PutAsync(BASE_URL+"UserClassroomGroupBookings/usersclassroomgroupbookingsbyusersEmail", httpContent);
-            Console.WriteLine(httpResponse);
+  
             
             return true;
         }
