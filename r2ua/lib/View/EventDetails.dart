@@ -191,6 +191,8 @@ class _EventDetails extends State<EventDetails> {
                   ),
                   onPressed: () {
                     eventsBloc.removeEvent(_event.id, email);
+                    eventsBloc.searchEventsByUser(email);
+                    eventsBloc.searchPastEventsByUser(email);
                     Navigator.pop(context);
                   },
                   child: Text('Delete Event'),

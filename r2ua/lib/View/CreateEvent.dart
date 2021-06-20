@@ -29,13 +29,13 @@ class _CreateEvent extends State<CreateEvent> {
   final _formKey = GlobalKey<FormState>();
 
   void _submit(String eventName, String startTime, String endTime, int wDay,
-      int eType, int capacity) {
+      int eType, int capacity) async {
     final isValid = _formKey.currentState.validate();
     if (!isValid) {
       return;
     }
     _formKey.currentState.save();
-    postEventsBloc.postEvent(
+    await postEventsBloc.postEvent(
         eventName,
         startTime,
         endTime,
@@ -45,7 +45,8 @@ class _CreateEvent extends State<CreateEvent> {
         widget.email,
         widget.week.beginning.toString(),
         widget.classId);
-
+    await unavailableEventsBloc.searchUnavailableEventsByWeekByClassroom(
+        widget.week.getDaysInTheWeek()[0].toString(), widget.classId);
     Navigator.pop(context);
   }
 
@@ -328,13 +329,15 @@ class _CreateEvent extends State<CreateEvent> {
                       vertical: 10.0,
                       horizontal: 15.0,
                     ),
-                    onPressed: () => _submit(
-                        name,
-                        dropdownStartTimeValue,
-                        dropdownEndTimeValue,
-                        weekDays.indexOf(dropdownWeekDayValue),
-                        4,
-                        numStud.indexOf(dropdownCapacityValue) + 1),
+                    onPressed: () => {
+                      _submit(
+                          name,
+                          dropdownStartTimeValue,
+                          dropdownEndTimeValue,
+                          weekDays.indexOf(dropdownWeekDayValue),
+                          4,
+                          numStud.indexOf(dropdownCapacityValue) + 1),
+                    },
                     child: Text(
                       'Submit',
                       style: TextStyle(

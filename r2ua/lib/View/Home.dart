@@ -25,7 +25,8 @@ class Home extends StatefulWidget {
 class _Home extends State<Home> {
   final _formKey = GlobalKey<FormState>();
 
-  void _submit(DateTime date, String startTime, List<Building> buildings) {
+  void _submit(DateTime date, String startTime, List<Building> buildings,
+      List<BuildingsData> buildingsData) {
     final isValid = _formKey.currentState.validate();
     if (!isValid) {
       return;
@@ -40,6 +41,7 @@ class _Home extends State<Home> {
                 email: email,
                 date: date,
                 startTime: startTime,
+                buildingsUAData: buildingsData,
               )),
     );
   }
@@ -367,8 +369,11 @@ class _Home extends State<Home> {
                               buildings.isNotEmpty &&
                                       (selectedDate.weekday != 6 &&
                                           selectedDate.weekday != 7)
-                                  ? _submit(selectedDate,
-                                      dropdownStartTimeValue, buildingsList)
+                                  ? _submit(
+                                      selectedDate,
+                                      dropdownStartTimeValue,
+                                      buildingsList,
+                                      current.buildings)
                                   : null;
                               ;
                             },
@@ -377,7 +382,6 @@ class _Home extends State<Home> {
                     ),
                   ),
                 ),
-                
               ]);
         });
   }
