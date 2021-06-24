@@ -46,11 +46,7 @@ CREATE TABLE MUPRR.MUP(
 	FOREIGN KEY (profile) REFERENCES MUPRR.ClassroomGroup(id),
 	FOREIGN KEY (classGroup) REFERENCES MUPRR.Profile(id),
 );
-CREATE TABLE MUPRR.logs(
-	id int identity not null primary key,
-	context varchar(255) not null,
-	date datetime not null DEFAULT GETDATE(),
-)
+
 
 
 INSERT INTO MUPRR.UnidadeOrganica VALUES
