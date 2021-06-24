@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+namespace MUP_RR.Models
+{
+    public class BRB_User
+    {   
+        public string id { get; set; }
+        public string username { get; set; }
+        public bool isAdmin { get; set; }
+        public string email { get; set; }
+        public bool active { get; set; }
+
+        public Profile profile { get; set; }
+        public HashSet<ClassroomGroup> userClassroomGroupBookings { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("User {0}: {1}", id, email);
+        }
+
+        public BRB_User fromJson(String json){
+            BRB_User _user = Newtonsoft.Json.JsonConvert.DeserializeObject<BRB_User>(json);
+            return _user;
+        }
+
+        public HashSet<int> getClassesIds(HashSet<ClassroomGroup> classes){
+            HashSet<int> ids = new HashSet<int>();
+            foreach (var item in classes)
+            {
+                ids.Add(item.id);
+            }
+            return ids;
+        }
+    }
+}
