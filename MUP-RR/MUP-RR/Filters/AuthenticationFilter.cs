@@ -23,11 +23,7 @@ namespace MUP_RR
             }
             else
             {
-                //var helper = new Microsoft.AspNetCore.Mvc.Routing.UrlHelper(filterContext);
-                //var url = helper.Action("Index", "Secure");
-                //filterContext.Result = new RedirectResult(url);
-
-                context.Result = new RedirectResult("~/Error/NoPermissions");
+                context.Result = new RedirectResult("~/Error/AuthenticationError");
             }
         }
     }

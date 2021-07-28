@@ -21,5 +21,10 @@ namespace MUP_RR.Controllers
         {
             return View();
         }
+
+        public IActionResult AuthenticationError()
+        {
+            return View();
+        }
     }
 }

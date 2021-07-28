@@ -45,7 +45,7 @@ namespace MUP_RR.Helpers
                             fullName = "! Teste user nome";
                             shortName = "! Teste user";
                             email = "cobaia@ua.pt";
-                            iupi = new Guid("e8f6d698-33d9-4f91-a5ea-4fb6e844b950");
+                            iupi = new Guid("81291d36-e0fe-482e-9017-ffbce04c8583");
                         }
                         else
                         {

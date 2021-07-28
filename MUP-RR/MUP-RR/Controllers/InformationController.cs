@@ -9,6 +9,7 @@ using System.Linq;
 namespace MUP_RR.Controllers
 {
     [ValidateUserInSessionFilter]
+    [CustomAuthorization(Roles = "user,admin")]
     public class InformationController : Controller
     {
         public DBConnector database = new DBConnector();
