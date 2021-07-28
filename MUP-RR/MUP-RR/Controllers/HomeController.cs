@@ -5,124 +5,53 @@ using Microsoft.Extensions.Logging;
 using MUP_RR.Models;
 using System.Collections.Generic;
 using System.Linq;
-
+using Microsoft.Extensions.Configuration;
 
 namespace MUP_RR.Controllers
 {
-	public class HomeController : Controller
-	{
-		public DBConnector database = new DBConnector();
-		Program currentProgram = new Program();
+    public class HomeController : Controller
+    {
+        private readonly IConfiguration _config;
 
+        public HomeController(IConfiguration configuration)
+        {
+            _config = configuration;
+        }
 
-		public ActionResult Index()
-		{
-			return View();
-		}
-		public ActionResult Interface()
-		{
-		 	ViewData["MUP-Table"] = translateMup();
-			HashSet<Profile> distinct = new HashSet<Profile>(database.SelectProfile());
-			ViewData["Profiles"] = distinct;
-			var logs = database.SelectLogsByDate();
-			ViewData["LOGS"] = logs;
-			return View();
-		}
+        public ActionResult Index()
+        {
+            return View();
+        }
 
-		public ActionResult InfoPage()
-		{
-			List<Vinculo> vinculos = database.SelectVinculo();
-			List<Tuple<string, string>> vTable = vinculos.Select(x => new Tuple<string, string>(x.sigla, x.description)).ToList();
-			ViewData["Vinculo-Table"] = vTable;
+        public IActionResult SingleLogout()
+        {
+            HttpContext.Session.Clear();
+            string returnTo = HttpContext.Request.Query["return"].ToString();
+            if (!string.IsNullOrEmpty(returnTo))
+                return Redirect(returnTo);
+            return Redirect("/");
+        }
 
-			List<UO> uos = database.SelectUO();
-			List<Tuple<string, string>> uTable = uos.Select(x => new Tuple<string, string>(x.sigla, x.description)).ToList();
-			ViewData["UO-Table"] = uTable;
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
 
-			
-			HashSet<Profile> profiles = new HashSet<Profile>(database.SelectProfile());
-			ViewData["Profile-Table"] = profiles;
-
-			
-			HashSet<ClassroomGroup> crgs = new HashSet<ClassroomGroup>(database.SelectClassroomGroup());
-			ViewData["CRG-Table"] = crgs;
-			return View();
-		}
-
-		[HttpPost]
-		public ActionResult DeleteRule(int id){
-			database.DeleteMup(id);
-			return RedirectToAction("Interface");
-		}
-		[HttpPost]
-		public ActionResult ChangePriority(int id, int priority){
-			var currentProfile = database.SelectProfileById(id.ToString());
-			database.UpdatePriorityOfProfiles(currentProfile.priority, priority);
-
-			return RedirectToAction("Interface");
-		}
-
-		[HttpGet]
-		public ActionResult AddRule(){
-			ViewData["P"] = database.SelectProfile();
-			ViewData["V"] = database.SelectVinculo();
-			ViewData["CSG"] = database.SelectClassroomGroup();
-			ViewData["UO"] = database.SelectUO();
-			return View();
-		}
-		[HttpPost]
-		public ActionResult AddRule(MupRuleForm newrule){
-			MupTable _temp = new MupTable();
-			var profile = database.SelectProfileByName(newrule.profile);
-			_temp.profile = profile.id.ToString();
-
-			var classroomGroup = database.SelectClassroomGroupByName(newrule.classGroup);
-			_temp.classGroup = classroomGroup.id.ToString();
-
-			var uo = database.selectUnidadeOrganicaBySigla(newrule.uo);
-			_temp.uo = uo.id;
-
-			var vinculo = database.selectVinculoBySigla(newrule.vinculo);
-			_temp.vinculo = vinculo.id;
-
-			database.InsertMup(_temp);
-			return RedirectToAction("interface", "home");
-		}
-
-
-		List<Tuple<int, string, string, string, string>> translateMup(){
-			List<MupTable> mupTable = database.SelectMup();
-
-
-			List<Tuple<int, string, string, string, string>> translation = new List<Tuple<int,string, string, string, string>>();
-			foreach (var item in mupTable)
-			{
-				
-				var profile = database.SelectProfileById(item.profile);
-				var classroomGroup = database.SelectClassroomGroupById(item.classGroup);
-				var uo = database.SelectUoById(item.uo.ToString());
-				var vinculo = database.SelectVinculoById(item.vinculo);
-				var _temp = new Tuple<int,string, string, string, string>(item.id,profile.name, classroomGroup.name, uo.sigla, vinculo.sigla);
-				translation.Add(_temp);
-			}
-
-			return translation;
-		}
-
-		[HttpGet]
-		public ActionResult updateAllCurrentUsers(){
-			List<BRB_RCU_ASSOC> users = database.SelectUserAssociations();
-
-			foreach (var user in users){
-				List<Tuple<UO,Vinculo>> userData = currentProgram.getUserData(user.rcu_id);
-				currentProgram.UpdateProfile(user.rcu_id, userData);
-                
+            // redireciona para logout shibboleth
+            var env = new Helpers.Environment(_config);
+            var session = new Helpers.Session(HttpContext.Session);
+            if (env.IsLocalhost(HttpContext) || session.Impersonated)
+            {
+                return RedirectToAction("Index", "Home");
             }
-			return RedirectToAction("Interface");
-		}
-		
-	}
+            else
+            {
+                session.Logout();
+                string url = this.HttpContext.Request.Query["return"].ToString();
+                if (string.IsNullOrEmpty(url))
+                    url = _config["Auth:LogoutPath"];
 
-	
-
+                return Redirect(url);
+            }
+        }
+    }
 }

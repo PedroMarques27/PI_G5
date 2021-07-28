@@ -24,12 +24,27 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Interface">MUP-RR</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Profiles" asp-action="Index">MUP-RR</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="InfoPage">Information</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Information" asp-action="Index">Information</a>
                         </li>
                     </ul>
+                </div>
+                <div class="session">
+                    @{ var session = new MUP_RR.Helpers.Session(Context.Session);
+
+                        @if (session.SessionActive)
+                        {
+                            <span class="username">@session.ShortName</span>
+                            <a asp-controller="Home" asp-action="Logout">Sair <i class="user icon"></i></a>
+
+                        }
+                        else
+                        {
+                            <a asp-controller="Secure" asp-action="Index">Entrar <i class="user icon"></i></a>
+                        }
+                    }
                 </div>
             </div>
         </nav>
