@@ -52,7 +52,7 @@ namespace MUP_RR.Helpers
                             // existem cabeçalhos, processa o login
                             iupi = shibboleth.IUPI;
                             fullName = shibboleth.NomeCompleto;
-                            shortName = shibboleth.NomeCurto;
+                            shortName = StringNormalizer.FirstAndLastName(fullName);
                             email = shibboleth.Email;
                         }
 
@@ -177,39 +177,6 @@ namespace MUP_RR.Helpers
                 }
             }
 
-            public string NomeCurto
-            {
-                get
-                {
-                    string shortname;
-
-                    if (useHeaders)
-                        shortname = _c.Request.Headers[shib_nomeamigavel];
-                    else
-                        shortname = _c.GetServerVariable(shib_nomeamigavel);
-
-                    if (string.IsNullOrEmpty(shortname))
-                    {
-                        string firstName, lastName;
-
-                        if (useHeaders)
-                        {
-                            firstName = _c.Request.Headers[shib_nome];
-                            lastName = _c.Request.Headers[shib_apelido];
-                        }
-                        else
-                        {
-                            firstName = _c.GetServerVariable(shib_nome);
-                            lastName = _c.GetServerVariable(shib_apelido);
-                        }
-
-                        shortname = $"{firstName} {lastName}";
-                    }
-
-                    return shortname;
-                }
-            }
-
             public string Email
             {
                 get
@@ -230,10 +197,7 @@ namespace MUP_RR.Helpers
 
             private const string shib_iupi = "iupi";
             private const string shib_nomecompleto = "fullname";
-            private const string shib_nomeamigavel = "shib_nomeamigavel";
-            private const string shib_uu = "mail";
-            private const string shib_nome = "shib_nome";
-            private const string shib_apelido = "shib_apelido";
+            private const string shib_uu = "username";
 
             #endregion private constants
         }
