@@ -14,6 +14,12 @@ namespace MUP_RR.Controllers
     {
         public DBConnector database = new DBConnector();
         private Program currentProgram = new Program();
+        private readonly DbModels.muprrdevContext _db;
+
+        public ProfilesController(DbModels.muprrdevContext db)
+        {
+            _db = db;
+        }
 
         public ActionResult Index()
         {

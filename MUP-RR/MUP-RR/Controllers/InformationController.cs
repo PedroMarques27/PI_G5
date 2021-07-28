@@ -13,6 +13,12 @@ namespace MUP_RR.Controllers
     public class InformationController : Controller
     {
         public DBConnector database = new DBConnector();
+        private readonly DbModels.muprrdevContext _db;
+
+        public InformationController(DbModels.muprrdevContext db)
+        {
+            _db = db;
+        }
 
         public ActionResult Index()
         {
